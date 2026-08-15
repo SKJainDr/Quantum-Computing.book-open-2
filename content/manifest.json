@@ -1,0 +1,50 @@
+[
+  {
+    "file": "00-front-matter.md",
+    "title": "Front Matter & Preface"
+  },
+  {
+    "file": "01-chapter-1.md",
+    "title": "Chapter 1 \u2014 Shor's Algorithm, Amplitude Amplification & HHL"
+  },
+  {
+    "file": "02-chapter-2.md",
+    "title": "Chapter 2 \u2014 Quantum Simulation & Advanced Circuit Design"
+  },
+  {
+    "file": "03-chapter-3.md",
+    "title": "Chapter 3 \u2014 Quantum Complexity Theory"
+  },
+  {
+    "file": "04-chapter-4.md",
+    "title": "Chapter 4 \u2014 Quantum Advantage: Theory, Evidence & Reality"
+  },
+  {
+    "file": "05-chapter-5.md",
+    "title": "Chapter 5 \u2014 Quantum Error Correction: Principles, Codes & Stabilisers"
+  },
+  {
+    "file": "06-chapter-6.md",
+    "title": "Chapter 6 \u2014 Surface Codes, Threshold Theorem & Fault-Tolerant Architecture"
+  },
+  {
+    "file": "07-chapter-7.md",
+    "title": "Chapter 7 \u2014 QAOA, VQE for Molecular Systems & Optimiser Strategies"
+  },
+  {
+    "file": "08-chapter-8.md",
+    "title": "Chapter 8 \u2014 Barren Plateaus, Expressibility & Near-Term Quantum Advantage"
+  },
+  {
+    "file": "09-chapter-9.md",
+    "title": "Chapter 9 \u2014 Quantum Kernels and Quantum Neural Networks"
+  },
+  {
+    "file": "10-chapter-10.md",
+    "title": "Chapter 10 \u2014 Quantum Transfer Learning, Data Encoding Strategies & Dequantisation"
+  },
+  {
+    "file": "11-index.md",
+    "title": "Index & Back Matter"
+  }
+]
