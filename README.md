@@ -40,7 +40,8 @@ The sidebar has a "More in this series" section linking to the sibling volume �
 
 ```js
 const SERIES_LINKS = [
-  { label: "Volume II — Quantum Algorithms & Complexity", url: "https://your-username.github.io/quantum-algorithms-book-site/" },
+  { label: "Volume I — Quantum Computers", url: "https://skjaindr.github.io/Quantum-Computing.book-open-1" },
+  { label: "Volume III — Quantum Hardware, Error Correction & Applications", url: "https://skjaindr.github.io/Quantum-Computing.book-open-3" },
 ];
 ```
 
