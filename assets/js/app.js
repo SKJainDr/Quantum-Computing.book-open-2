@@ -133,6 +133,8 @@
     buildPageToc(tocEntries);
     buildPager(index);
     highlightActiveNav(index);
+    readStartIndex = 0;
+    attachReadStartHandlers();
 
     if (!opts.skipScroll) {
       els.main.scrollTo({ top: 0 });
@@ -208,6 +210,7 @@
   const synth = window.speechSynthesis;
   let utterQueue = [];
   let utterIndex = 0;
+  let readStartIndex = 0; // user-chosen starting chunk for this chapter (click any paragraph to set)
   let speaking = false;
   let paused = false;
   let currentMark = null;
@@ -218,6 +221,30 @@
       "h1, h2, h3, h4, p, li, blockquote, .box .box-title, .box p, figcaption"
     );
     return [...blocks].filter((b) => b.textContent.trim().length > 0);
+  }
+
+  function setReadStart(i) {
+    const chunks = getReadableChunks();
+    chunks.forEach((el) => el.classList.remove("read-start-marker"));
+    if (chunks[i]) {
+      chunks[i].classList.add("read-start-marker");
+      readStartIndex = i;
+    }
+  }
+
+  function attachReadStartHandlers() {
+    // Clicking any paragraph/heading sets it as the read-aloud starting point —
+    // lets the person resume or jump in partway through a chapter instead of
+    // always starting from the top.
+    const chunks = getReadableChunks();
+    chunks.forEach((el, i) => {
+      el.classList.add("read-start-target");
+      el.addEventListener("click", (e) => {
+        if (window.getSelection().toString().length > 0) return; // don't hijack text selection
+        if (e.target.closest("a")) return; // let links navigate normally
+        setReadStart(i);
+      });
+    });
   }
 
   function clearHighlight() {
@@ -271,7 +298,7 @@
     els.playBtn.classList.add("speaking");
     els.iconPlay.style.display = "none";
     els.iconPause.style.display = "block";
-    speakFrom(0);
+    speakFrom(readStartIndex);
   }
 
   function togglePause() {
@@ -309,10 +336,11 @@
      real GitHub Pages URL(s) below once every volume is live. Until then,
      the link is inert (points to "#") rather than guessing a URL. */
   const SERIES_LINKS = [
-      {
-          label: "Laboratory Manual I — Hands-on Qiskit Experiments", url: "https://skjaindr.github.io/Quantum-Computing.labmanual-open-1/" },
-      { label: "Volume I — Quantum Computers", url: "https://skjaindr.github.io/Quantum-Computing.book-open-1" },
-      { label: "Volume III — Quantum Hardware, Error Correction & Applications", url: "https://skjaindr.github.io/Quantum-Computing.book-open-3" },
+    { label: "Volume I — Quantum Computers (Textbook)", url: "https://skjaindr.github.io/Quantum-Computing.book-open-1/" },
+    { label: "Volume II — Quantum Algorithms & Complexity (Textbook)", url: "https://skjaindr.github.io/Quantum-Computing.book-open-2/" },
+    { label: "Volume III — Quantum Hardware, Error Correction & Applications", url: "https://skjaindr.github.io/Quantum-Computing.book-open-3" },
+    { label: "Laboratory Manual I — Hands-on Qiskit Experiments", url: "https://skjaindr.github.io/Quantum-Computing.labmanual-open-1/" },
+    { label: "Laboratory Manual II — Advanced Experiments - Security, Hardware Platforms and Applications", url: "https://skjaindr.github.io/Quantum-Computing.labmanual-open-2/" },
   ];
 
   function initSeriesLinks() {
