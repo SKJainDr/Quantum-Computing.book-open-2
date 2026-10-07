@@ -1,11 +1,11 @@
 # CHAPTER 4
 
-# Quantum Advantage: Theory, Evidence & Reality
+# Quantum Advantage: Theory, Evidence &amp; Reality
 
 *Random Circuit Sampling  |  Boson Sampling  |  Near-Term Prospects  |  Hype vs Reality*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Chapter Epigraph — Scott Aaronson, 2019</strong></p>
+<p class="box-title"><strong>📜 Chapter Epigraph — Scott Aaronson, 2019</strong></p>
 <p>"Quantum supremacy does not mean quantum computers are better than classical computers.</p>
 <p>It means they are better at something — even if that something is completely artificial."</p>
 <p>— Scott Aaronson, 2019</p>
@@ -15,7 +15,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 4 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 4 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Define quantum supremacy and distinguish it from practical quantum advantage</p>
 <p>•  Describe the Google 2019 random circuit sampling experiment and its claims</p>
@@ -30,7 +30,7 @@
 
 The terms 'quantum advantage', 'quantum supremacy', and 'quantum computational advantage' are used with varying precision. We establish precise definitions, because the distinctions matter enormously for evaluating claims.
 
-| Term | Definition | Status (2024) |
+| **Term** | **Definition** | **Status (2024)** |
 |---|---|---|
 | Quantum supremacy | A QC completes a task that no classical computer can in reasonable time (even if artificial) | Claimed by Google 2019; partially disputed |
 | Quantum computational advantage | QC outperforms best classical algorithm on ANY task | Demonstrated for special-purpose tasks |
@@ -43,16 +43,13 @@ In October 2019, Google published in Nature 'Quantum supremacy using a programma
 
 ### 4.2.1 What Is Random Circuit Sampling?
 
-- Generate a random quantum circuit C by choosing random 1-qubit and 2-qubit gates.
-
-- Run the circuit on a quantum computer and measure the output bit string z.
-
-- Repeat many times to build the output distribution {p(z) = |⟨z|C|0^n⟩|²}.
-
-- Verify the distribution matches the expected distribution via cross-entropy benchmarking (XEB).
+1. Generate a random quantum circuit C by choosing random 1-qubit and 2-qubit gates.
+2. Run the circuit on a quantum computer and measure the output bit string z.
+3. Repeat many times to build the output distribution {p(z) = |⟨z|C|0^n⟩|²}.
+4. Verify the distribution matches the expected distribution via cross-entropy benchmarking (XEB).
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 4.1  Hardness of RCS (Informal — NOT a proven theorem)</strong></p>
+<p class="box-title"><strong>Theorem 4.1 Hardness of RCS (Informal — NOT a proven theorem)</strong></p>
 <p>If a polynomial-time classical algorithm exists that can spoof the cross-entropy benchmark (XEB)</p>
 <p>of a sufficiently deep random circuit, then the polynomial hierarchy collapses to the third level.</p>
 <p>This is believed to be false — hence RCS is CONJECTURED to be classically hard.</p>
@@ -63,7 +60,7 @@ In October 2019, Google published in Nature 'Quantum supremacy using a programma
 
 ### 4.2.2 Google Sycamore: Technical Details
 
-| Parameter | Value |
+| **Parameter** | **Value** |
 |---|---|
 | Processor | Sycamore (Google, 2019) |
 | Active qubits | 53 |
@@ -75,7 +72,7 @@ In October 2019, Google published in Nature 'Quantum supremacy using a programma
 | Publication | Nature 574, 505–510 (2019) |
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  The Leaked Paper — September 2019</strong></p>
+<p class="box-title"><strong>📜 The Leaked Paper — September 2019</strong></p>
 <p>Google's quantum supremacy paper was briefly posted on a NASA server in September 2019 — accidentally,</p>
 <p>before peer review was complete. A journalist spotted it, and within hours the news had spread worldwide.</p>
 <p>Google had to issue a 'no comment' while frantically completing peer review, IBM prepared a rebuttal,</p>
@@ -90,7 +87,7 @@ In October 2019, Google published in Nature 'Quantum supremacy using a programma
 ### 4.2.3 The IBM Rebuttal and Resolution
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  The Google-IBM Debate: Key Points and Resolution</strong></p>
+<p class="box-title"><strong>⚠ The Google-IBM Debate: Key Points and Resolution</strong></p>
 <p>Google's claim (October 2019):</p>
 <p>• Sycamore samples the circuit distribution in 200 seconds</p>
 <p>• Classical simulation would take ~10,000 years on Summit supercomputer</p>
@@ -116,7 +113,7 @@ The output distribution of a boson sampler is determined by the PERMANENT of a c
 **p(S) = |Perm(U\_S)|² / (s₁! s₂! ··· s\_m!)   where U\_S is a submatrix of the optical unitary U**
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 4.2  Aaronson-Arkhipov Hardness of Boson Sampling (2011)</strong></p>
+<p class="box-title"><strong>Theorem 4.2 Aaronson-Arkhipov Hardness of Boson Sampling (2011)</strong></p>
 <p>If there exists a polynomial-time classical algorithm to approximate the boson sampling</p>
 <p>distribution (within constant total variation distance), then:</p>
 <p>• The permanent of Gaussian random matrices is easy to approximate on average</p>
@@ -129,7 +126,7 @@ The output distribution of a boson sampler is determined by the PERMANENT of a c
 
 ### 4.3.2 Major Boson Sampling Experiments
 
-| Experiment | Year | System | Scale | Classical Hardness Claim |
+| **Experiment** | **Year** | **System** | **Scale** | **Classical Hardness Claim** |
 |---|---|---|---|---|
 | Jiuzhang 1.0 (USTC) | 2020 | Gaussian BS photonic | 76 photons, 100 modes | ~2.5 billion years |
 | Jiuzhang 2.0 (USTC) | 2021 | Gaussian BS photonic | 113 photons | Even harder |
@@ -138,7 +135,7 @@ The output distribution of a boson sampler is determined by the PERMANENT of a c
 | Sycamore v2 (Google) | 2023 | Superconducting (RCS) | 70 qubits | Deep circuit, hard |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Important Caveat on GBS Applications</strong></p>
+<p class="box-title"><strong>⚠ Important Caveat on GBS Applications</strong></p>
 <p>All proposed applications of Gaussian Boson Sampling are at the 'quantum-inspired' or 'heuristic' level.</p>
 <p>No provable quantum speedup for any practically relevant problem using GBS has been demonstrated.</p>
 <p>The connection to molecular spectra is real: GBS output is related to Franck-Condon factors.</p>
@@ -154,7 +151,7 @@ The hype around quantum computing is most intense in optimisation, machine learn
 
 ### 4.4.1 Quantum Optimisation
 
-| Claim | Algorithm | Reality Check (2024) |
+| **Claim** | **Algorithm** | **Reality Check (2024)** |
 |---|---|---|
 | QAOA solves MaxCut faster | QAOA (Farhi 2014) | p=1: 11/16 approx. ratio; classical GW SDP achieves 0.878. No proven advantage. |
 | Quantum annealing beats classical | D-Wave | No systematic speedup over classical simulated annealing for practical instances. |
@@ -163,7 +160,7 @@ The hype around quantum computing is most intense in optimisation, machine learn
 
 ### 4.4.2 Quantum Machine Learning
 
-| QML Claim | Status (2024) |
+| **QML Claim** | **Status (2024)** |
 |---|---|
 | HHL-based linear algebra speedups in ML | DEQUANTISED by Tang (2018); classical matches quantum in relevant input models |
 | Quantum neural networks learn faster | No proven advantage; barren plateaus may make QNNs SLOWER than classical |
@@ -176,13 +173,11 @@ The hype around quantum computing is most intense in optimisation, machine learn
 Finance is a major target for quantum computing investment. The assessment is nuanced:
 
 - Monte Carlo estimation: Amplitude estimation gives genuine O(1/ε) speedup vs classical O(1/ε²) — a REAL quadratic speedup. But requires fault-tolerant quantum computers with thousands of logical qubits.
-
 - Portfolio optimisation: Mapped to QUBO and solved with QAOA/VQE — no proven advantage over classical Gurobi/SDP solvers for industry-scale problems.
-
 - Derivative pricing: Genuine quadratic speedup possible — but 'quantum-ready' classical computers (GPU Monte Carlo) have narrowed the practical gap substantially.
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Honest Assessment: When Will Practical Quantum Advantage Arrive?</strong></p>
+<p class="box-title"><strong>🌐 Honest Assessment: When Will Practical Quantum Advantage Arrive?</strong></p>
 <p>Expert consensus (McKinsey, BCG, IBM Research, 2023):</p>
 <p>NISQ era (2024–2030): No practical advantage for commercial optimisation, ML, or finance.</p>
 <p>• Too few qubits, too much noise, insufficient error correction.</p>
@@ -203,26 +198,26 @@ Raw qubit count is misleading — a 1000-qubit device with 10% error rates is us
 
 ### 4.5.1 Quantum Volume
 
-Quantum Volume (QV), introduced by IBM in 2019, measures the largest random square circuit (depth = width = n) that can be executed with heavy-output generation fidelity > 2/3:
+Quantum Volume (QV), introduced by IBM in 2019, measures the largest random square circuit (depth = width = n) that can be executed with heavy-output generation fidelity &gt; 2/3:
 
-**QV = 2^n   where n = max square circuit dimension executed with fidelity > 2/3**
+**QV = 2^n   where n = max square circuit dimension executed with fidelity &gt; 2/3**
 
-| System | Year | Physical Qubits | Quantum Volume |
+| **System** | **Year** | **Physical Qubits** | **Quantum Volume** |
 |---|---|---|---|
 | IBM Falcon | 2020 | 5 | QV = 4 |
 | IBM Hummingbird | 2021 | 65 | QV = 64 |
 | IBM Eagle | 2022 | 127 | QV = 128 |
 | IBM Heron (R1) | 2023 | 133 | QV = 256+ |
 | IonQ Aria | 2023 | 25 (trapped ion) | QV ≈ 1024+ |
-| Quantinuum H2 | 2024 | 56 (trapped ion) | QV > 65,536 |
+| Quantinuum H2 | 2024 | 56 (trapped ion) | QV &gt; 65,536 |
 
-<img class="fig-img" src="content/images/image15.png" alt="figure">
+<img class="fig-img" src="content/images/image26.png" alt="figure">
 
 **Figure 4: IBM Quantum Volume Progress (2017–2024)** *— Left: QV on log scale showing IBM superconducting (blue) and trapped-ion leaders (orange/purple). Right: log₂(QV) grows roughly 1 bit/year — a 'Moore's Law for Quantum'*
 
 ### 4.5.2 Other Hardware Benchmarks
 
-| Benchmark | Measures | Notes |
+| **Benchmark** | **Measures** | **Notes** |
 |---|---|---|
 | Quantum Volume (QV) | Overall processor quality | Single-number metric; widely used |
 | CLOPS (Circuit Layer Ops/sec) | Speed of circuit execution | IBM metric; important for NISQ apps |
@@ -232,7 +227,7 @@ Quantum Volume (QV), introduced by IBM in 2019, measures the largest random squa
 | Mirror Benchmarking | System-wide noise model | Sandia Labs; hardware-agnostic |
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 4 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 4 Summary</strong></p>
 <p>Quantum supremacy (Google 2019): RCS in 200s; 10,000yr classical claim partially refuted; genuine adv. at depth 40+</p>
 <p>RCS hardness:      Conditional on PH non-collapse — NOT a proven theorem like BBBV</p>
 <p>Boson sampling:    Permanent = #P-hard; Aaronson-Arkhipov: classical simulation implies PH collapse</p>
@@ -244,9 +239,68 @@ Quantum Volume (QV), introduced by IBM in 2019, measures the largest random squa
 <p>Near-term outlook: No commercial advantage before 2030; first real applications: quantum chemistry ~2035</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 4.6 The Landscape of Claimed Quantum Advantage: Evidence, Timeline, and Verifiability
 
-Chapter 4: Quantum Advantage — Theory, Evidence & Reality
+"Quantum advantage" gets claimed often and delivered rarely in the form the headlines suggest. This section pulls together the strongest demonstrations to date, shows how they fit on a timeline, and gives you tools - a statistical signature, a certification protocol, and a blunt hype-versus-evidence comparison - for judging the next claim you read about.
+
+### 4.6.1 Random Circuit Sampling and Its Statistical Fingerprint
+
+When a random quantum circuit is run and measured, the output bitstring probabilities follow the Porter-Thomas distribution - a statistical fingerprint originally discovered in nuclear physics, arising here from the same random-matrix universality that governs Haar-random unitaries. Verifying that a device's outputs follow this distribution (via the linear cross-entropy benchmark) is exactly how Google's 2019 Sycamore claim, and subsequent experiments, argued that no classical computer could have produced the same samples fast enough.
+
+<figure class="book-figure">
+<img src="content/images/image27.png" alt="Figure 4.2: Porter-Thomas Distribution - The Statistical Signature of Random Circuit Sampling">
+<figcaption>Figure 4.2: Porter-Thomas Distribution - The Statistical Signature of Random Circuit Sampling</figcaption>
+</figure>
+
+### 4.6.2 Boson Sampling: A Photonic Alternative
+
+USTC's Jiuzhang experiments took a different hardware route entirely: rather than superconducting qubits, single photons are injected into a large linear-optical interferometer, and the click pattern at the output is - under the Aaronson-Arkhipov argument - proportional to the permanent of a sub-matrix of the interferometer's unitary, a quantity that is #P-hard to compute classically.
+
+<figure class="book-figure">
+<img src="content/images/image28.png" alt="Figure 4.3: Boson Sampling - Photonic Interferometer Schematic">
+<figcaption>Figure 4.3: Boson Sampling - Photonic Interferometer Schematic</figcaption>
+</figure>
+
+### 4.6.3 A Timeline, and an Honest Scorecard
+
+Placed side by side, the major claims of 2019-2024 show a field that is progressing quickly but also correcting itself quickly: several early advantage claims were later narrowed or matched by improved classical tensor-network simulation, which is itself a healthy sign of a maturing experimental science rather than a failure of it.
+
+<figure class="book-figure">
+<img src="content/images/image29.png" alt="Figure 4.4: A Timeline of Claimed Quantum Computational Advantage (2019-2024)">
+<figcaption>Figure 4.4: A Timeline of Claimed Quantum Computational Advantage (2019-2024)</figcaption>
+</figure>
+
+<figure class="book-figure">
+<img src="content/images/image30.png" alt="Figure 4.5: The Gap Between Hype and Demonstrated Quantum Advantage by Application Domain">
+<figcaption>Figure 4.5: The Gap Between Hype and Demonstrated Quantum Advantage by Application Domain</figcaption>
+</figure>
+
+<div class="box box-warning">
+<p class="box-title"><strong>⚠️ Warning: A Sampling Advantage Is Not a Useful-Computation Advantage</strong></p>
+<p>Random circuit sampling and boson sampling both demonstrate that certain quantum devices produce outputs that are classically hard to reproduce. Neither task has a known practical application by itself - the significance is metrological (proving the device works as claimed), not computational in the sense of solving a problem anyone needed solved. Do not conflate 'hard to simulate classically' with 'useful'.</p>
+</div>
+
+### 4.6.4 Verifiable Advantage and Certified Randomness
+
+A more application-oriented direction turns sampling hardness into a resource: if a classical verifier can efficiently check (via a cheap statistical test) that a quantum server's output could not plausibly have been precomputed classically, the resulting bits can be certified as genuinely random - useful for cryptographic key generation, lotteries, and auditable randomness beacons. Because the protocol includes an explicit, efficient verification step, this is one of the few advantage claims that does not rely on trusting an unverifiable classical hardness assumption in the same way random circuit sampling does.
+
+<figure class="book-figure">
+<img src="content/images/image31.png" alt="Figure 4.6: Certified Randomness from Verifiable Quantum Advantage">
+<figcaption>Figure 4.6: Certified Randomness from Verifiable Quantum Advantage</figcaption>
+</figure>
+
+### 4.6.5 Classical Simulation Is a Moving Target
+
+Every advantage claim based on classical hardness is really a claim about the best classical algorithm KNOWN TODAY - and tensor-network simulation techniques have steadily improved since 2019, narrowing the effective qubit count at which random-circuit-sampling experiments remain unmatched classically. This is not a failure of the quantum experiments; it is exactly how a healthy adversarial science is supposed to progress, and it means any specific advantage claim should be read as provisional rather than permanent.
+
+<figure class="book-figure">
+<img src="content/images/image32.png" alt="Figure 4.7: Classical Simulation Keeps Narrowing the Random-Circuit-Sampling Gap">
+<figcaption>Figure 4.7: Classical Simulation Keeps Narrowing the Random-Circuit-Sampling Gap</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 4: Quantum Advantage — Theory, Evidence &amp; Reality
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -323,7 +377,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 6  Cross-Entropy Benchmarking (XEB) Calculation</strong></p>
+<p class="box-title"><strong>Solved Example 6 Cross-Entropy Benchmarking (XEB) Calculation</strong></p>
 <p>Problem: Calculate the linear XEB score for a 2-qubit random circuit.</p>
 <p>Ideal probabilities: p(00)=0.6, p(01)=0.2, p(10)=0.15, p(11)=0.05.</p>
 <p>Actual measurement outcomes (M=4 shots): {00, 00, 01, 10}.</p>
@@ -339,7 +393,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 8  Assessing Quantum Advantage for Portfolio Optimisation</strong></p>
+<p class="box-title"><strong>Solved Example 8 Assessing Quantum Advantage for Portfolio Optimisation</strong></p>
 <p>Problem: Critically evaluate quantum advantage prospects for optimising a portfolio of n=500 assets.</p>
 <p>Classical formulation: Markowitz mean-variance optimisation</p>
 <p>minimise w^TΣw − λμ^Tw  subject to Σwᵢ=1, wᵢ≥0</p>
@@ -385,7 +439,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 ## Chapter 4 MCQs
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q16.  Google's 2019 quantum supremacy experiment used which processor?</strong></p>
+<p class="box-title"><strong>Q16. Google's 2019 quantum supremacy experiment used which processor?</strong></p>
 <p>(A)  Summit</p>
 <p>(B)  Sycamore</p>
 <p>(C)  Borealis</p>
@@ -393,7 +447,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q17.  Cross-entropy benchmarking (XEB) measures:</strong></p>
+<p class="box-title"><strong>Q17. Cross-entropy benchmarking (XEB) measures:</strong></p>
 <p>(A)  The entropy of the quantum state</p>
 <p>(B)  How well measured outcomes match the ideal circuit output distribution</p>
 <p>(C)  The fidelity of individual gates</p>
@@ -401,7 +455,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q18.  Boson sampling hardness is related to computing:</strong></p>
+<p class="box-title"><strong>Q18. Boson sampling hardness is related to computing:</strong></p>
 <p>(A)  The determinant of a matrix</p>
 <p>(B)  The permanent of a matrix</p>
 <p>(C)  The trace of a unitary</p>
@@ -409,7 +463,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q19.  Xanadu demonstrated Gaussian Boson Sampling with 216 modes in:</strong></p>
+<p class="box-title"><strong>Q19. Xanadu demonstrated Gaussian Boson Sampling with 216 modes in:</strong></p>
 <p>(A)  2019</p>
 <p>(B)  2020</p>
 <p>(C)  2021</p>
@@ -417,7 +471,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q20.  Tang's 2018 dequantisation result showed:</strong></p>
+<p class="box-title"><strong>Q20. Tang's 2018 dequantisation result showed:</strong></p>
 <p>(A)  Quantum computers cannot learn from data</p>
 <p>(B)  A classical algorithm matches HHL in the quantum-inspired sampling model</p>
 <p>(C)  Recommendation systems are NP-complete</p>
@@ -425,7 +479,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q21.  Quantum Volume QV = 2^n means the processor can reliably execute:</strong></p>
+<p class="box-title"><strong>Q21. Quantum Volume QV = 2^n means the processor can reliably execute:</strong></p>
 <p>(A)  n-qubit circuits of any depth</p>
 <p>(B)  Random n×n square circuits with fidelity &gt; 2/3</p>
 <p>(C)  n-qubit circuits for n hours</p>
@@ -433,7 +487,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q22.  QAOA at p=1 for MaxCut on 3-regular graphs achieves approximation ratio:</strong></p>
+<p class="box-title"><strong>Q22. QAOA at p=1 for MaxCut on 3-regular graphs achieves approximation ratio:</strong></p>
 <p>(A)  Optimal (exact)</p>
 <p>(B)  0.878 (Goemans-Williamson)</p>
 <p>(C)  11/16 ≈ 0.688</p>
@@ -441,7 +495,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q23.  The 'data loading problem' in quantum ML refers to:</strong></p>
+<p class="box-title"><strong>Q23. The 'data loading problem' in quantum ML refers to:</strong></p>
 <p>(A)  Quantum computers cannot store classical data</p>
 <p>(B)  Loading N classical data points into a quantum state takes O(N) operations, erasing the speedup</p>
 <p>(C)  Quantum data decoheres too quickly</p>
@@ -449,7 +503,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q24.  Which application has a PROVEN quadratic quantum speedup?</strong></p>
+<p class="box-title"><strong>Q24. Which application has a PROVEN quadratic quantum speedup?</strong></p>
 <p>(A)  Portfolio optimisation via QAOA</p>
 <p>(B)  Neural network training via quantum circuits</p>
 <p>(C)  Monte Carlo estimation via amplitude estimation</p>
@@ -457,7 +511,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q25.  IBM's response to Google's supremacy claim was:</strong></p>
+<p class="box-title"><strong>Q25. IBM's response to Google's supremacy claim was:</strong></p>
 <p>(A)  Google's circuit was too shallow</p>
 <p>(B)  Using tensor networks with disk storage, classical simulation takes ~2.5 days (not 10,000 years)</p>
 <p>(C)  XEB is not a valid fidelity measure</p>
@@ -465,7 +519,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q26.  The term 'quantum utility' was introduced by:</strong></p>
+<p class="box-title"><strong>Q26. The term 'quantum utility' was introduced by:</strong></p>
 <p>(A)  Google</p>
 <p>(B)  Xanadu</p>
 <p>(C)  IBM</p>
@@ -473,7 +527,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q27.  For practical quantum chemistry advantage, the minimum hardware requirement is approximately:</strong></p>
+<p class="box-title"><strong>Q27. For practical quantum chemistry advantage, the minimum hardware requirement is approximately:</strong></p>
 <p>(A)  50 physical NISQ qubits</p>
 <p>(B)  ~1000+ logical qubits with full fault tolerance</p>
 <p>(C)  100 qubits with 90% gate fidelity</p>
@@ -481,7 +535,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q28.  The Jiuzhang boson sampling experiments were conducted by:</strong></p>
+<p class="box-title"><strong>Q28. The Jiuzhang boson sampling experiments were conducted by:</strong></p>
 <p>(A)  Google (USA)</p>
 <p>(B)  USTC (China)</p>
 <p>(C)  Xanadu (Canada)</p>
@@ -489,7 +543,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q29.  IonQ's 'Algorithmic Qubits (AQ)' metric measures:</strong></p>
+<p class="box-title"><strong>Q29. IonQ's 'Algorithmic Qubits (AQ)' metric measures:</strong></p>
 <p>(A)  Number of physical ions in the trap</p>
 <p>(B)  Number of physical qubits</p>
 <p>(C)  Effective logical qubits for benchmark tasks</p>
@@ -497,7 +551,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q30.  The most honest assessment of near-term (2024–2030) quantum advantage is:</strong></p>
+<p class="box-title"><strong>Q30. The most honest assessment of near-term (2024–2030) quantum advantage is:</strong></p>
 <p>(A)  Quantum computers will solve all NP problems within 5 years</p>
 <p>(B)  No practical advantage for real commercial problems; first real advantage in quantum chemistry ~2030–2035</p>
 <p>(C)  Quantum computers already solve problems classical computers cannot in practice</p>
@@ -505,13 +559,13 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 3 (Q1–Q15)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 3 (Q1–Q15)</strong></p>
 <p>Q1:A   Q2:C   Q3:B   Q4:B   Q5:D   Q6:C   Q7:B   Q8:C   Q9:C   Q10:D</p>
 <p>Q11:B   Q12:B   Q13:B   Q14:B   Q15:C</p>
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 4 (Q16–Q30)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 4 (Q16–Q30)</strong></p>
 <p>Q16:B   Q17:B   Q18:B   Q19:D   Q20:B   Q21:B   Q22:C   Q23:B   Q24:C   Q25:B</p>
 <p>Q26:C   Q27:B   Q28:B   Q29:C   Q30:B</p>
 </div>
@@ -543,7 +597,7 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 ## E. Programming / Research Assignments
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 2: Critical Analysis of a Quantum Advantage Claim</strong></p>
+<p class="box-title"><strong>🌐 Assignment 2: Critical Analysis of a Quantum Advantage Claim</strong></p>
 <p>Select ONE of the following papers and write a critical analysis (3–4 pages):</p>
 <p>Option A: Google, 'Quantum supremacy using a programmable superconducting processor', Nature 2019</p>
 <p>Option B: Madsen et al. (Xanadu), 'Quantum computational advantage with a programmable photonic processor', Nature 2022</p>
@@ -557,3 +611,44 @@ Because classical optimisation algorithms (simulated annealing, tensor-network m
 </div>
 
 ## F. Project Suggestions
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🔑 Project 2: Reproduce the Google Sycamore Experiment at Small Scale</strong></p>
+<p>Reproduce key aspects of the Google 2019 experiment at small scale:</p>
+<p>• Implement a random circuit sampler in Qiskit (4–6 qubits, depth 10–20) on a statevector simulator</p>
+<p>• Implement linear XEB benchmarking to measure circuit fidelity</p>
+<p>• Add controlled depolarising noise (ε = 0%, 0.1%, 0.5%, 1%) and plot XEB vs noise</p>
+<p>• Implement a classical tensor-network simulator (numpy.einsum) and compare speeds</p>
+<p>• At what qubit count/depth does your classical simulator become slower than Qiskit?</p>
+<p>• Run a 4-qubit random circuit on a real IBM device; compare XEB to simulator</p>
+<p>Deliverable: Jupyter notebook + 4-page report with all plots and analysis.</p>
+</div>
+
+## References and Further Reading — Chapter 4
+
+## Chapter 4 References
+
+- Arute, F. et al. (2019). Quantum supremacy using a programmable superconducting processor. Nature, 574, 505–510.
+- Aaronson, S. &amp; Arkhipov, A. (2011). The Computational Complexity of Linear Optics. Proceedings 43rd STOC, pp. 333–342.
+- Madsen, L.S. et al. (2022). Quantum computational advantage with a programmable photonic processor. Nature, 606, 75–81.
+- Wu, Y. et al. (2021). Strong Quantum Computational Advantage Using a Superconducting Quantum Processor. PRL, 127, 180501.
+- Tang, E. (2019). A quantum-inspired classical algorithm for recommendation systems. Proceedings 51st STOC, pp. 217–228.
+- Kim, Y. et al. (2023). Evidence for the utility of quantum computing before fault tolerance. Nature, 618, 500–505.
+- Preskill, J. (2018). Quantum Computing in the NISQ Era and Beyond. Quantum, 2, 79.
+- Farhi, E. &amp; Neven, H. (2018). Classification with Quantum Neural Networks on Near Term Processors. arXiv:1802.06002.
+
+**Quantum Algorithms &amp; Complexity**
+
+**UNIT III**
+
+**Quantum Error Correction &amp; Fault-Tolerant Computing**
+
+Chapter 5: QEC Principles, Stabiliser Codes &amp; the Steane Code
+
+Chapter 6: Surface Codes, Threshold Theorem &amp; Fault-Tolerant Architecture
+
+**Dr. Sanjeev Kumar Jain**
+
+Associate Professor in Physics  ·  Department of Physics  ·  Faculty of Science
+
+M.Sc. Physics (Quantum Computing Specialisation)  |  Semester IV  |  8 Hours (Unit III)

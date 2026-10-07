@@ -4,8 +4,17 @@
 
 *Quantum feature maps, kernel machines on quantum hardware, and parameterised circuits as function approximators*
 
+<div class="box box-key-concept">
+<p class="box-title"><strong>🎯 Chapter 9 Learning Objectives</strong></p>
+<p>•  Explain how a quantum feature map embeds classical data into a high-dimensional Hilbert space, and why this can enrich a kernel.</p>
+<p>•  Compute a quantum kernel via the fidelity SWAP-test or overlap circuit and use it inside a classical support vector machine.</p>
+<p>•  Design a parameterised quantum circuit (PQC) as a trainable function approximator, and identify its expressibility and entangling-capability trade-offs.</p>
+<p>•  Distinguish quantum kernel methods from variational quantum neural networks in terms of training procedure and theoretical guarantees.</p>
+<p>•  Describe quantum generative models (Born machines) and the class of distributions they are conjectured to model efficiently.</p>
+</div>
+
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Schuld &amp;amp; Killoran, 2019 — Quantum Models Are Kernel Methods</strong></p>
+<p class="box-title"><strong>📜 Schuld &amp; Killoran, 2019 — Quantum Models Are Kernel Methods</strong></p>
 <p>In 2019, Maria Schuld and Nathan Killoran published a paper that reframed the entire field of quantum machine learning. They showed that quantum models — circuits that encode classical data into quantum states — are fundamentally kernel methods in disguise. The kernel function is K(x, x′) = |⟨ψ(x)|ψ(x′)⟩|², and the variational quantum circuit is merely computing the inner product between quantum feature maps.</p>
 <p>This insight had profound consequences. First, it meant that all the rich theory of kernel methods (support vector machines, kernel alignment, Mercer’s theorem) applies directly to quantum ML. Second, it meant that a quantum model’s power depends entirely on whether its feature map K(x, x′) is hard to compute classically — a question about computational complexity, not about quantum mechanics per se.</p>
 <p>Third, it opened the door to dequantisation arguments: if the kernel can be computed classically (even approximately), the quantum model provides no advantage. This tension between quantum advantage and classical simulation is the central open problem in quantum machine learning as of 2025.</p>
@@ -48,8 +57,8 @@ The most widely used quantum feature map is the ZZFeatureMap (Havlíček et al. 
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image27.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image61.png" alt="Figure 11: Quantum Feature Map — lifting classical data into an exponentially large Hilbert space">
+<figcaption>Figure 11: Quantum Feature Map — lifting classical data into an exponentially large Hilbert space</figcaption>
 </figure>
 
 ### 9.1.2 The Quantum Kernel Function
@@ -65,7 +74,7 @@ The quantum kernel (or fidelity kernel) between two data points x and x′ is th
 The quantum kernel satisfies all the properties of a valid kernel function: K(x,x) = 1 (normalised), K(x,x′) = K(x′,x) (symmetric), and the Gram matrix K\_{ij} = K(xᵢ, xⱼ) is positive semi-definite (by construction as a Gram matrix of inner products in Hilbert space). This means all of classical kernel theory applies directly.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Key Concept: Kernel Trick and Quantum Advantage</strong></p>
+<p class="box-title"><strong>🔑 Key Concept: Kernel Trick and Quantum Advantage</strong></p>
 <p>Classical kernel trick: implicitly work in the feature space φ(x) without ever computing φ(x) explicitly, using only K(x,x′) = ⟨φ(x),φ(x′)⟩.</p>
 <p>Quantum kernel trick: the feature space is the Hilbert space ℂ^{2ⁿ}. Computing the kernel K(x,x′) = |⟨ψ(x)|ψ(x′)⟩|² requires O(poly(n)) quantum gates but may require exp(n) classical gates.</p>
 <p>Quantum advantage condition: the kernel K is computationally hard to evaluate classically but easy on a quantum computer. Liu et al. (2021) proved this formally: there exist quantum kernels for which no classical algorithm can achieve the same test accuracy in polynomial time (assuming standard hardness conjectures).</p>
@@ -153,12 +162,12 @@ Not all quantum feature maps are equally useful for a given dataset. Kernel alig
 Quantum kernel training (QKT, Glick et al. 2022) adds free parameters θ to the feature map U\_φ(x, θ) and optimises them to maximise kernel alignment. This creates a fully trainable quantum kernel that can adapt to the dataset, going beyond the fixed ZZFeatureMap.
 
 <figure class="book-figure">
-<img src="content/images/image28.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image62.png" alt="Figure 12: Quantum Kernel Gram Matrix and Kernel Alignment vs Circuit Depth">
+<figcaption>Figure 12: Quantum Kernel Gram Matrix and Kernel Alignment vs Circuit Depth</figcaption>
 </figure>
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Real World: Quantum Kernels in Industry and Research</strong></p>
+<p class="box-title"><strong>🌐 Real World: Quantum Kernels in Industry and Research</strong></p>
 <p>IBM Quantum and Qiskit Machine Learning: the QiskitML library provides ZZFeatureMap, PauliFeatureMap, and FidelityQuantumKernel classes, allowing QSVM training on IBM Quantum hardware with up to 127 qubits.</p>
 <p>Financial applications: JP Morgan and Barclays have explored quantum kernels for credit risk classification and option pricing. Preliminary results show quantum kernels can achieve competitive accuracy on structured financial data, though classical RBF kernels remain competitive for most tasks tested.</p>
 <p>Drug discovery: Quantum kernels on molecular fingerprints (binary vectors encoding molecular structure) have been tested for toxicity prediction. The natural binary structure of fingerprints maps well to basis encoding, making QSVM a natural fit.</p>
@@ -180,8 +189,8 @@ A standard QNN circuit has three structural components, each serving a distinct 
 **●  Measurement layer:** Measures Pauli observable expectation values ⟨Zᵢ⟩ on one or more qubits. The output can be a single number ⟨Z₀⟩ (binary classification) or a vector (⟨Z₀⟩,...,⟨Z\_{n-1}⟩) (multi-class or regression).
 
 <figure class="book-figure">
-<img src="content/images/image29.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image63.png" alt="Figure 13: QNN Architecture — Encoding, variational, measurement layers with classical feedback loop">
+<figcaption>Figure 13: QNN Architecture — Encoding, variational, measurement layers with classical feedback loop</figcaption>
 </figure>
 
 ### 9.2.2 Universal Approximation Theorem for QNNs
@@ -227,12 +236,12 @@ Two key metrics characterise a QNN’s representational power: expressibility an
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image30.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image64.png" alt="Figure 20: QNN Expressibility and Entanglement Capability vs Circuit Depth for three ansatz types">
+<figcaption>Figure 20: QNN Expressibility and Entanglement Capability vs Circuit Depth for three ansatz types</figcaption>
 </figure>
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Warning: Expressibility and Barren Plateaus Trade-Off</strong></p>
+<p class="box-title"><strong>⚠ Warning: Expressibility and Barren Plateaus Trade-Off</strong></p>
 <p>High expressibility (circuits that can represent any state) comes at a cost: deep, highly expressive circuits typically suffer from barren plateaus — regions where the gradient landscape is exponentially flat.</p>
 <p>For random parameter initialisation in a hardware-efficient ansatz (HEA) with depth L ≥ O(n): Var[∂⟨H⟩/∂θ_k] = O(2^{−n}). Both the gradient and its variance vanish exponentially with system size.</p>
 <p>The fundamental trade-off: shallow circuits avoid barren plateaus but have limited expressibility. Deep circuits are expressive but untrainable from random initialisation.</p>
@@ -283,8 +292,8 @@ Proof sketch: E(θ) = ⟨ψ|e^{iθP/2} H e^{-iθP/2}|ψ⟩ is a sinusoidal funct
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image31.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image65.png" alt="Figure 15: Parameter-Shift Rule — exact quantum gradient from two circuit evaluations">
+<figcaption>Figure 15: Parameter-Shift Rule — exact quantum gradient from two circuit evaluations</figcaption>
 </figure>
 
 ### 9.3.2 Generalised Parameter-Shift Rules
@@ -298,16 +307,45 @@ The basic parameter-shift rule applies to gates with Pauli generators (eigenvalu
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Key Concept: Why Parameter-Shift Beats Finite Differences on Quantum Hardware</strong></p>
+<p class="box-title"><strong>🔑 Key Concept: Why Parameter-Shift Beats Finite Differences on Quantum Hardware</strong></p>
 <p>Finite difference: ∂E/∂θ ≈ [E(θ+h) − E(θ−h)] / (2h). Two issues: (1) truncation error O(h²) that cannot be made small on noisy hardware without amplifying shot noise; (2) optimal h is not known a priori and depends on the noise level.</p>
 <p>Parameter-shift: exact gradient (zero truncation error) using the same two circuit evaluations. The shift s = π/2 is fixed by the gate structure, not by approximation.</p>
 <p>SPSA (Simultaneous Perturbation Stochastic Approximation): approximates the entire gradient vector with just 2 circuit evaluations using random perturbations. Cheaper but noisy. Used for hardware experiments where circuit shots are expensive.</p>
 <p>Natural gradient (quantum Fisher information metric): multiplies the gradient by the inverse of the quantum Fisher information matrix, accounting for the curved geometry of parameter space. Can give faster convergence but requires O(p²) additional circuit evaluations for p parameters.</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 9.4 Quantum Generative Models: Born Machines
 
-Chapter 9: Quantum Machine Learning — Kernels, Neural Networks & Gradients
+Kernels and classifiers answer 'what label does this data point have?' A different, increasingly active corner of quantum machine learning asks instead 'can a quantum circuit learn to generate new samples from a data distribution it has never explicitly been shown?' - the same generative goal pursued classically by GANs and variational autoencoders.
+
+### 9.4.1 The Born Machine Recipe
+
+A Born machine applies a parameterised circuit U(theta) to |0&gt;^n and treats the resulting measurement distribution p(x) = |&lt;x|U(theta)|0&gt;|^2 - the Born rule itself - as the model's output distribution. Training compares samples from p(x) against a target dataset using a distance measure such as maximum mean discrepancy or an adversarial discriminator loss, and a classical optimiser updates theta to shrink that distance, exactly as in the parameter-shift-rule training loops used throughout Chapters 7 and 8.
+
+<figure class="book-figure">
+<img src="content/images/image66.png" alt="Figure 9.6: Quantum Generative Models - The Born Machine">
+<figcaption>Figure 9.6: Quantum Generative Models - The Born Machine</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>💡 Tip: Why Sampling, Not Just Expectation Values, Matters Here</strong></p>
+<p>Most circuits in this book are trained to minimise an expectation value. Born machines instead need to match an entire probability distribution, so evaluating training progress typically requires many more shots per iteration than a comparable classification or regression task - budget your circuit-execution resources accordingly.</p>
+</div>
+
+Because reproducing certain circuit-induced distributions is believed to be classically hard - the same computational-complexity argument underlying random circuit sampling in Chapter 4 - Born machines are conjectured, though not proven, to represent some distributions more efficiently than classical generative models. Whether this translates into a practical advantage on real datasets remains an open empirical question, and an active area of current research.
+
+### 9.4.2 Worked Example: When Do Quantum Kernels Actually Help?
+
+Quantum kernel methods show their clearest advantage on datasets specifically engineered so that the underlying labelling function is hard to compute classically (such as those built from the discrete logarithm problem) - exactly the regime the theoretical advantage proofs address. On standard benchmark datasets such as Iris or Wine, which have no such structure, classical kernels such as the RBF kernel typically perform as well or better. This is an important, and often glossed-over, distinction between a proven advantage on a constructed problem and a practical advantage on real data.
+
+<figure class="book-figure">
+<img src="content/images/image67.png" alt="Figure 9.7: Quantum Kernels Excel on Engineered Data, Less Clearly on Standard Benchmarks">
+<figcaption>Figure 9.7: Quantum Kernels Excel on Engineered Data, Less Clearly on Standard Benchmarks</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 9: Quantum Machine Learning — Kernels, Neural Networks &amp; Gradients
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -531,9 +569,9 @@ While higher entangling capability generally correlates with higher expressibili
 
 **7.** A QNN outputs f(θ) = 0.4 at current parameters. The parameter-shift evaluations give E(θ₀+π/2) = 0.7 and E(θ₀−π/2) = 0.1. Compute the gradient and the Adam update for θ₀ with learning rate η=0.01, m₁=0.9 (first moment), v₁=0.999 (second moment), ε=10^{−8}, assuming initial first and second moments are zero. *[Gradient: g = (0.7-0.1)/2 = 0.3. Adam: m = (1-0.9)×0.3 = 0.03. v = (1-0.999)×0.09 = 9×10⁻⁵. Bias-corrected: m̂ = 0.03/0.1 = 0.3 (after 1 step, β₁^t=0.9). v̂ = 9×10⁻⁵/0.001 = 0.09. Update: θ₀ ← θ₀ - 0.01×0.3/√(0.09+10⁻⁸) ≈ θ₀ - 0.01×0.3/0.3 = θ₀ - 0.01. One Adam step moves θ₀ by exactly -η=-0.01 (normalised gradient).]*
 
-**8.** Discuss whether increasing the ZZFeatureMap repetition depth r from 1 to 3 makes the quantum kernel harder to evaluate classically. What determines the classical hardness? *[r=1: ZZFeatureMap output state |ψ(x)⟩ involves O(n²) Pauli rotations. Inner product ⟨ψ(x)|ψ(x')⟩ can be computed classically in O(2^n) time (exponential in n). For n=10, 2¹⁰=1024 amplitudes — tractable classically. Classical hardness requires: (1) depth > O(log n) (so classical simulation requires exponential time), and (2) the circuit must be sufficiently random/entangling. Increasing r increases depth and entanglement, potentially crossing the classical simulation threshold. For n≤20 and r≤5: likely still classically simulable (tensor network methods). For n=50, r=10: likely classically hard.]*
+**8.** Discuss whether increasing the ZZFeatureMap repetition depth r from 1 to 3 makes the quantum kernel harder to evaluate classically. What determines the classical hardness? *[r=1: ZZFeatureMap output state |ψ(x)⟩ involves O(n²) Pauli rotations. Inner product ⟨ψ(x)|ψ(x')⟩ can be computed classically in O(2^n) time (exponential in n). For n=10, 2¹⁰=1024 amplitudes — tractable classically. Classical hardness requires: (1) depth &gt; O(log n) (so classical simulation requires exponential time), and (2) the circuit must be sufficiently random/entangling. Increasing r increases depth and entanglement, potentially crossing the classical simulation threshold. For n≤20 and r≤5: likely still classically simulable (tensor network methods). For n=50, r=10: likely classically hard.]*
 
-**9.** A QNN is trained on the MNIST dataset (28×28=784 features) using angle encoding on n=4 qubits (encoding only 4 principal components from PCA). Estimate the information loss from the dimensionality reduction. *[PCA on MNIST: the first 4 principal components typically capture ~40-50% of total variance. Remaining: 50-60% of variance is discarded. Information loss metric: 1 - (explained variance ratio from first 4 PCs) ≈ 50-60%. Practical implication: the QNN works in a heavily compressed feature space. For competitive MNIST accuracy (>90%), typically 32-64 PCA components are needed (capturing ~90% variance). With 4 qubits, the QNN fundamentally works with coarse features — achieves ~85-90% accuracy at best for simple digit pairs, not competitive with full classical CNN (~99%).]*
+**9.** A QNN is trained on the MNIST dataset (28×28=784 features) using angle encoding on n=4 qubits (encoding only 4 principal components from PCA). Estimate the information loss from the dimensionality reduction. *[PCA on MNIST: the first 4 principal components typically capture ~40-50% of total variance. Remaining: 50-60% of variance is discarded. Information loss metric: 1 - (explained variance ratio from first 4 PCs) ≈ 50-60%. Practical implication: the QNN works in a heavily compressed feature space. For competitive MNIST accuracy (&gt;90%), typically 32-64 PCA components are needed (capturing ~90% variance). With 4 qubits, the QNN fundamentally works with coarse features — achieves ~85-90% accuracy at best for simple digit pairs, not competitive with full classical CNN (~99%).]*
 
 **10.** Explain why the QNN function class f\_θ(x) = Σ\_ω c\_ω e^{iω·x} is equivalent to a classical Fourier neural network. What advantage, if any, does the quantum implementation offer? *[Equivalence: a Fourier neural network (classical) represents f(x)=Σ\_ω c\_ω e^{iω·x} with adjustable frequencies ω and amplitudes c\_ω. The QNN generates the same class of functions with fixed frequencies (determined by encoding eigenvalues) and learnable amplitudes c\_ω(θ). Classical equivalent: just train a classical Fourier model with the same set of frequencies. Quantum advantage (if any): (1) the quantum circuit implements the frequency superposition more efficiently for specific structured inputs (e.g., quantum data); (2) higher-order correlations are encoded naturally by entanglement. But for classical data with explicit feature vectors: no provable quantum advantage over classical Fourier methods for this architecture.]*
 
@@ -681,7 +719,7 @@ While higher entangling capability generally correlates with higher expressibili
 
 (d) Monotonically decreasing in θ
 
-**Q15.** The key claim of Schuld & Killoran (2019) is that quantum models are:
+**Q15.** The key claim of Schuld &amp; Killoran (2019) is that quantum models are:
 
 (a) Always superior to classical ML for structured data
 
@@ -718,7 +756,7 @@ While higher entangling capability generally correlates with higher expressibili
 
 **3.**  Explain the Schuld et al. (2021) Fourier series representation theorem for QNNs: (a) What is the mathematical definition of the accessible frequency spectrum? (b) How does the number of frequencies grow with encoding repetitions r? (c) Give a concrete example showing that a product-state QNN (no entangling gates) can only access single-qubit frequencies, while an entangling circuit can access multi-qubit Fourier modes.
 
-**4.**  Describe barren plateaus rigorously: (a) State the McClean et al. (2018) theorem precisely. (b) Prove that for a random 2-design circuit on n qubits with a global cost function H, the gradient variance Var[∂⟨H⟩/∂θ\_k] = O(4^{−n}). (c) Explain why local cost functions (depending on at most k << n qubits) avoid this exponential decay. (d) Describe the layer-by-layer LBFGS initialisation strategy for avoiding barren plateaus.
+**4.**  Describe barren plateaus rigorously: (a) State the McClean et al. (2018) theorem precisely. (b) Prove that for a random 2-design circuit on n qubits with a global cost function H, the gradient variance Var[∂⟨H⟩/∂θ\_k] = O(4^{−n}). (c) Explain why local cost functions (depending on at most k &lt;&lt; n qubits) avoid this exponential decay. (d) Describe the layer-by-layer LBFGS initialisation strategy for avoiding barren plateaus.
 
 **5.**  Derive and explain kernel alignment: (a) Define the Frobenius inner product ⟨K,Y⟩\_F. (b) Show that A(K,Y) = 1 implies K is proportional to the ideal kernel Y = yyᵀ. (c) Describe how quantum kernel training (QKT) optimises A(K(θ),Y) with respect to the feature map parameters θ. (d) What gradient does A(K(θ),Y) induce on θ, and how is it computed on quantum hardware?
 

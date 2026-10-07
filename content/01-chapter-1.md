@@ -1,6 +1,25 @@
 # CHAPTER 1
 
-# Shor's Algorithm, Amplitude Amplification & HHL
+# Shor's Algorithm, Amplitude Amplification &amp; HHL
+
+*Exponential quantum speedups for cryptography, search, and linear systems*
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🎯 Chapter 1 Learning Objectives</strong></p>
+<p>•  Explain why the hardness of integer factorisation underpins RSA security, and how Shor's algorithm breaks it in polynomial time.</p>
+<p>•  Construct the quantum order-finding circuit from quantum phase estimation (QPE) and modular exponentiation.</p>
+<p>•  Generalise Grover's search into amplitude amplification and quantum walks, and identify when each gives a quadratic speedup.</p>
+<p>•  Derive the HHL circuit for solving linear systems, and state the caveats (state preparation, output readout, condition number) that limit its practical advantage.</p>
+<p>•  Use quantum counting and amplitude estimation to estimate a solution count to precision epsilon with only O(1/epsilon) queries.</p>
+<p>•  Distinguish, throughout this chapter, a proven exponential speedup from a conditional one and from one that has since been dequantised.</p>
+</div>
+
+<div class="box box-anecdote">
+<p class="box-title"><strong>📜 The Day Cryptography Changed — Bell Labs, April 1994</strong></p>
+<p>Peter Shor was a staff scientist at AT&amp;T Bell Laboratories in 1994 when he discovered a polynomial-time quantum algorithm for integer factorisation. He presented the result at a workshop and then posted it on arXiv. The reaction was immediate and global. NSA cryptographers reportedly read the paper within hours. Companies selling RSA software watched their stock prices react. The internet security community — which had built the entire public-key infrastructure of modern banking, email, and government on the assumed hardness of factoring — suddenly faced an existential threat.</p>
+<p>Shor later recalled: 'I was very excited. I thought: this is going to change things.' Ron Rivest (the 'R' in RSA) acknowledged that 'Shor's result was completely unexpected.' The threat is not imminent — breaking RSA-2048 requires roughly 4,000 logical qubits and millions of physical qubits with error rates far below today's hardware. But the trajectory of hardware improvement means the window for transition is finite.</p>
+<p>In response, NIST ran a decade-long Post-Quantum Cryptography competition, standardising CRYSTALS-Kyber (key encapsulation) and CRYSTALS-Dilithium (digital signatures) in 2024. The transition to post-quantum cryptography is the largest cryptographic migration in history, touching every TLS connection, VPN, SSH key, and digital certificate on Earth.</p>
+</div>
 
 ## 1.1 Shor's Factoring Algorithm — Complete Treatment
 
@@ -35,7 +54,7 @@ The security of RSA rests on the hardness of recovering p and q from N alone. Th
 Shor's key classical insight is that the problem of factoring N can be efficiently reduced to the problem of finding the multiplicative order of an integer modulo N. The multiplicative order (or period) of a with respect to N is:
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Definition: Multiplicative Order</strong></p>
+<p class="box-title"><strong>🔑 Definition: Multiplicative Order</strong></p>
 <p><strong><em>ord_N(a) = r  ⟺  aʳ ≡ 1 (mod N),  gcd(a,N) = 1,  r = smallest such positive integer</em></strong></p>
 <p><em>By Euler's theorem, r divides φ(N) = (p−1)(q−1). The function f(k) = aᵏ mod N is periodic with period r.</em></p>
 </div>
@@ -43,7 +62,7 @@ Shor's key classical insight is that the problem of factoring N can be efficient
 Given r, the factors of N are extracted by the following number-theoretic argument. Since aʳ ≡ 1 (mod N), we have (aʳ/² )² ≡ 1 (mod N). Let x = aʳ/² mod N. Then x² − 1 = (x+1)(x−1) ≡ 0 (mod N = pq). If x ≢ ±1 (mod N), then each of the factors (x±1) shares exactly one of p or q with N, giving a non-trivial factorisation via GCD computation.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Key Concept: Why Order-Finding Enables Factoring</strong></p>
+<p class="box-title"><strong>🔑 Key Concept: Why Order-Finding Enables Factoring</strong></p>
 <p>The sequence aⁱ mod N for i = 0, 1, 2, ... is periodic with period r (the order of a mod N).</p>
 <p>If r is even: let y = aʳ/². Then y² ≡ 1 (mod N), so y is a non-trivial square root of 1 modulo N = pq.</p>
 <p>Over the integers, √1 = ±1. Modulo N = pq, there are four square roots: ±1 and two non-trivial ones ±y₀.</p>
@@ -96,8 +115,8 @@ The QPE circuit applies controlled-U\_a^(2^k) for k = 0, 1, …, t−1 using t c
 ● Inverse QFT on the t clock qubits: O(t²) gates.
 
 <figure class="book-figure">
-<img src="content/images/image2.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image4.png" alt="Figure 2: QFT Circuit for 3 Qubits — the essential building block of QPE in Shor&#x27;s algorithm">
+<figcaption>Figure 2: QFT Circuit for 3 Qubits — the essential building block of QPE in Shor's algorithm</figcaption>
 </figure>
 
 The modular exponentiation step dominates the gate count. Computing aˣ mod N for an n-bit N requires O(n²) modular multiplications, each requiring O(n²) elementary gates. Total: O(n⁴) naive, reduced to O(n³) with Beauregard's 2003 optimised circuit using only 2n+3 qubits.
@@ -128,15 +147,15 @@ The measured value y satisfies |y/2^t − s/r| ≤ 1/2^(t+1). We want to find th
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image3.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image5.png" alt="Figure 1: Shor&#x27;s Algorithm Flow — classical pre/post-processing wraps the quantum order-finding core">
+<figcaption>Figure 1: Shor's Algorithm Flow — classical pre/post-processing wraps the quantum order-finding core</figcaption>
 </figure>
 
 ### 1.1.5 Shor's Complexity: O((log N)³) Quantum Gates vs Sub-exponential Classical
 
 The total gate count for Shor's algorithm is O(n³) = O((log N)³), dominated by modular exponentiation. The comparison with classical GNFS is staggering. The table below shows the contrast across standard RSA key sizes:
 
-| Key Size | GNFS Classical (ops) | Shor's Quantum (gates) | Speedup Ratio |
+| **Key Size** | **GNFS Classical (ops)** | **Shor's Quantum (gates)** | **Speedup Ratio** |
 |---|---|---|---|
 | RSA-512 | ≈10¹⁴ | ≈10⁸ | ~10⁶× |
 | RSA-1024 | ≈10²² | ≈10⁹ | ~10¹³× |
@@ -264,7 +283,7 @@ The threat from Shor's algorithm has driven an international effort to standardi
 **FALCON (FN-DSA, FIPS 206):** Security basis: NTRU lattice (Ring-LWE variant). Use: Compact digital signatures for bandwidth-limited contexts.
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Real World: Post-Quantum Migration — A Global Engineering Challenge</strong></p>
+<p class="box-title"><strong>🌐 Real World: Post-Quantum Migration — A Global Engineering Challenge</strong></p>
 <p>"Harvest now, decrypt later" attacks: intelligence agencies are believed to be storing encrypted traffic today, planning to decrypt it once quantum computers mature. Data with long-term sensitivity (medical records, state secrets, financial instruments) is already at risk from future quantum decryption.</p>
 <p>NIST PQC migration timeline: US federal agencies must inventory cryptographic assets by 2025 and complete migration to approved PQC algorithms by 2035 (CISA mandate). The banking sector, telecoms, and cloud providers are accelerating their own timelines.</p>
 <p>India's NQM and cryptographic sovereignty: India's National Quantum Mission allocates specific funding for indigenous PQC research, testing of CRYSTALS-Kyber/Dilithium in e-Governance PKI, and training cryptographic engineers. IIT Bombay, IIT Madras, and C-DAC are leading implementation efforts. India's CERT-In has published PQC migration guidelines for critical infrastructure.</p>
@@ -273,7 +292,7 @@ The threat from Shor's algorithm has driven an international effort to standardi
 </div>
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Warning: Shor's Algorithm Does NOT Break Symmetric Cryptography</strong></p>
+<p class="box-title"><strong>⚠ Warning: Shor's Algorithm Does NOT Break Symmetric Cryptography</strong></p>
 <p>Shor's algorithm exploits multiplicative periodicity — a mathematical structure specific to RSA (based on integer factoring) and ECC/Diffie-Hellman (based on discrete logarithms). It provides no speedup for symmetric ciphers like AES or hash functions like SHA-256.</p>
 <p>Grover's algorithm does give a quadratic speedup against symmetric keys, effectively halving the key length from a security perspective. AES-128 → 64-bit quantum security (insecure). AES-256 → 128-bit quantum security (still secure post-quantum).</p>
 <p>The correct post-quantum response for symmetric systems is to double key lengths (AES-128 → AES-256, SHA-256 → SHA-512), NOT to replace the algorithms entirely. This is far simpler than the public-key migration.</p>
@@ -323,7 +342,7 @@ The amplitude amplification theorem states: starting from A|0⟩ with success pr
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Key Concept: Amplitude Amplification as a Universal Quantum Subroutine</strong></p>
+<p class="box-title"><strong>🔑 Key Concept: Amplitude Amplification as a Universal Quantum Subroutine</strong></p>
 <p>Standard Grover search: A = H^⊗n, χ = indicator of one target element → O(√N) queries.</p>
 <p>Quantum counting: Run QPE on Q to estimate θ, giving M (number of solutions) to precision ε in O(√(N/M)/ε) queries.</p>
 <p>Amplitude estimation: Estimate a = sin²(θ) to precision ε in O(1/ε) queries — quadratic improvement over classical Monte Carlo which needs O(1/ε²) samples.</p>
@@ -332,8 +351,8 @@ The amplitude amplification theorem states: starting from A|0⟩ with success pr
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image4.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image6.png" alt="Figure 8: Amplitude Amplification — Success Probability vs Iterations and Geometric Picture">
+<figcaption>Figure 8: Amplitude Amplification — Success Probability vs Iterations and Geometric Picture</figcaption>
 </figure>
 
 ### 1.2.2 Quantum Walk on Graphs: Coined and Continuous-Time
@@ -354,7 +373,7 @@ The coined quantum walk on a line with Hadamard coin was one of the first quantu
 
 #### Continuous-Time Quantum Walk
 
-The continuous-time quantum walk (CTQW, Farhi & Gutmann 1998) on a graph G with adjacency matrix A evolves under the Schrödinger equation with the adjacency matrix as the Hamiltonian:
+The continuous-time quantum walk (CTQW, Farhi &amp; Gutmann 1998) on a graph G with adjacency matrix A evolves under the Schrödinger equation with the adjacency matrix as the Hamiltonian:
 
 <div class="box box-generic">
 <p class="box-title"><strong>Continuous-Time Quantum Walk (CTQW)</strong></p>
@@ -363,8 +382,8 @@ The continuous-time quantum walk (CTQW, Farhi & Gutmann 1998) on a graph G with 
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image5.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image7.png" alt="Figure 3: Quantum Walk vs Classical Walk Distribution — ballistic vs diffusive spreading after 100 steps">
+<figcaption>Figure 3: Quantum Walk vs Classical Walk Distribution — ballistic vs diffusive spreading after 100 steps</figcaption>
 </figure>
 
 <div class="box box-example">
@@ -428,8 +447,8 @@ The three-stage structure of quantum walk algorithms — Setup (prepare an r-sub
 **● Group Commutativity:** O(N^{2/3}). Test if group of N elements is abelian.
 
 <figure class="book-figure">
-<img src="content/images/image6.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image8.png" alt="Figure 9: Coined vs Continuous-Time Quantum Walk — probability dynamics on a line">
+<figcaption>Figure 9: Coined vs Continuous-Time Quantum Walk — probability dynamics on a line</figcaption>
 </figure>
 
 ## 1.3 Linear Systems — HHL Algorithm
@@ -437,7 +456,7 @@ The three-stage structure of quantum walk algorithms — Setup (prepare an r-sub
 Solving a system of linear equations Ax = b is one of the most fundamental computational problems in science and engineering, appearing in machine learning, fluid dynamics, structural analysis, circuit simulation, and numerical methods for differential equations. Classically, Gaussian elimination runs in O(N³) for N×N dense matrices. In 2009, Harrow, Hassidim, and Lloyd (HHL) showed that quantum computers can solve sparse, well-conditioned linear systems in O(log N) — an exponential improvement — subject to specific input and output conditions.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  HHL — The Algorithm That Sparked a Debate</strong></p>
+<p class="box-title"><strong>📜 HHL — The Algorithm That Sparked a Debate</strong></p>
 <p>The 2009 HHL paper appeared in Physical Review Letters and generated enormous excitement: here was an exponential quantum speedup for a problem of vast practical importance, beyond the narrow domain of period-finding. The paper rapidly accumulated thousands of citations and spawned a wave of proposed quantum machine learning algorithms built on HHL as a subroutine.</p>
 <p>A decade later, the picture is more nuanced. In 2019, Ewin Tang — then an undergraduate at UT Austin — proved that classical algorithms using "quantum-inspired" sampling techniques could match HHL's performance in the regimes where HHL's input conditions are efficiently satisfiable. This "dequantisation" result, building on work by Tang, Raz, and others, showed that many proposed quantum ML speedups were illusory: the quantum algorithm's advantage relied on conditions (efficient quantum state preparation) that were not achievable in the applications claimed.</p>
 <p>HHL remains a landmark result: it proved that quantum speedup extends beyond algebraic periodicity. But understanding its true range of applicability requires careful analysis of the input preparation problem, the output measurement problem, the condition number, and the sparsity constraints.</p>
@@ -447,7 +466,7 @@ Solving a system of linear equations Ax = b is one of the most fundamental compu
 
 Given an N×N Hermitian matrix A and vector b (encoded as a quantum state |b⟩), find |x⟩ ∝ A⁻¹|b⟩. The complexity comparison between classical and quantum is:
 
-| Method | Complexity | Requirements | Notes |
+| **Method** | **Complexity** | **Requirements** | **Notes** |
 |---|---|---|---|
 | Gaussian Elim. | O(N³) | Dense A | Full classical solution |
 | CG / Krylov | O(N·s·κ·log(1/ε)) | Sparse, SPD A | s = nnz/row, κ = cond. no. |
@@ -483,8 +502,8 @@ Stage 3 — Uncomputation and Post-selection: Apply inverse QPE to uncompute the
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image7.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image9.png" alt="Figure 4: HHL Algorithm Circuit — QPE, conditional rotation, inverse QPE, ancilla post-selection">
+<figcaption>Figure 4: HHL Algorithm Circuit — QPE, conditional rotation, inverse QPE, ancilla post-selection</figcaption>
 </figure>
 
 <div class="box box-example">
@@ -514,7 +533,7 @@ The O(log N) speedup of HHL is subject to four fundamental caveats, each of whic
 **Caveat 4: Condition Number Requirement.** HHL complexity scales as O(κ²) where κ = λ\_max/λ\_min is the condition number. For ill-conditioned systems (κ = O(N) or worse), HHL provides no improvement over classical methods. Well-conditioned problems require κ = O(polylog N).
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Warning: The HHL Speedup Requires All Four Conditions Simultaneously</strong></p>
+<p class="box-title"><strong>⚠ Warning: The HHL Speedup Requires All Four Conditions Simultaneously</strong></p>
 <p>The full O(log N) quantum speedup over classical O(N³) requires SIMULTANEOUSLY: (1) QRAM-based O(polylog N) state preparation; (2) only O(1) linear measurements of |x⟩ needed; (3) A is s-sparse with s = O(polylog N); and (4) κ = O(polylog N).</p>
 <p>In most real-world applications, at least one of these fails. For example, in finance portfolio optimisation: the covariance matrix A is dense (condition 3 fails). In ML ridge regression: κ scales with the number of features (condition 4 can fail). In fluid dynamics: conditions 3 and 4 often hold, but condition 2 fails if the full velocity field is needed.</p>
 <p>The dequantisation results (Tang 2019, Chia et al. 2020) showed that when conditions 1 and 2 hold (QRAM access + only a few linear measurements), classical algorithms can also run in poly(κ, s, log N) time using "quantum-inspired" classical sampling. The exponential separation survives only when the quantum computer can exploit all four conditions simultaneously in ways that classical algorithms cannot.</p>
@@ -527,9 +546,49 @@ Tang (2019) introduced the "sample-and-query" (SQ) classical model as a classica
 
 The key implication: the exponential speedup of HHL (and many quantum ML algorithms built on it) may be an artefact of comparing quantum computation to classical algorithms without efficient data access, rather than a fundamental quantum advantage. The debate continues in the research community, with some HHL applications (particularly those with genuinely quantum input states from quantum sensors or other quantum algorithms) remaining potentially advantageous.
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 1.4 Quantum Counting and Amplitude Estimation
 
-Chapter 1: Shor's Algorithm, Amplitude Amplification & HHL
+Grover's algorithm tells us how to find a marked item quickly, but it does not, by itself, tell us how many marked items exist. That turns out to be a natural and useful question in its own right: an insurer estimating what fraction of claims are fraudulent, a chemist estimating the overlap between two quantum states, or a search engine estimating how many documents match a query all want a count or a probability, not a single answer. Quantum counting answers exactly this kind of question, and it does so by recycling the same amplitude-amplification machinery introduced in Section 1.2 - proof that a single quantum idea, once understood properly, tends to resurface in disguise throughout the subject.
+
+### 1.4.1 From Amplitude Amplification to Counting
+
+Recall the Grover iterate G = -A S0 A^-1 S\_chi from Section 1.2, which rotates the state vector within a two-dimensional subspace spanned by the 'good' and 'bad' subspaces by an angle theta, where sin^2(theta) = M/N is exactly the fraction of marked items. Quantum counting estimates theta - and hence M - by running quantum phase estimation (QPE) on G itself, using an ancillary 'counting register' of t qubits. Because G is unitary with eigenvalues e^{+-2i theta}, QPE on G returns an estimate of theta to t bits of precision, using the controlled-G^(2^k) construction familiar from Shor's algorithm in Section 1.1.
+
+<figure class="book-figure">
+<img src="content/images/image10.png" alt="Figure 1.7: Quantum Counting via Amplitude Estimation - reusing the QPE and Grover-iterate machinery from earlier in this chapter.">
+<figcaption>Figure 1.7: Quantum Counting via Amplitude Estimation - reusing the QPE and Grover-iterate machinery from earlier in this chapter.</figcaption>
+</figure>
+
+### 1.4.2 The Estimation Circuit and Its Precision
+
+The full circuit prepares a uniform superposition over both the counting register (via H^t) and the search register (via the diffusion operator A, typically H^n), then applies the controlled Grover iterate G^(2^k) for k = 0, ..., t-1, and finally an inverse QFT on the counting register before measurement. Measuring the counting register yields an integer y, from which theta = pi\*y / 2^t and M = N sin^2(theta). The precision achieved with t counting qubits is |M\_estimate - M| = O(sqrt(M(N-M))/2^t + N/4^t) - crucially, this scales as O(1/epsilon) queries to reach additive error epsilon\*N, matching the quadratic speedup of Grover search rather than the O(1/epsilon^2) scaling of naive classical sampling.
+
+<div class="box box-generic">
+<p class="box-title"><strong>💡 Tip: Reading Off the Precision-Cost Trade-off</strong></p>
+<p>Each extra counting qubit halves the estimation error but doubles the number of controlled-Grover-iterate applications needed. In practice, choose t so that 2^t is comfortably larger than the expected count M - over-provisioning t wastes circuit depth on a NISQ device without meaningfully improving the answer, since gate noise will dominate long before the extra bits of precision become trustworthy.</p>
+</div>
+
+### 1.4.3 Applications: Estimating Without Full Search
+
+Quantum counting is most valuable exactly when a full search would be wasteful: verifying whether a marked set is empty (a Grover-based decision procedure for satisfiability), estimating expectation values inside quantum Monte Carlo pricing models (a technique explored again for portfolio optimisation in Chapter 7), and estimating overlaps between quantum states as a subroutine inside larger variational algorithms (Chapter 2). In every case, the appeal is the same: a quadratic reduction in the number of oracle queries needed to answer a counting or estimation question, at the cost of a somewhat deeper circuit than a single Grover run.
+
+<div class="box box-generic">
+<p class="box-title"><strong>🧭 Roadmap: Where Amplitude Estimation Reappears</strong></p>
+<p>Amplitude estimation is not a chapter-1 curiosity - it returns as the statistical backbone of quantum Monte Carlo methods in quantum finance (Chapter 4), as a subroutine for evaluating cost functions inside QAOA (Chapter 7), and in modern 'amplitude-estimation-free' variants designed specifically to avoid its circuit-depth overhead on near-term hardware (Chapter 8). Keep this circuit in mind - you will meet it again.</p>
+</div>
+
+### 1.4.4 Worked Example: Counting Solutions to a Toy Search Problem
+
+Consider a search space of N=16 items with M=3 marked items, so sin^2(theta)=3/16. With t=4 counting qubits, quantum counting resolves theta to within pi/16, giving an estimate of M accurate to roughly +-1.5 items - already useful for deciding, say, whether fewer than 20% or more than 20% of a batch of items satisfy some property, without ever finding a single marked item explicitly. Repeating the order-finding circuit of Section 1.1 independently across several random bases a compounds a modest single-shot success probability into overwhelming confidence after only a handful of attempts.
+
+<figure class="book-figure">
+<img src="content/images/image11.png" alt="Figure 1.8: Order-Finding Success Probability Compounds Quickly Across Attempts">
+<figcaption>Figure 1.8: Order-Finding Success Probability Compounds Quickly Across Attempts</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 1: Shor's Algorithm, Amplitude Amplification &amp; HHL
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 

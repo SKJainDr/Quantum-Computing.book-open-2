@@ -1,11 +1,20 @@
 # CHAPTER 2
 
-# Quantum Simulation & Advanced Circuit Design
+# Quantum Simulation &amp; Advanced Circuit Design
 
-*Trotter-Suzuki, Qubitisation, Variational Methods, Quantum Chemistry & Many-Body Physics*
+*Trotter-Suzuki, Qubitisation, Variational Methods, Quantum Chemistry &amp; Many-Body Physics*
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🎯 Chapter 2 Learning Objectives</strong></p>
+<p>•  Simulate Hamiltonian time-evolution using first- and higher-order Trotter-Suzuki product formulas, and bound their error.</p>
+<p>•  Explain qubitisation and quantum signal processing as a unifying, near-optimal framework for Hamiltonian simulation.</p>
+<p>•  Build and train a VQE ansatz for molecular ground-state energies, from Hartree-Fock through UCCSD.</p>
+<p>•  Construct ADAPT-VQE circuits that grow adaptively rather than using a fixed ansatz, and compare their resource cost to fixed circuits.</p>
+<p>•  Situate quantum chemistry simulation within the broader software ecosystem (OpenFermion, Qiskit Nature, PennyLane).</p>
+</div>
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Feynman's Vision Realised — From Theory to Qiskit, 1982–2025</strong></p>
+<p class="box-title"><strong>📜 Feynman's Vision Realised — From Theory to Qiskit, 1982–2025</strong></p>
 <p>In 1982 Richard Feynman proposed quantum computers as nature's simulators: only a quantum computer can efficiently simulate a quantum system. By 2020 this vision had begun to materialise. IBM, Google, and a growing number of academic groups demonstrated Hamiltonian simulation experiments: Trotter-decomposed evolution of the transverse-field Ising model, VQE calculations of molecular ground-state energies, and the first quantum simulation benchmarks that stressed classical supercomputers.</p>
 <p>The challenge ahead is substantial. NISQ hardware is noisy, shallow, and far from the fault-tolerant processors that would achieve unambiguous quantum advantage for real chemical and condensed-matter problems. But the theoretical foundations are solid: Trotter-Suzuki product formulas, qubitisation and quantum signal processing, variational quantum eigensolver, Jordan-Wigner mapping of fermionic Hamiltonians — these form a rich toolkit that is actively being refined and deployed.</p>
 <p>Chapter 2 gives you the complete framework: from deriving the first-order Trotter error bound, through the near-optimal qubitisation approach, to writing Qiskit circuits that simulate the Ising model and compute molecular ground-state energies. Every major algorithm is worked through to the gate level.</p>
@@ -94,13 +103,13 @@ Suzuki (1990, 1991) developed a recursive family of 2k-th order product formulas
 The optimal Trotter order for a simulation with total time t and error budget ε is the k that minimises the total gate count G = c\_k · r\_k · L where r\_k = O(L·(||H||t)^{1+1/(2k)} / ε^{1/(2k)}). For practical simulations, second-order is often optimal for short times; fourth and higher orders win for long times or high precision.
 
 <figure class="book-figure">
-<img src="content/images/image8.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image12.png" alt="Figure 5: Trotter vs Qubitisation Complexity — gate count vs t and ε">
+<figcaption>Figure 5: Trotter vs Qubitisation Complexity — gate count vs t and ε</figcaption>
 </figure>
 
 ## 2.2 Qubitisation and Quantum Signal Processing
 
-Despite impressive constant-factor improvements from higher-order Trotter formulas, the polynomial dependence on simulation time t and precision ε of all product formula methods is fundamentally limited. Qubitisation (Berry et al. 2015; Low & Chuang 2019), combined with Quantum Signal Processing (QSP), achieves near-optimal complexity: gate count linear in t and poly-logarithmic in 1/ε.
+Despite impressive constant-factor improvements from higher-order Trotter formulas, the polynomial dependence on simulation time t and precision ε of all product formula methods is fundamentally limited. Qubitisation (Berry et al. 2015; Low &amp; Chuang 2019), combined with Quantum Signal Processing (QSP), achieves near-optimal complexity: gate count linear in t and poly-logarithmic in 1/ε.
 
 ### 2.2.1 Block-Encoding: Embedding the Hamiltonian in a Larger Unitary
 
@@ -141,7 +150,7 @@ The key theorem: the walk operator W has the same eigenstates as H (up to ancill
 
 ### 2.2.3 Quantum Signal Processing (QSP) for Near-Optimal Simulation
 
-Quantum Signal Processing (Low & Chuang 2016, 2019) provides a systematic method to apply any polynomial transformation of the eigenvalues to a block-encoded matrix. For Hamiltonian simulation, we want to implement f(λⱼ) = e^{−iλⱼt} on each eigenstate. QSP achieves this by interleaving the walk operator W with single-qubit rotations in the ancilla:
+Quantum Signal Processing (Low &amp; Chuang 2016, 2019) provides a systematic method to apply any polynomial transformation of the eigenvalues to a block-encoded matrix. For Hamiltonian simulation, we want to implement f(λⱼ) = e^{−iλⱼt} on each eigenstate. QSP achieves this by interleaving the walk operator W with single-qubit rotations in the ancilla:
 
 <div class="box box-generic">
 <p class="box-title"><strong>QSP Sequence and Polynomial Approximation</strong></p>
@@ -156,7 +165,7 @@ Quantum Signal Processing (Low & Chuang 2016, 2019) provides a systematic method
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Key Concept: Why QSP is Near-Optimal</strong></p>
+<p class="box-title"><strong>🔑 Key Concept: Why QSP is Near-Optimal</strong></p>
 <p>The no-fast-forwarding theorem (Berry et al. 2007) proves that any quantum simulation of H for time t requires at least Ω(αt) oracle queries, where α = ||H||₁. This is a fundamental lower bound.</p>
 <p>QSP achieves O(αt + polylog(1/ε)) queries — matching this lower bound up to a logarithmic factor in ε.</p>
 <p>By contrast: 1st-order Trotter needs O(α²t²/ε) queries — quadratic in t and polynomial in 1/ε. QSP replaces the quadratic t-scaling with linear, and the polynomial ε-scaling with logarithmic.</p>
@@ -206,12 +215,12 @@ The Variational Quantum Eigensolver (Peruzzo et al. 2014) is the most widely app
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image9.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image13.png" alt="Figure 6: VQE Hybrid Classical-Quantum Loop — quantum circuit prepares |ψ(θ)⟩, classical optimiser updates θ">
+<figcaption>Figure 6: VQE Hybrid Classical-Quantum Loop — quantum circuit prepares |ψ(θ)⟩, classical optimiser updates θ</figcaption>
 </figure>
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Warning: Barren Plateaus — The Trainability Challenge of VQE</strong></p>
+<p class="box-title"><strong>⚠ Warning: Barren Plateaus — The Trainability Challenge of VQE</strong></p>
 <p>Barren plateaus (McClean et al. 2018) are a fundamental trainability problem for variational quantum circuits with many parameters.</p>
 <p>For a random n-qubit circuit with depth O(n), the variance of the energy gradient ∂E/∂θ_k decays exponentially: Var[∂E/∂θ_k] = O(2^{−n}).</p>
 <p>This means gradients are exponentially small in the system size. On n=20 qubits, a gradient of magnitude ~2^{−20} ≈ 10^{−6} is buried in shot noise — you would need ~10^{12} circuit shots just to estimate the gradient reliably.</p>
@@ -336,12 +345,12 @@ print(f"Correlation energy captured: {(result.eigenvalue.real - hartree_fock_ene
 For LiH (STO-3G, R = 1.60 Å): 12 spin-orbitals give a 12-qubit Hamiltonian with ~600 Pauli terms. UCCSD with 26 excitation parameters achieves E\_VQE = −7.882 Ha vs E\_FCI = −7.884 Ha — within chemical accuracy and capturing ~90% of the correlation energy (E\_HF = −7.863 Ha).
 
 <figure class="book-figure">
-<img src="content/images/image10.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image14.png" alt="Figure 10: VQE Energy Landscape for H₂ (2-parameter UCCSD) — surface and minimum">
+<figcaption>Figure 10: VQE Energy Landscape for H₂ (2-parameter UCCSD) — surface and minimum</figcaption>
 </figure>
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Real World: Quantum Chemistry and India's NQM</strong></p>
+<p class="box-title"><strong>🌐 Real World: Quantum Chemistry and India's NQM</strong></p>
 <p>Nitrogen fixation (Haber-Bosch process): The FeMoco active site of nitrogenase requires simulating ~54 spin-orbitals. Classical FCI is impossible; quantum simulation (fault-tolerant) is estimated to need ~4 million physical qubits (Reiher et al. 2017). This is one of the clearest targets for practical quantum advantage — a successful simulation could lead to room-temperature nitrogen fixation catalysts, revolutionising fertiliser production.</p>
 <p>Drug discovery: Accurate calculation of protein-ligand binding free energies requires treating quantum effects in the binding pocket. Even 100-qubit logical computers could outperform classical approximations for key drug targets.</p>
 <p>India-specific: IIT Bombay and IISc Bengaluru are NQM hub institutions for quantum chemistry. DRDO and CSIR labs are exploring quantum simulations for energetic materials and photovoltaic materials design. IIT Delhi group (Prof. Sabre Kais collaboration) has published VQE results for CO₂ dissociation.</p>
@@ -371,8 +380,8 @@ The Trotter decomposition of the TFIM separates into two non-commuting layers: Z
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image11.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image15.png" alt="Figure 7: Trotterised TFIM Circuit (n=4 qubits, 1 Trotter step) — ZZ and Rx gates">
+<figcaption>Figure 7: Trotterised TFIM Circuit (n=4 qubits, 1 Trotter step) — ZZ and Rx gates</figcaption>
 </figure>
 
 ```python
@@ -474,19 +483,60 @@ After Jordan-Wigner transformation, the L-site Hubbard model with both spin spec
 <p>Full Hubbard Hamiltonian (2-site): 4 hopping terms + 4 on-site terms ≈ 16 Pauli strings.</p>
 </div>
 
-The Mott metal-insulator transition in the 1D Hubbard model is continuous at T=0, occurring at U/t = 0 in the thermodynamic limit (the system is always an insulator for any U > 0 in 1D due to Luttinger liquid physics). In 2D the transition is at a finite critical U/t, which quantum computers could help determine.
+The Mott metal-insulator transition in the 1D Hubbard model is continuous at T=0, occurring at U/t = 0 in the thermodynamic limit (the system is always an insulator for any U &gt; 0 in 1D due to Luttinger liquid physics). In 2D the transition is at a finite critical U/t, which quantum computers could help determine.
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Real World: Quantum Simulation for Materials and Condensed Matter</strong></p>
+<p class="box-title"><strong>🌐 Real World: Quantum Simulation for Materials and Condensed Matter</strong></p>
 <p>High-temperature superconductors: The 2D Hubbard model at half-filling and finite doping is believed to describe the physics of cuprate superconductors (La₂CuO₄, YBa₂Cu₃O₇). Whether the Hubbard model supports d-wave superconductivity is an open question — classical Monte Carlo fails due to the sign problem. A fault-tolerant quantum computer with ~100 logical qubits could definitively answer this.</p>
 <p>Frustrated magnets and quantum spin liquids: The Kagome and triangular-lattice Heisenberg antiferromagnets are frustrated (competing interactions) and may host exotic quantum spin liquid phases. Classical methods fail; quantum simulation is essentially the only tool for unambiguous results.</p>
 <p>FeMoco revisited: A 2023 update (Babbush, Kirby, Wecker et al.) estimates that simulating FeMoco's active-space Hamiltonian on a fault-tolerant quantum computer with optimised LCU+QSP algorithms requires ~1 million physical qubits (down from the 4 million estimate in 2017). Progress in circuit compilation has reduced the resource estimate by 4×.</p>
 <p>India's condensed matter quantum computing: IIT Kanpur and IISER Pune groups are working on Trotter simulation of Kitaev honeycomb models and frustrated spin systems. These are topologically ordered phases with potential applications in topological quantum computing.</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 2.6 Beyond Fixed Ansatze: ADAPT-VQE and the Software Ecosystem
 
-Chapter 2: Quantum Simulation & Advanced Circuit Design
+Every VQE example so far in this chapter has used a fixed ansatz - UCCSD, or a hardware-efficient circuit chosen in advance and left unchanged throughout optimisation. That is a bit like committing to a recipe before tasting the ingredients. ADAPT-VQE, introduced by Grimsley, Economou, Barnes and Mayhall in 2019, instead grows the circuit one term at a time, letting the molecule itself decide which operators matter most - often reaching chemical accuracy with dramatically shallower circuits than a one-size-fits-all UCCSD ansatz.
+
+### 2.6.1 The ADAPT-VQE Growth Loop
+
+Starting from the Hartree-Fock reference state, ADAPT-VQE maintains a pool of candidate excitation operators (typically single and double fermionic excitations, as in UCCSD). At each iteration it measures the energy gradient with respect to adding each pool operator, selects the operator with the largest gradient magnitude, appends it to the circuit with a fresh variational parameter, and re-optimises every parameter in the now-larger circuit. The loop repeats until the gradient norm falls below a convergence threshold - at which point the ansatz is judged to have captured the relevant correlation physics for that specific molecule and geometry.
+
+<figure class="book-figure">
+<img src="content/images/image16.png" alt="Figure 2.5: ADAPT-VQE - Iterative, Problem-Tailored Ansatz Growth">
+<figcaption>Figure 2.5: ADAPT-VQE - Iterative, Problem-Tailored Ansatz Growth</figcaption>
+</figure>
+
+<figure class="book-figure">
+<img src="content/images/image17.png" alt="Figure 2.6: Energy Convergence - ADAPT-VQE Reaches Chemical Accuracy at Lower Depth">
+<figcaption>Figure 2.6: Energy Convergence - ADAPT-VQE Reaches Chemical Accuracy at Lower Depth</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>📘 Definition: ADAPT-VQE</strong></p>
+<p>ADAPT-VQE (Adaptive Derivative-Assembled Pseudo-Trotter VQE) is a variational algorithm that constructs its ansatz iteratively from an operator pool, appending at each step the operator whose commutator gradient [H, A_i] has the largest magnitude with respect to the current state, rather than fixing the circuit structure in advance.</p>
+</div>
+
+### 2.6.2 The Wider Software Ecosystem
+
+No one implements VQE or ADAPT-VQE entirely from scratch. OpenFermion (Google) handles the fermion-to-qubit mapping (Jordan-Wigner, Bravyi-Kitaev, or parity mapping) and Hamiltonian construction from quantum chemistry package output; Qiskit Nature wraps this pipeline together with classical solvers such as PySCF for orbital integrals; and PennyLane's qchem module integrates the same workflow directly with automatic differentiation, letting a chemist move from a molecular geometry string to a trained circuit in a few dozen lines of Python. Knowing this ecosystem matters as much as knowing the algorithm: a correct derivation is only useful once it can be run.
+
+<div class="box box-generic">
+<p class="box-title"><strong>💡 Tip: Choosing an Operator Pool</strong></p>
+<p>A larger operator pool (e.g. including generalised, spin-adapted, or qubit-excitation operators rather than only fermionic singles and doubles) can shorten the resulting circuit further, but at the cost of more gradient measurements per iteration. For a first implementation, start with the standard UCCSD singles-and-doubles pool - it is well tested and keeps the gradient-measurement overhead predictable.</p>
+</div>
+
+### 2.6.3 Worked Example: Trotter Error Scaling in Practice
+
+First-order Trotterisation's error per step scales as O(t^2/r) for r steps over total simulated time t, while the symmetric (second-order) Suzuki formula improves this to O(t^3/r^2) - a difference that looks modest on paper but compounds dramatically as circuits scale: doubling the step count roughly halves first-order error but quarters second-order error, so for a fixed error budget, higher-order formulas need far fewer Trotter steps, and therefore far shallower circuits, at the cost of a somewhat more complex gate sequence per step.
+
+<figure class="book-figure">
+<img src="content/images/image18.png" alt="Figure 2.7: Higher-Order Trotter Formulas Converge Much Faster in Step Count">
+<figcaption>Figure 2.7: Higher-Order Trotter Formulas Converge Much Faster in Step Count</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 2: Quantum Simulation &amp; Advanced Circuit Design
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -713,7 +763,7 @@ Trotter formulas are simple to implement and require only local Hamiltonian-term
 
 **7.** Trotter circuit depth for the Hubbard model: for an L-site 1D Hubbard chain (2L qubits), count the CNOT gates per first-order Trotter step (separate hopping, on-site interactions). *[Spin-up hopping: L−1 hopping terms, each (XX+YY)/2 → 2 CNOT + Rz pattern = 2 CNOT each → 2(L−1) CNOTs. Spin-down: same = 2(L−1) CNOTs. On-site U terms: n\_{i↑}n\_{i↓} = ZZ+Z+Z+I type → 1 CNOT per site (for ZZ via CNOT-Rz-CNOT) = L CNOTs. Total: 4(L−1)+L = 5L−4 CNOTs. For L=10: 46 CNOTs per first-order Trotter step.]*
 
-**8.** VQE convergence: The VQE for H₂ at R=0.74Å converges to E\_VQE = −1.1372 Ha with initial parameters θ₀ = (0.1, 0.05). If the exact FCI ground state energy is −1.1372 Ha, verify chemical accuracy (ΔE < 1.6 mHa). Also compute the HF−FCI correlation energy. *[|E\_VQE − E\_FCI| = |−1.1372−(−1.1372)| = 0.0000 Ha = 0 mHa. Chemical accuracy (1.6 mHa threshold) is satisfied trivially — VQE with UCCSD is exact for H₂/STO-3G. Correlation energy: E\_corr = E\_FCI − E\_HF = −1.1372−(−1.1175) = −0.0197 Ha = −19.7 mHa. VQE captures 100% of this correlation energy for this system.]*
+**8.** VQE convergence: The VQE for H₂ at R=0.74Å converges to E\_VQE = −1.1372 Ha with initial parameters θ₀ = (0.1, 0.05). If the exact FCI ground state energy is −1.1372 Ha, verify chemical accuracy (ΔE &lt; 1.6 mHa). Also compute the HF−FCI correlation energy. *[|E\_VQE − E\_FCI| = |−1.1372−(−1.1372)| = 0.0000 Ha = 0 mHa. Chemical accuracy (1.6 mHa threshold) is satisfied trivially — VQE with UCCSD is exact for H₂/STO-3G. Correlation energy: E\_corr = E\_FCI − E\_HF = −1.1372−(−1.1175) = −0.0197 Ha = −19.7 mHa. VQE captures 100% of this correlation energy for this system.]*
 
 **9.** Qubitisation for H₂: given α = 2.0 Ha and walk operator W, estimate the minimum number of W applications needed to implement e^{−iHt} to precision ε=10⁻⁵ for t=3. *[QSP degree: d = O(αt + log(1/ε)) = O(2.0×3 + log(10⁵)) = O(6 + 11.5) ≈ 18. Each W application uses the block-encoding circuit: O(L)=O(15) gates for H₂. Total QSP gates: 18×15 = 270 gates. Compare 2nd Trotter: r = O(Lt^{3/2}/√ε) = O(15×5.2/0.00316) = O(24,700) steps × O(30 gates) = O(741,000) gates. QSP is 741,000/270 ≈ 2740× more efficient at this precision.]*
 
@@ -797,7 +847,7 @@ Trotter formulas are simple to implement and require only local Hamiltonian-term
 
 (a) The magnetic field strength exceeds the hopping amplitude t
 
-(b) The on-site repulsion U >> t so that double occupancy is energetically suppressed, localising electrons
+(b) The on-site repulsion U &gt;&gt; t so that double occupancy is energetically suppressed, localising electrons
 
 (c) The Bose-Einstein condensate forms at low temperature
 
@@ -825,7 +875,7 @@ Trotter formulas are simple to implement and require only local Hamiltonian-term
 
 **Q11.** At the quantum critical point of the TFIM (h/J = 1 in 1D), the system exhibits:
 
-(a) Ferromagnetic order with ⟨Z⟩ > 0
+(a) Ferromagnetic order with ⟨Z⟩ &gt; 0
 
 (b) Paramagnetic order with ⟨Z⟩ = 0
 
@@ -872,3 +922,129 @@ Trotter formulas are simple to implement and require only local Hamiltonian-term
 (c) 1–4 million physical qubits
 
 (d) 1 billion physical qubits
+
+## D. Theory Questions
+
+**1.**  Derive the Baker-Campbell-Hausdorff (BCH) formula to second order: e^A e^B = e^{A+B+(1/2)[A,B]+...}. Use this to prove the first-order Trotter error bound for H = A + B with r steps. Show explicitly that the total error after r steps is O(t²[A,B]/r) as r→∞.
+
+**2.**  Explain the concept of block-encoding in detail: (a) Define the block-encoding of a non-unitary matrix H/α. (b) Describe the PREPARE and SELECT oracle construction for H = Σ\_k α\_k H\_k. (c) Show that the resulting circuit implements (⟨G|⊗I)U\_BE(|G⟩⊗I) = H/α. (d) What is the minimum ancilla qubit count for L Pauli terms?
+
+**3.**  Derive the eigenvalue structure of the qubitisation walk operator W: (a) Define W using the block-encoding reflection operators. (b) Show that W is unitary. (c) Show that if |uⱼ⟩ is an eigenstate of H with eigenvalue λⱼ, then W has eigenvalues e^{±i arccos(λⱼ/α)}. (d) Explain why this enables QPE on W to give eigenvalues of H.
+
+**4.**  Describe the variational quantum eigensolver (VQE) algorithm completely: (a) State the variational principle it exploits. (b) Describe the UCCSD ansatz for a molecule with N spin-orbitals. (c) Explain the parameter-shift rule for computing gradients of ⟨H⟩ with respect to circuit parameters. (d) Compare COBYLA vs L-BFGS optimisers for VQE: when would you prefer each?
+
+**5.**  Derive the Jordan-Wigner transformation from first principles: (a) State the canonical anti-commutation relations (CAR) for fermionic operators. (b) Define the JW mapping explicitly. (c) Prove that the mapping preserves the CAR. (d) Derive the Pauli representation of the kinetic hopping term a†\_i a\_j + h.c. for general i &lt; j.
+
+**6.**  Analyse the barren plateau phenomenon rigorously: (a) State the precise mathematical theorem (McClean et al. 2018). (b) Explain the intuition in terms of random unitary 2-designs and the typicality of exponentially flat energy landscapes. (c) Prove that local cost functions avoid barren plateaus under certain conditions. (d) Describe three specific mitigation strategies with their theoretical justification.
+
+**7.**  Explain the Fermi-Hubbard model and its physics: (a) Write the Hamiltonian and explain each term physically. (b) Describe the half-filling condition and why it is special. (c) Explain the Mott insulating phase using perturbation theory at large U/t. (d) Describe the sign problem that prevents classical Monte Carlo from simulating doped Hubbard models. (e) Explain how quantum simulation avoids the sign problem.
+
+**8.**  Describe the Quantum Signal Processing framework: (a) Define the signal operator and processing operator. (b) State the QSP theorem: any polynomial p of degree d can be implemented using d+1 signal processing angles Φ = (φ₀,...,φ\_d). (c) Explain how the time evolution polynomial e^{−iHt} is approximated by a Chebyshev polynomial expansion. (d) Describe the classical pre-computation algorithm for finding the phases Φ.
+
+**9.**  Compare and contrast the Trotter-Suzuki, Qubitisation, and Variational approaches to quantum simulation: for each, state (a) the complexity in terms of L, t, ε, α, κ; (b) the type of hardware required (NISQ vs fault-tolerant); (c) the key limitation; (d) the best practical use case as of 2025.
+
+**10.**  Explain the Full Configuration Interaction (FCI) classical method and why it scales exponentially: (a) Define the FCI wavefunction in terms of Slater determinants. (b) Show that the number of parameters scales as C(N, n) (binomial coefficient) for N spin-orbitals and n electrons. (c) Explain why quantum computers represent FCI wavefunctions exactly using N qubits. (d) Explain why UCCSD is not equivalent to FCI and what "correlation energy" is missed.
+
+## E. Programming Assignments
+
+**[PA-2.1]  Trotterised TFIM: Error Analysis and Convergence Study:**
+
+Implement first-order and second-order Trotter simulation of the TFIM for n=4 qubits (J=h=1, critical point) using Qiskit. (a) Implement the exact time evolution e^{−iHt} using Qiskit's matrix exponentiation (SciPy expm). (b) Implement first-order Trotter for r = 5, 10, 20, 50, 100 steps. (c) Implement second-order Suzuki for r = 5, 10, 20, 50, 100 steps. (d) For each r and order, compute the operator error ||U\_Trotter − U\_exact||\_F (Frobenius norm) and plot error vs r on a log-log scale. (e) Fit the data to error = C·r^{−α} and verify α ≈ −1 for first-order and α ≈ −2 for second-order. (f) For r=10 (second-order), measure the magnetisation ⟨Z₀⟩(t) for t = 0, 0.5, 1.0, ..., 3.0 and compare with the exact result. Report the maximum absolute deviation.
+
+**[PA-2.2]  VQE for H₂ Potential Energy Curve:**
+
+Use Qiskit Nature and VQE to compute the ground-state potential energy curve of H₂ as a function of bond distance R from 0.5 Å to 3.0 Å in steps of 0.1 Å. For each R: (a) use PySCFDriver to compute the molecular integrals in STO-3G basis; (b) perform Jordan-Wigner mapping to a 4-qubit Hamiltonian; (c) run VQE with UCCSD ansatz (COBYLA optimiser, 500 iterations); (d) also compute the Hartree-Fock energy (classical) and FCI energy (exact diagonalisation). Plot the three potential energy curves (HF, VQE/UCCSD, FCI) on the same figure. Mark the equilibrium bond length and dissociation energy. Report: (i) equilibrium bond length from VQE vs FCI; (ii) dissociation energy from VQE vs FCI; (iii) maximum deviation |E\_VQE − E\_FCI| across the curve; (iv) number of VQE iterations needed at R = 0.74 Å vs R = 2.5 Å.
+
+**[PA-2.3]  Qubitisation Walk Operator for Simple Hamiltonians:**
+
+Implement the qubitisation walk operator W for the 2-qubit Hamiltonian H = 0.8·ZZ − 0.4·XX − 0.2·YY (3 Pauli terms, α=1.4) using Qiskit. (a) Implement the PREPARE oracle as a single Ry rotation on a 2-ancilla register (generalise to 3 terms using a binary tree circuit). (b) Implement the SELECT oracle as controlled-ZZ, controlled-XX, and controlled-YY operations. (c) Construct the walk operator W = (2Π\_G − I)(2|ψ\_BE⟩⟨ψ\_BE| − I). (d) Diagonalise W numerically and verify that the eigenphases φⱼ = arccos(λⱼ/α) match the eigenvalues λⱼ of H. (e) Apply QPE on W using 6 clock qubits to estimate the eigenvalues of H. Compare QPE results with exact eigenvalues from numpy.linalg.eigvalsh(H.to\_matrix()). Report: QPE accuracy (mean absolute error) and the circuit depth of one walk operator application.
+
+## F. Project Suggestions
+
+**Project 2.A — Quantum Simulation of the TFIM Phase Transition:**
+
+Perform a comprehensive Trotter simulation study of the transverse-field Ising model quantum phase transition using Qiskit. (a) Simulate the TFIM for n = 4, 6, 8 qubits using 2nd-order Trotter (r = 50 steps, t = 5) for the following values of h/J: 0.2, 0.4, 0.6, 0.8, 0.9, 1.0, 1.1, 1.2, 1.4, 1.6, 1.8, 2.0. (b) For each (n, h/J) pair, compute the order parameter ⟨Z⟩ (average magnetisation), the susceptibility χ = d⟨Z⟩/dh, and the correlation length estimator C(r) = ⟨Z₀Zᵣ⟩ (correlation function). (c) Plot ⟨Z⟩ vs h/J for all n values: identify the quantum critical point (h/J → 1 from finite-size). (d) Perform a finite-size scaling analysis: fit χ\_max(n) ∝ n^{γ/ν} to extract the critical exponent ratio γ/ν (known value: γ/ν = 7/4 for the 1D TFIM in the Ising universality class). (e) Run the n=4 simulation on IBM Quantum hardware (with error mitigation via ZNE or symmetry verification) and compare with noiseless simulation. Write a 15-page report including: theoretical background of the TFIM and its critical point, Trotter error analysis, simulation results, finite-size scaling analysis, and hardware results with noise analysis.
+
+**Project 2.B — VQE for Molecular Chemistry: H₂ to LiH:**
+
+Perform a comprehensive VQE study for H₂ and LiH molecules using Qiskit Nature. Part A (H₂): (a) Full potential energy curve from R=0.5 to 3.0Å in STO-3G and cc-pVDZ basis sets. (b) Compare UCCSD vs hardware-efficient ansatz (2-layer CNOT brickwork) for VQE accuracy. (c) Run on IBM Quantum hardware (AerSimulator with noise model from ibm\_brisbane) and compare fidelity with noiseless VQE. Part B (LiH): (a) Reduce the Hamiltonian using particle-number and Z₂ symmetry tapering (reduce from 12 to 6 qubits). (b) Implement UCCSD with 26 parameters and hardware-efficient ansatz with 12 parameters. (c) Compute the equilibrium energy, bond length, and vibrational frequency. (d) Study barren plateaus: initialise VQE with random parameters 100 times for each ansatz and plot the distribution of initial gradients. Verify exponential variance suppression for the deep hardware-efficient ansatz. Write a 15-page report.
+
+**Project 2.C — Hubbard Model: Mott Transition and Quantum Correlations:**
+
+Implement Trotter simulation of the 1D Fermi-Hubbard model and study the Mott metal-insulator transition. (a) Implement the Jordan-Wigner mapped Hubbard Hamiltonian for L=2, 3, 4 sites (2L, 3L, ... = 4, 6, 8 qubits) using Qiskit SparsePauliOp. (b) For L=2 (4 qubits), compute the exact ground state energy vs U/t for U/t ∈ {0, 1, 2, 4, 6, 8, 10} using exact diagonalisation. (c) Compute the double occupancy D = ⟨n\_{i↑}n\_{i↓}⟩ vs U/t — this is the Mott order parameter. (d) Implement 2nd-order Trotter simulation for L=2 at U/t = 0, 4, and 10, starting from the HF state, and track D(t) for t = 0 to 3. (e) Implement VQE (with a UCCSD-like fermionic ansatz) to find the ground state energy for each U/t and compare with exact diagonalisation. (f) Compare Trotter circuit depth requirements for U/t = 0 (free fermions, exactly soluble) vs U/t = 10 (strongly correlated). Write a 15-page report including: the physics of the Mott transition, your numerical results, the sign problem discussion, and outlook for quantum advantage in condensed matter simulation.
+
+## References and Further Reading — Chapters 1–2
+
+### Primary Textbooks
+
+Nielsen M.A. and Chuang I.L. (2010). Quantum Computation and Quantum Information (10th Anniversary Ed.). Cambridge University Press. — The definitive graduate reference. Chapter 5 (QPE, Shor), Chapter 6 (Grover, amplitude amplification), Chapter 7 (quantum walk and simulation) cover all Unit I material.
+
+Childs A.M. (2022). Lecture Notes on Quantum Algorithms. University of Maryland. Available at: www.cs.umd.edu/~amchilds/qa/ — The clearest modern treatment of Shor, HHL, and quantum walk algorithms.
+
+Babbush R., Berry D., McClean J., Neven H. (2023). Focus beyond Quadratic Speedups for Error-Corrected Quantum Advantage. PRX Quantum 2, 010103. — Essential reading for honest assessment of quantum advantage.
+
+Hidary J.D. (2021). Quantum Computing: An Applied Approach (2nd Ed.). Springer. — Strong Qiskit integration, recommended for programming assignments.
+
+### Shor's Algorithm and Post-Quantum Cryptography
+
+Shor P.W. (1994). Algorithms for Quantum Computation: Discrete Logarithms and Factoring. FOCS 1994, 124–134. — The original paper.
+
+Beauregard S. (2003). Circuit for Shor's Algorithm Using 2n+3 Qubits. Quantum Information &amp; Computation 3(2), 175–185.
+
+NIST (2024). Post-Quantum Cryptography Standardization. FIPS 203 (Kyber), FIPS 204 (Dilithium), FIPS 205 (SPHINCS+). csrc.nist.gov/pqc.
+
+Tang E. (2019). A Quantum-Inspired Classical Algorithm for Recommendation Systems. STOC 2019. — The dequantisation result.
+
+Harrow A.W., Hassidim A., Lloyd S. (2009). Quantum Algorithm for Linear Systems of Equations. PRL 103, 150502. — The HHL paper.
+
+### Quantum Walks and Amplitude Amplification
+
+Brassard G., Hoyer P., Mosca M., Tapp A. (2002). Quantum Amplitude Amplification and Estimation. AMS Contemporary Mathematics 305, 53–74.
+
+Ambainis A. (2004). Quantum Walk Algorithm for Element Distinctness. FOCS 2004. — The O(N²⁄³) quantum walk result.
+
+Szegedy M. (2004). Quantum Speed-Up of Markov Chain Based Algorithms. FOCS 2004. — The general quantum walk framework.
+
+Childs A.M., Goldstone J. (2004). Spatial Search by Quantum Walk. Physical Review A 70, 022314.
+
+### Quantum Simulation
+
+Lloyd S. (1996). Universal Quantum Simulators. Science 273, 1073–1078. — The original Trotter simulation paper.
+
+Berry D.W., Childs A.M., Kothari R. (2015). Hamiltonian Simulation with Nearly Optimal Dependence on All Parameters. FOCS 2015. — Qubitisation.
+
+Low G.H., Chuang I.L. (2019). Hamiltonian Simulation by Qubitization. Quantum 3, 163. — The definitive QSP paper.
+
+Peruzzo A. et al. (2014). A Variational Eigenvalue Solver on a Quantum Processor. Nature Communications 5, 4213. — VQE original paper.
+
+McClean J.R., Boixo S., Smelyanskiy V.N., Babbush R., Neven H. (2018). Barren Plateaus in Quantum Neural Network Training Landscapes. Nature Communications 9, 4812.
+
+Reiher M., Wiebe N., Svore K.M., Wecker D., Troyer M. (2017). Elucidating Reaction Mechanisms on Quantum Computers. PNAS 114(29), 7555–7560. — FeMoco resource estimation.
+
+Jordan-Wigner (1928). Über das Paulische Äquivalenzverbot. Z. Phys. 47, 631. — The original JW transformation.
+
+Trotter H.F. (1959). On the Product of Semi-Groups of Operators. Proc. AMS 10, 545–551.
+
+Suzuki M. (1991). General Theory of Fractal Path Integrals. J. Math. Phys. 32, 400–407.
+
+### India's National Quantum Mission and Quantum Computing in India
+
+Department of Science and Technology (2023). National Quantum Mission: Mission Document. Government of India, Cabinet Approval April 2023. ₹6,003 crore over 8 years.
+
+CERT-In (2023). Advisory on Post-Quantum Cryptography Migration for Critical Infrastructure. Ministry of Electronics and Information Technology, Government of India.
+
+QpiAI, BosonQ Psi, QPIndia — Indian quantum computing start-ups with hardware and software focus areas relevant to simulation and cryptography applications.
+
+IIT Bombay, IISc Bengaluru, IIT Madras, IIT Delhi, IISER Pune — NQM hub institutions for quantum computing research and talent development.
+
+### Online Resources
+
+IBM Quantum Learning: learning.quantum.ibm.com — Interactive Qiskit tutorials including VQE, QPE, and Trotter simulation notebooks.
+
+Qiskit Documentation: qiskit.org/documentation — API reference and algorithm implementations.
+
+Quantum Open Source Foundation: qosf.org — Curated learning resources for open-source quantum software.
+
+arXiv:quant-ph — Primary preprint server for all quantum computing research.
+
+PennyLane Documentation: pennylane.ai — Alternative quantum ML and simulation framework with differentiable programming.

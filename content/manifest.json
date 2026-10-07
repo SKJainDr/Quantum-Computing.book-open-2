@@ -44,7 +44,11 @@
     "title": "Chapter 10 \u2014 Quantum Transfer Learning, Data Encoding Strategies & Dequantisation"
   },
   {
-    "file": "11-index.md",
+    "file": "11-chapter-11.md",
+    "title": "Chapter 11 \u2014 Current Frontiers and the Path Ahead"
+  },
+  {
+    "file": "12-index.md",
     "title": "Index & Back Matter"
   }
 ]

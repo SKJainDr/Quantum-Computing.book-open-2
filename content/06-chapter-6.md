@@ -1,11 +1,11 @@
 # CHAPTER 6
 
-# Surface Codes, Threshold Theorem & Fault-Tolerant Architecture
+# Surface Codes, Threshold Theorem &amp; Fault-Tolerant Architecture
 
 *Topological Codes  |  Threshold Theorem  |  Magic State Distillation  |  Resource Estimates  |  IBM 2023*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Chapter Epigraph — Austin Fowler, UCSB, 2012</strong></p>
+<p class="box-title"><strong>📜 Chapter Epigraph — Austin Fowler, UCSB, 2012</strong></p>
 <p>"The surface code is the most promising path to fault-tolerant quantum computing.</p>
 <p>It requires only nearest-neighbour interactions on a 2D lattice, has a threshold of about 1%,</p>
 <p>and its logical error rate can be made exponentially small by increasing the code distance."</p>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 6 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 6 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Describe the surface code on a 2D qubit lattice: data qubits, X-checks, Z-checks</p>
 <p>•  Explain the topological interpretation: logical qubit as a non-contractible loop</p>
@@ -29,7 +29,7 @@
 The codes in Chapter 5 (Shor, Steane) require all-to-all connectivity — qubits in the code interact with arbitrary other qubits. This is physically unrealistic for hardware, where qubits can only interact with nearest neighbours. Topological codes solve this by placing qubits on a 2D lattice, requiring only local interactions.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Kitaev's Toric Code and the Discovery of Topological Order (1997)</strong></p>
+<p class="box-title"><strong>📜 Kitaev's Toric Code and the Discovery of Topological Order (1997)</strong></p>
 <p>In 1997, Alexei Kitaev introduced the toric code — a quantum error-correcting code defined on a torus</p>
 <p>(a square lattice with periodic boundary conditions). His profound insight: the code's logical information</p>
 <p>was TOPOLOGICAL — encoded in the non-contractible loops of the torus, making it immune to any local perturbation.</p>
@@ -50,21 +50,17 @@ The surface code is the leading candidate for fault-tolerant quantum computing i
 A distance-d surface code is defined on a (2d−1) × (2d−1) effective lattice containing:
 
 - d² data qubits (on a d × d sub-lattice)
-
 - X-type check qubits: plaquette operators measuring X⊗X⊗X⊗X on 4 neighbours
-
 - Z-type check qubits: vertex operators measuring Z⊗Z⊗Z⊗Z on 4 neighbours
-
 - Total physical qubits: 2d² − 1  (for 1 logical qubit)
 
-<img class="fig-img" src="content/images/image19.png" alt="figure">
+<img class="fig-img" src="content/images/image40.png" alt="figure">
 
 **Figure 4: Surface Code d=3: 2D Qubit Lattice** *— 9 data qubits (blue circles), 4 X-plaquette checks (blue diamonds), 4 Z-vertex checks (orange diamonds); 17 physical qubits total encode 1 logical qubit with distance d=3*
 
 ### 6.2.2 Stabiliser Generators
 
 - Plaquette (X-type) stabiliser: A\_p = ⊗\_{q ∈ ∂p} X\_q — product of X on all qubits around a plaquette.
-
 - Vertex (Z-type) stabiliser: B\_v = ⊗\_{q ∈ ∂v} Z\_q — product of Z on all qubits around a vertex.
 
 ### 6.2.3 Logical Operators — Topological Strings
@@ -72,13 +68,12 @@ A distance-d surface code is defined on a (2d−1) × (2d−1) effective lattice
 The logical operators X\_L and Z\_L of the surface code are STRING operators — connected chains of qubits spanning the lattice from one boundary to the opposite:
 
 - X\_L: A horizontal chain of X operators from left boundary to right boundary
-
 - Z\_L: A vertical chain of Z operators from top boundary to bottom boundary
 
 The code distance d is the minimum length of such a string — for a d × d lattice, exactly d, confirming the code distance.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Topological Interpretation: Anyons and Error Correction</strong></p>
+<p class="box-title"><strong>🔑 Topological Interpretation: Anyons and Error Correction</strong></p>
 <p>The surface code stores logical information in the global topology of error strings.</p>
 <p>A physical error creates a pair of syndrome defects ('anyons') at its endpoints.</p>
 <p>As errors accumulate, defect pairs may separate further and further apart.</p>
@@ -93,19 +88,16 @@ The code distance d is the minimum length of such a string — for a d × d latt
 
 In practice, syndrome measurement is itself noisy. The surface code syndrome extraction circuit uses ancilla qubits that interact with 4 neighbouring data qubits via CNOT gates, then measures the ancilla to obtain the syndrome bit.
 
-<img class="fig-img" src="content/images/image20.png" alt="figure">
+<img class="fig-img" src="content/images/image41.png" alt="figure">
 
 **Figure 5: X-Plaquette Syndrome Extraction Circuit** *— 4 CNOT gates + 1 ancilla qubit measure the X-plaquette operator; +1 outcome = no error, −1 = syndrome detected*
 
 ### 6.3.1 Minimum Weight Perfect Matching (MWPM) Decoder
 
-- Collect all syndrome defects (check qubits where stabiliser measurement = −1)
-
-- Construct a complete graph with defects as nodes; edge weight = distance between defects
-
-- Find the minimum-weight perfect matching using Edmonds' blossom algorithm
-
-- For each matched pair, apply correction along the shortest path between them
+1. Collect all syndrome defects (check qubits where stabiliser measurement = −1)
+2. Construct a complete graph with defects as nodes; edge weight = distance between defects
+3. Find the minimum-weight perfect matching using Edmonds' blossom algorithm
+4. For each matched pair, apply correction along the shortest path between them
 
 MWPM runs in time O(n³) classically and must operate faster than the physical gate time (~1 μs for superconducting qubits). Modern decoders use neural networks, Union-Find algorithms (nearly linear time), and hardware-accelerated FPGA implementations.
 
@@ -114,7 +106,7 @@ MWPM runs in time O(n³) classically and must operate faster than the physical g
 The threshold theorem is arguably the most important theoretical result in quantum computing. It proves that quantum error correction works: if the physical error rate is below a critical threshold, increasing the code distance exponentially suppresses the logical error rate.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 6.1  The Threshold Theorem (Aharonov-Ben-Or; Kitaev; Knill-Laflamme-Zurek — 1996-1997)</strong></p>
+<p class="box-title"><strong>Theorem 6.1 The Threshold Theorem (Aharonov-Ben-Or; Kitaev; Knill-Laflamme-Zurek — 1996-1997)</strong></p>
 <p>There exists a constant threshold error rate p_th &gt; 0 such that if the physical gate error</p>
 <p>rate p &lt; p_th, then a quantum circuit of size L can be executed to arbitrary precision</p>
 <p>using only poly-log(L) overhead in qubits and gates.</p>
@@ -129,7 +121,7 @@ The threshold theorem is arguably the most important theoretical result in quant
 </div>
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  The Threshold Debate of 1996 — Landauer, Unruh, and the Sceptics</strong></p>
+<p class="box-title"><strong>📜 The Threshold Debate of 1996 — Landauer, Unruh, and the Sceptics</strong></p>
 <p>The threshold theorem was proved almost simultaneously by three groups in 1996:</p>
 <p>Aharonov and Ben-Or; Kitaev; and Knill, Laflamme, and Zurek.</p>
 <p>Before these proofs, many physicists — including Rolf Landauer and Bill Unruh — had argued that the</p>
@@ -142,7 +134,7 @@ The threshold theorem is arguably the most important theoretical result in quant
 <p>IBM's 2023 Nature paper was the first experimental evidence of the threshold theorem in action.</p>
 </div>
 
-| Code | Noise Model | Threshold p_th | Notes |
+| **Code** | **Noise Model** | **Threshold p\_th** | **Notes** |
 |---|---|---|---|
 | Concatenated [[7,1,3]] Steane | Depolarising | ~0.01% (10⁻⁴) | Requires long-range connectivity |
 | Surface code | Depolarising + MWPM | ~1.0% | Nearest-neighbour; leading candidate |
@@ -150,7 +142,7 @@ The threshold theorem is arguably the most important theoretical result in quant
 | Toric code | Independent X/Z | ~11% (theoretical) | Optimal but unachievable in practice |
 | Color code (2D) | Depolarising | ~0.1% | Has transversal T gate; lower threshold |
 
-<img class="fig-img" src="content/images/image21.png" alt="figure">
+<img class="fig-img" src="content/images/image42.png" alt="figure">
 
 **Figure 6: Surface Code: Logical vs Physical Error Rate** *— Below threshold p\_th≈1%, increasing distance d exponentially suppresses p\_L; above threshold, larger codes make things worse*
 
@@ -164,20 +156,17 @@ As established in Chapter 5, the Clifford group (H, S, CNOT) is not computationa
 
 A magic state |T⟩ = T|+⟩ = (|0⟩ + e^(iπ/4)|1⟩)/√2 enables fault-tolerant T gates via gate teleportation using only Clifford operations:
 
-- Prepare |T⟩ ⊗ |ψ⟩ (magic state ⊗ target qubit)
-
-- Apply CNOT from |ψ⟩ to |T⟩
-
-- Measure |T⟩ in the X basis
-
-- Apply classically-controlled S correction if measurement = −1
+1. Prepare |T⟩ ⊗ |ψ⟩ (magic state ⊗ target qubit)
+2. Apply CNOT from |ψ⟩ to |T⟩
+3. Measure |T⟩ in the X basis
+4. Apply classically-controlled S correction if measurement = −1
 
 The magic state is CONSUMED in the process. To perform M T gates, we need M magic states. Since physical T gates are noisy, we must PURIFY noisy magic states — this is magic state distillation.
 
 ### 6.5.2 The Bravyi-Kitaev 15-to-1 Distillation Protocol
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Bravyi-Kitaev 15-to-1 Distillation Protocol (2005)</strong></p>
+<p class="box-title"><strong>🔑 Bravyi-Kitaev 15-to-1 Distillation Protocol (2005)</strong></p>
 <p>Input:   15 noisy magic states with fidelity F = 1 − ε</p>
 <p>Output:  1 high-fidelity magic state with fidelity 1 − 35ε³</p>
 <p>The protocol uses ONLY Clifford operations (which are fault-tolerant on stabiliser codes),</p>
@@ -193,7 +182,7 @@ The magic state is CONSUMED in the process. To perform M T gates, we need M magi
 
 The most commonly cited target for fault-tolerant quantum computing is factoring RSA-2048 — the 2048-bit public key used in most current internet security. Physical resource requirements have been carefully studied.
 
-| Reference | Year | Logical Qubits | Physical Qubits | Time Estimate |
+| **Reference** | **Year** | **Logical Qubits** | **Physical Qubits** | **Time Estimate** |
 |---|---|---|---|---|
 | Beauregard | 2003 | ~4,099 | ~100K (rough) | ~1 year |
 | Fowler, Martinis et al. | 2012 | ~4,000 | ~1 billion | ~27 hours |
@@ -202,7 +191,7 @@ The most commonly cited target for fault-tolerant quantum computing is factoring
 | Sanders et al. (optimised) | 2023 | ~4,500 | ~4 million | ~1 week |
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Why ~20 Million Physical Qubits? The Key Arithmetic</strong></p>
+<p class="box-title"><strong>🌐 Why ~20 Million Physical Qubits? The Key Arithmetic</strong></p>
 <p>Requirements for RSA-2048 factoring via Shor's algorithm:</p>
 <p>1.  Logical qubits: ~4,000 (for 2048-bit modular arithmetic in Shor's circuit)</p>
 <p>2.  T-gate count: ~3 × 10⁹ T gates (from optimised Shor's circuit analysis)</p>
@@ -219,14 +208,14 @@ The most commonly cited target for fault-tolerant quantum computing is factoring
 
 In 2023, IBM Research published a landmark paper in Nature demonstrating, for the first time, that a larger surface code outperforms a smaller one — providing the first direct experimental evidence that the threshold theorem works in practice.
 
-| Code Distance d | Physical Qubits | Logical Error Rate per Round | Improvement vs d=3 |
+| **Code Distance d** | **Physical Qubits** | **Logical Error Rate per Round** | **Improvement vs d=3** |
 |---|---|---|---|
 | d = 3 | 17 qubits | 3.0 × 10⁻³ | Baseline |
 | d = 5 | 49 qubits | 2.1 × 10⁻³ | 30% improvement |
 | d = 7 | 97 qubits | 1.7 × 10⁻³ | 43% improvement |
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  IBM 2023: What Was and Was NOT Demonstrated</strong></p>
+<p class="box-title"><strong>🔑 IBM 2023: What Was and Was NOT Demonstrated</strong></p>
 <p>DOES demonstrate:</p>
 <p>✓  Larger surface codes have lower logical error rates (threshold behaviour observed)</p>
 <p>✓  Physical gate fidelity (Eagle processor, ~0.1% error) is sub-threshold</p>
@@ -243,13 +232,13 @@ In 2023, IBM Research published a landmark paper in Nature demonstrating, for th
 
 A complete fault-tolerant quantum computer requires multiple layers working together. Understanding this architecture is essential for appreciating both the engineering challenges and the long-term prospects.
 
-<img class="fig-img" src="content/images/image22.png" alt="figure">
+<img class="fig-img" src="content/images/image43.png" alt="figure">
 
 **Figure 7: Fault-Tolerant Quantum Computer: Full Architecture Stack** *— Six layers from physical qubits to user algorithm; QEC and magic state distillation dominate layers 2 and 3*
 
 ### 6.8.1 Concatenated Codes vs Surface Codes
 
-| Property | Concatenated Codes | Surface Codes |
+| **Property** | **Concatenated Codes** | **Surface Codes** |
 |---|---|---|
 | Threshold | ~10⁻⁴ (0.01%) | ~1% |
 | Connectivity required | All-to-all or hierarchical | 2D nearest-neighbour only |
@@ -259,7 +248,7 @@ A complete fault-tolerant quantum computer requires multiple layers working toge
 | Current experimental status | Demonstrated in small systems | IBM 2023: threshold demonstrated |
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 6 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 6 Summary</strong></p>
 <p>Surface code:           2D nearest-neighbour; [[2d²−1, 1, d]]; X-plaquette + Z-vertex stabilisers</p>
 <p>Logical operators:      X_L = horizontal string (length d); Z_L = vertical string (length d)</p>
 <p>Syndrome extraction:    4-qubit plaquette measurements via ancilla CNOT circuits</p>
@@ -273,7 +262,43 @@ A complete fault-tolerant quantum computer requires multiple layers working toge
 <p>IBM 2023 experiment:    d=3,5,7 surface codes: larger d → lower p_L (first threshold evidence)</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 6.9 Engineering Reality: Real-Time Decoding and Code Comparisons
+
+The threshold theorem proves that fault tolerance is possible in principle; it says nothing about how fast the classical control system must run to make it possible in practice. This closing section looks at that often-overlooked engineering constraint, and puts the surface code's error-suppression performance side by side with the concatenated codes introduced earlier in this chapter.
+
+### 6.9.1 The Decoding Bottleneck
+
+Every syndrome-measurement cycle on a superconducting surface code takes roughly one microsecond. A classical decoder - whether minimum-weight perfect matching, Union-Find, or a trained neural network - must process each new syndrome and output a correction well within that window, or errors accumulate faster than they can be tracked. This 'decoding bottleneck' has become as active an engineering research area as the codes themselves, driving specialised FPGA and ASIC decoder implementations that run physically alongside the cryostat rather than on a general-purpose classical computer.
+
+<figure class="book-figure">
+<img src="content/images/image44.png" alt="Figure 6.5: The Real-Time Decoding Pipeline for Surface-Code QEC">
+<figcaption>Figure 6.5: The Real-Time Decoding Pipeline for Surface-Code QEC</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>💡 Tip: Why Decoder Speed Is Not Optional</strong></p>
+<p>A decoder that is asymptotically more accurate but too slow is often worse in practice than a faster, slightly less accurate one, because a backlog of unprocessed syndromes effectively increases the system's error rate. When comparing decoders in the literature, always check reported latency alongside reported logical error rate - one without the other is an incomplete picture.</p>
+</div>
+
+### 6.9.2 Concatenated vs Surface Codes, Side by Side
+
+Concatenated codes (Section 6.2) and surface codes achieve fault tolerance through very different means - nested encoding layers versus a single, geometrically local 2D code - and this shows up starkly in their threshold behaviour. The surface code's much higher error threshold (around 1%, versus roughly 0.01% for many concatenated schemes) is precisely why it has become the leading near-term architecture, despite concatenated codes' historical priority and conceptual simplicity.
+
+<figure class="book-figure">
+<img src="content/images/image45.png" alt="Figure 6.6: Surface Codes Tolerate a Much Higher Physical Error Rate Than Concatenated Codes">
+<figcaption>Figure 6.6: Surface Codes Tolerate a Much Higher Physical Error Rate Than Concatenated Codes</figcaption>
+</figure>
+
+### 6.9.3 Worked Example: Surface-Code Overhead in Numbers
+
+A distance-d surface code uses 2d^2 - 1 physical data-and-ancilla qubits per logical qubit: d=5 needs 49 physical qubits, d=11 needs 241, and d=25 needs 1249 - for a single logical qubit. Multiplying by the hundreds or thousands of logical qubits a useful algorithm such as Shor's (Chapter 1) requires explains why fault-tolerant quantum computing is universally described in terms of millions, not thousands, of physical qubits.
+
+<figure class="book-figure">
+<img src="content/images/image46.png" alt="Figure 6.7: Surface-Code Physical Qubit Overhead Grows Quadratically with Distance">
+<figcaption>Figure 6.7: Surface-Code Physical Qubit Overhead Grows Quadratically with Distance</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
 
 Chapter 6: Surface Codes and Fault-Tolerant Computing
 
@@ -352,7 +377,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 6  Surface Code Logical Error Rate Calculation</strong></p>
+<p class="box-title"><strong>Solved Example 6 Surface Code Logical Error Rate Calculation</strong></p>
 <p>Problem: For a d=7 surface code with p = 0.3%, p_th = 1%, A = 0.1,</p>
 <p>calculate the logical error rate and compare to the physical rate.</p>
 <p>Formula: p_L ≈ A × (p / p_th)^⌈(d+1)/2⌉</p>
@@ -366,7 +391,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 7  Magic State Distillation Resource Calculation</strong></p>
+<p class="box-title"><strong>Solved Example 7 Magic State Distillation Resource Calculation</strong></p>
 <p>Problem: An algorithm needs M = 10⁶ T gates with target precision ε_T = 10⁻¹².</p>
 <p>Starting from ε₀ = 10⁻³, how many rounds of 15-to-1 distillation are needed?</p>
 <p>15-to-1 protocol: ε_out ≈ 35 × ε_in³  (per round)</p>
@@ -379,7 +404,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 8  Physical Qubit Count for RSA-1024</strong></p>
+<p class="box-title"><strong>Solved Example 8 Physical Qubit Count for RSA-1024</strong></p>
 <p>Problem: Estimate physical qubit count to factor RSA-1024 with surface code d=23.</p>
 <p>Assume: 2,000 logical qubits needed, 1.5×10⁹ T gates.</p>
 <p>Physical qubits per logical qubit (surface code, d=23):</p>
@@ -421,7 +446,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 ## Chapter 6 MCQs
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q16.  A distance-d surface code requires how many total physical qubits?</strong></p>
+<p class="box-title"><strong>Q16. A distance-d surface code requires how many total physical qubits?</strong></p>
 <p>(A)  d²</p>
 <p>(B)  2d−1</p>
 <p>(C)  2d²−1</p>
@@ -429,7 +454,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q17.  In the surface code, the logical X_L operator corresponds to:</strong></p>
+<p class="box-title"><strong>Q17. In the surface code, the logical X_L operator corresponds to:</strong></p>
 <p>(A)  A vertical Z-string from top to bottom</p>
 <p>(B)  A horizontal X-string from left to right boundary</p>
 <p>(C)  X operator on all qubits</p>
@@ -437,7 +462,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q18.  The threshold error rate for the surface code with MWPM decoding is approximately:</strong></p>
+<p class="box-title"><strong>Q18. The threshold error rate for the surface code with MWPM decoding is approximately:</strong></p>
 <p>(A)  0.01%</p>
 <p>(B)  0.1%</p>
 <p>(C)  1%</p>
@@ -445,7 +470,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q19.  The logical error rate formula for the surface code is:</strong></p>
+<p class="box-title"><strong>Q19. The logical error rate formula for the surface code is:</strong></p>
 <p>(A)  p_L ≈ p/d</p>
 <p>(B)  p_L ≈ A(p/p_th)^⌈(d+1)/2⌉</p>
 <p>(C)  p_L ≈ A·exp(−d·p)</p>
@@ -453,7 +478,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q20.  Magic state distillation is needed because:</strong></p>
+<p class="box-title"><strong>Q20. Magic state distillation is needed because:</strong></p>
 <p>(A)  T gate has lower fidelity</p>
 <p>(B)  No stabiliser code implements T transversally (Eastin-Knill); magic states provide an indirect route</p>
 <p>(C)  T gates need more physical qubits</p>
@@ -461,7 +486,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q21.  The 15-to-1 distillation protocol reduces magic state error as:</strong></p>
+<p class="box-title"><strong>Q21. The 15-to-1 distillation protocol reduces magic state error as:</strong></p>
 <p>(A)  ε → ε²</p>
 <p>(B)  ε → 35ε³</p>
 <p>(C)  ε → ε/15</p>
@@ -469,7 +494,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q22.  The T gate magic state is:</strong></p>
+<p class="box-title"><strong>Q22. The T gate magic state is:</strong></p>
 <p>(A)  |0⟩</p>
 <p>(B)  T|0⟩</p>
 <p>(C)  T|+⟩ = (|0⟩+e^(iπ/4)|1⟩)/√2</p>
@@ -477,7 +502,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q23.  Kitaev's toric code stores logical information in:</strong></p>
+<p class="box-title"><strong>Q23. Kitaev's toric code stores logical information in:</strong></p>
 <p>(A)  The energy of the ground state</p>
 <p>(B)  Non-contractible loops on the torus (topological invariants)</p>
 <p>(C)  The total parity of measurements</p>
@@ -485,7 +510,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q24.  The MWPM decoder for the surface code:</strong></p>
+<p class="box-title"><strong>Q24. The MWPM decoder for the surface code:</strong></p>
 <p>(A)  Measures all qubits</p>
 <p>(B)  Pairs syndrome defects by minimum total distance</p>
 <p>(C)  Uses quantum phase estimation</p>
@@ -493,7 +518,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q25.  IBM's 2023 experiment showed:</strong></p>
+<p class="box-title"><strong>Q25. IBM's 2023 experiment showed:</strong></p>
 <p>(A)  Logical error rate below 10⁻¹⁰</p>
 <p>(B)  Fault-tolerant logical gate operations</p>
 <p>(C)  Larger surface codes (d=5,7) outperform d=3 — threshold behaviour</p>
@@ -501,7 +526,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q26.  The threshold theorem was proved (1996-97) by:</strong></p>
+<p class="box-title"><strong>Q26. The threshold theorem was proved (1996-97) by:</strong></p>
 <p>(A)  Shor and Steane</p>
 <p>(B)  Aharonov-Ben-Or, Kitaev, and Knill-Laflamme-Zurek</p>
 <p>(C)  Google and IBM research teams</p>
@@ -509,7 +534,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q27.  The Gottesman-Knill theorem implies that:</strong></p>
+<p class="box-title"><strong>Q27. The Gottesman-Knill theorem implies that:</strong></p>
 <p>(A)  Clifford circuits are more powerful than classical</p>
 <p>(B)  Clifford circuits can be efficiently simulated classically</p>
 <p>(C)  Any quantum circuit can be Cliffordised</p>
@@ -517,7 +542,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q28.  For d=7, p=0.1%, p_th=1%, A=0.1, the logical error rate is approximately:</strong></p>
+<p class="box-title"><strong>Q28. For d=7, p=0.1%, p_th=1%, A=0.1, the logical error rate is approximately:</strong></p>
 <p>(A)  ≈ 10⁻⁷</p>
 <p>(B)  ≈ 10⁻⁸</p>
 <p>(C)  ≈ 10⁻⁵</p>
@@ -525,7 +550,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q29.  Surface code syndrome extraction for an X-plaquette uses:</strong></p>
+<p class="box-title"><strong>Q29. Surface code syndrome extraction for an X-plaquette uses:</strong></p>
 <p>(A)  3 H + 2 CNOT per check</p>
 <p>(B)  1 ancilla + 4 CNOT + H before/after measurement</p>
 <p>(C)  Direct measurement of 4 data qubits</p>
@@ -533,7 +558,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q30.  Approximate physical qubits to factor RSA-2048 with a surface code:</strong></p>
+<p class="box-title"><strong>Q30. Approximate physical qubits to factor RSA-2048 with a surface code:</strong></p>
 <p>(A)  ~1,000</p>
 <p>(B)  ~100,000</p>
 <p>(C)  ~4–20 million</p>
@@ -541,13 +566,13 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 5 (Q1–Q15)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 5 (Q1–Q15)</strong></p>
 <p>Q1:B   Q2:B   Q3:B   Q4:B   Q5:C   Q6:B   Q7:C   Q8:A   Q9:D   Q10:B</p>
 <p>Q11:B   Q12:B   Q13:B   Q14:B   Q15:C</p>
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 6 (Q16–Q30)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 6 (Q16–Q30)</strong></p>
 <p>Q16:C   Q17:B   Q18:C   Q19:B   Q20:B   Q21:B   Q22:B   Q23:B   Q24:B   Q25:C</p>
 <p>Q26:B   Q27:B   Q28:B   Q29:B   Q30:C</p>
 </div>
@@ -576,10 +601,35 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 
 **Q20.** Describe IBM's 2023 surface code experiment. What was demonstrated, and why is it significant? What further milestones must be reached before fault-tolerant computation is practical?
 
+## E. Programming / Research Assignments
+
+<div class="box box-real-world">
+<p class="box-title"><strong>🌐 Assignment 1: Distance-3 Surface Code Syndrome Extraction</strong></p>
+<p>Build and simulate the syndrome extraction circuit for the distance-3 surface code in Qiskit:</p>
+<p>(a) Lay out the 9 data qubits and 8 syndrome (ancilla) qubits of the d=3 surface code on a 2D grid</p>
+<p>(b) Construct the 4 X-plaquette and 4 Z-plaquette syndrome extraction circuits explicitly, using CNOT gates in the standard order that avoids hook errors</p>
+<p>(c) Insert a single-qubit X or Z error on a randomly chosen data qubit and confirm the correct syndrome bits flip</p>
+<p>(d) Implement a simple lookup-table decoder for the resulting syndrome patterns</p>
+<p>(e) Run the full circuit under a depolarising noise model at p = 0.001, 0.005, 0.01, 0.02 and record the logical error rate at each</p>
+<p>(f) Plot logical error rate vs physical error rate and compare the trend to the expected p_L ~ (p/p_th)^2 scaling for d=3</p>
+<p>Deliverable: Qiskit notebook with the complete syndrome-extraction circuit, decoder, and error-rate plot, plus a 2-page write-up.</p>
+</div>
+
+<div class="box box-real-world">
+<p class="box-title"><strong>🌐 Assignment 2: Numerically Verifying the Threshold Theorem</strong></p>
+<p>Use Monte Carlo simulation to empirically locate the surface code threshold and compare it to the ~1% theoretical value:</p>
+<p>(a) Implement (or reuse) surface code simulations at distances d = 3, 5, and 7 under a depolarising noise model</p>
+<p>(b) Sweep the physical error rate p from 0.001 to 0.03 in at least 10 steps for each distance</p>
+<p>(c) For each (d, p) pair, run enough Monte Carlo trials to estimate the logical error rate p_L to within 10% relative error</p>
+<p>(d) Plot p_L vs p for all three distances on the same axes and identify the approximate crossing point where increasing d stops helping</p>
+<p>(e) Compare the empirically located threshold to the surface code’s theoretical threshold of approximately 1%, and discuss any discrepancy (finite-size effects, decoder suboptimality, trial count)</p>
+<p>Deliverable: Simulation notebook covering all three code distances + a 3-page report with the threshold plot and discussion.</p>
+</div>
+
 ## F. Project Suggestions
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 1: Surface Code Simulator with MWPM Decoder</strong></p>
+<p class="box-title"><strong>🔑 Project 1: Surface Code Simulator with MWPM Decoder</strong></p>
 <p>Build a complete distance-d surface code simulator from scratch:</p>
 <p>• Implement the d × d data qubit lattice with X-plaquette and Z-vertex stabilisers</p>
 <p>• Generate random X and Z errors under depolarising noise model p</p>
@@ -593,7 +643,7 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 2: Magic State Distillation Protocol Implementation</strong></p>
+<p class="box-title"><strong>🔑 Project 2: Magic State Distillation Protocol Implementation</strong></p>
 <p>Implement and analyse magic state distillation:</p>
 <p>• Implement the Bravyi-Kitaev 15-to-1 distillation circuit in Qiskit</p>
 <p>• Model noisy T gate: ρ → (1−ε)T ρ T† + ε/3(XρX+YρY+ZρZ)</p>
@@ -603,3 +653,30 @@ A threshold of about 1% means that if the physical two-qubit gate error rate can
 <p>• Compare to directly using noisy T gate at hardware error rate</p>
 <p>Deliverable: Jupyter notebook + technical report on distillation overhead.</p>
 </div>
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🔑 Project 3: Resource Estimation Tool for Fault-Tolerant Algorithms</strong></p>
+<p>Build a Python tool that estimates physical resources for fault-tolerant algorithms:</p>
+<p>Inputs: logical qubits, T-gate count, target logical error rate, physical error rate p</p>
+<p>Outputs: minimum code distance d, physical qubit count, T factory count, runtime</p>
+<p>• Compute minimum d satisfying p_L ≤ ε_L for given p and p_th</p>
+<p>• Compute physical qubit count: logical × (2d²−1) + factory overhead</p>
+<p>• Compute number of 15-to-1 distillation rounds for target T precision</p>
+<p>• Estimate runtime based on syndrome extraction cycle time</p>
+<p>• Generate comparison table for: Grover (2^30 items), VQE N₂ molecule, RSA-1024, RSA-2048</p>
+<p>Deliverable: Python package + interactive Streamlit dashboard + report.</p>
+</div>
+
+## References and Further Reading — Chapter 6
+
+## Chapter 6 References
+
+- Kitaev, A.Yu. (2003). Fault-tolerant quantum computation by anyons. Annals of Physics, 303, 2–30.
+- Fowler, A.G., Martinis, J.M. et al. (2012). Surface codes: Towards practical large-scale quantum computation. Physical Review A, 86, 032324.
+- Bravyi, S. &amp; Kitaev, A. (2005). Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71, 022316.
+- Aharonov, D. &amp; Ben-Or, M. (1999). Fault-tolerant quantum computation with constant error rate. Proceedings 29th STOC.
+- Knill, E., Laflamme, R. &amp; Zurek, W.H. (1998). Resilient quantum computation. Science, 279, 342–345.
+- Dennis, E. et al. (2002). Topological quantum memory. Journal of Mathematical Physics, 43, 4452–4505.
+- Babbush, R. et al. (2021). Focus beyond quadratic speedups for error-corrected quantum advantage. PRX Quantum, 2, 010103.
+- Google Quantum AI (2023). Suppressing quantum errors by scaling a surface code logical qubit. Nature, 614, 676–681.
+- Webber, M. et al. (2022). The impact of hardware specifications on reaching quantum advantage. AVS Quantum Science, 4, 013801.

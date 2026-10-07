@@ -5,7 +5,7 @@
 *Complexity Classes  |  Query Complexity  |  The Polynomial Method  |  Quantum Lower Bounds*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Opening Reflection — Scott Aaronson, 2013</strong></p>
+<p class="box-title"><strong>📜 Opening Reflection — Scott Aaronson, 2013</strong></p>
 <p>"Complexity theory is the study of what is possible and what is not possible."</p>
 <p>— Scott Aaronson, 2013</p>
 <p>The deepest questions in computer science are not about faster hardware or better algorithms —</p>
@@ -15,7 +15,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 3 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 3 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Define and distinguish the complexity classes P, NP, BPP, BQP, QMA, PP, and PSPACE</p>
 <p>•  Prove or state the known containment relations: P ⊆ BPP ⊆ BQP ⊆ PP ⊆ PSPACE</p>
@@ -36,7 +36,7 @@ Computational complexity theory asks: given a computational problem, what resour
 The Church-Turing thesis asserts that any effectively computable function can be computed by a Turing machine. The complexity of an algorithm is measured in terms of: time complexity (steps as function of input length n), space complexity (tape cells used), and circuit complexity (gates in a Boolean circuit).
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  The Birth of Complexity Theory — Cook, Karp, and the P vs NP Problem</strong></p>
+<p class="box-title"><strong>📜 The Birth of Complexity Theory — Cook, Karp, and the P vs NP Problem</strong></p>
 <p>Computational complexity theory was born in the 1960s with Hartmanis and Stearns, who won the 1993 Turing</p>
 <p>Award for their foundational work. But the field came alive in 1971 when Stephen Cook published</p>
 <p>'The Complexity of Theorem Proving Procedures' — introducing NP-completeness and proving that SAT</p>
@@ -50,7 +50,7 @@ The Church-Turing thesis asserts that any effectively computable function can be
 
 The class P (polynomial time) contains all decision problems solvable by a deterministic Turing machine in time O(n^k) for some constant k. P is our formal definition of 'efficiently solvable'.
 
-| Problem | Input | Best Classical Algorithm | In P? |
+| **Problem** | **Input** | **Best Classical Algorithm** | **In P?** |
 |---|---|---|---|
 | Primality testing | n-bit integer | O(n⁶) AKS algorithm (2002) | YES |
 | Sorting | n numbers | O(n log n) merge sort | YES |
@@ -65,7 +65,7 @@ The class P (polynomial time) contains all decision problems solvable by a deter
 NP contains all decision problems where YES instances have a polynomial-length proof (certificate) verifiable in polynomial time.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 3.1  The Class NP</strong></p>
+<p class="box-title"><strong>Definition 3.1 The Class NP</strong></p>
 <p>A language L ⊆ {0,1}* is in NP if there exists a polynomial-time verifier V such that:</p>
 <p>x ∈ L  ⟺  ∃ certificate c with |c| ≤ poly(|x|) such that V(x, c) = 1</p>
 <p>Examples of NP problems:</p>
@@ -78,7 +78,7 @@ NP contains all decision problems where YES instances have a polynomial-length p
 ### 3.1.4 The Class BPP: Bounded-Error Probabilistic Polynomial Time
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 3.2  The Class BPP</strong></p>
+<p class="box-title"><strong>Definition 3.2 The Class BPP</strong></p>
 <p>A language L is in BPP if there exists a probabilistic polynomial-time Turing machine M such that:</p>
 <p>x ∈ L  ⟹  Pr[M(x) = 1] ≥ 2/3</p>
 <p>x ∉ L  ⟹  Pr[M(x) = 1] ≤ 1/3</p>
@@ -92,7 +92,7 @@ NP contains all decision problems where YES instances have a polynomial-length p
 BQP (bounded-error quantum polynomial time) is the quantum analogue of BPP — the class of problems solvable by a quantum computer with bounded error in polynomial time. BQP is the central complexity class of quantum computing.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 3.3  The Class BQP</strong></p>
+<p class="box-title"><strong>Definition 3.3 The Class BQP</strong></p>
 <p>A language L is in BQP if there exists a uniform family of quantum circuits {Q_n} of polynomial size such that:</p>
 <p>x ∈ L  ⟹  Pr[ Q_{|x|}(|x⟩) accepts ] ≥ 2/3</p>
 <p>x ∉ L  ⟹  Pr[ Q_{|x|}(|x⟩) accepts ] ≤ 1/3</p>
@@ -102,7 +102,7 @@ BQP (bounded-error quantum polynomial time) is the quantum analogue of BPP — t
 
 ### 3.2.1 Problems Known to Be in BQP
 
-| Problem | Classical Best | Quantum Complexity | Speedup Type |
+| **Problem** | **Classical Best** | **Quantum Complexity** | **Speedup Type** |
 |---|---|---|---|
 | Integer factoring (Shor) | Sub-exponential GNFS | O(n³) polynomial | Exponential |
 | Discrete logarithm (Shor) | Sub-exponential | O(n³) polynomial | Exponential |
@@ -116,12 +116,12 @@ BQP (bounded-error quantum polynomial time) is the quantum analogue of BPP — t
 
 The most important unresolved question about BQP is whether it strictly contains BPP. Shor's algorithm provides strong evidence that BQP ⊋ BPP, but no unconditional proof exists.
 
-<img class="fig-img" src="content/images/image12.png" alt="figure">
+<img class="fig-img" src="content/images/image19.png" alt="figure">
 
 **Figure 1: Quantum Complexity Class Hierarchy** *— Conjectured containment structure: P ⊆ BPP ⊆ BQP ⊆ PP ⊆ PSPACE; QMA = quantum NP; key unknown: NP ⊆ BQP?*
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 3.4  BQP Containment (all proven)</strong></p>
+<p class="box-title"><strong>Theorem 3.4 BQP Containment (all proven)</strong></p>
 <p>The following inclusions are proven:</p>
 <p>P ⊆ BPP ⊆ BQP ⊆ PP ⊆ PSPACE</p>
 <p>Proof sketches:</p>
@@ -136,7 +136,7 @@ The most important unresolved question about BQP is whether it strictly contains
 QMA (Quantum Merlin-Arthur) is the quantum analogue of NP. In QMA, a quantum verifier checks a quantum proof — a quantum state sent by the all-powerful prover 'Merlin'.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 3.5  The Class QMA</strong></p>
+<p class="box-title"><strong>Definition 3.5 The Class QMA</strong></p>
 <p>A language L is in QMA if there exists a polynomial-time quantum verifier V such that:</p>
 <p>x ∈ L  ⟹  ∃ quantum state |ψ⟩ (poly(n) qubits) s.t. Pr[V(x,|ψ⟩) accepts] ≥ 2/3</p>
 <p>x ∉ L  ⟹  for ALL states |ψ⟩: Pr[V(x,|ψ⟩) accepts] ≤ 1/3</p>
@@ -149,7 +149,7 @@ QMA (Quantum Merlin-Arthur) is the quantum analogue of NP. In QMA, a quantum ver
 The most important QMA-complete problem is the k-Local Hamiltonian problem — the quantum analogue of SAT. This result, proved by Kitaev in 1999, establishes QMA's 'hardness'.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  k-Local Hamiltonian Problem (k-LH)</strong></p>
+<p class="box-title"><strong>🔑 k-Local Hamiltonian Problem (k-LH)</strong></p>
 <p>INPUT: A k-local Hamiltonian H = Σᵢ Hᵢ on n qubits (each Hᵢ acts on at most k qubits),</p>
 <p>and two real numbers a &lt; b with b − a ≥ 1/poly(n).</p>
 <p>PROMISE: Either the ground state energy λ₀(H) ≤ a (YES instance),</p>
@@ -162,7 +162,7 @@ The most important QMA-complete problem is the k-Local Hamiltonian problem — t
 </div>
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Kitaev and the Quantum Cook-Levin Theorem (1999)</strong></p>
+<p class="box-title"><strong>📜 Kitaev and the Quantum Cook-Levin Theorem (1999)</strong></p>
 <p>Alexei Kitaev presented what is now called the 'Quantum Cook-Levin Theorem' at a workshop in 1999.</p>
 <p>The result was so elegant and profound that it circulated as an unpublished preprint for years before</p>
 <p>appearing in print. Kitaev proved it by constructing a 'clock Hamiltonian' — a quantum system whose</p>
@@ -174,7 +174,7 @@ The most important QMA-complete problem is the k-Local Hamiltonian problem — t
 
 ### 3.3.2 Other QMA-Complete Problems
 
-| Problem | Description | Reference |
+| **Problem** | **Description** | **Reference** |
 |---|---|---|
 | k-Local Hamiltonian | Ground energy of k-body quantum system | Kitaev 1999 |
 | Quantum k-SAT | Frustration-free quantum satisfiability | Bravyi 2006 |
@@ -192,13 +192,13 @@ QCMA (Quantum Classical Merlin-Arthur) is like QMA, but the proof (witness) is c
 
 ### 3.4.2 PP: Unbounded Error Probabilistic Polynomial Time
 
-PP contains all problems solvable by a probabilistic polynomial-time machine where acceptance probability > 1/2 for YES and ≤ 1/2 for NO. Unlike BPP, the gap can be exponentially small. The key fact BQP ⊆ PP is proved by showing any quantum amplitude is computable by a PP machine.
+PP contains all problems solvable by a probabilistic polynomial-time machine where acceptance probability &gt; 1/2 for YES and ≤ 1/2 for NO. Unlike BPP, the gap can be exponentially small. The key fact BQP ⊆ PP is proved by showing any quantum amplitude is computable by a PP machine.
 
 ### 3.4.3 The Polynomial Hierarchy and Boson Sampling
 
 The polynomial hierarchy PH = ∪\_k Σ\_k^P generalises P and NP. PH is believed to be infinite — if it collapses to any level, it implies NP = coNP (considered extremely unlikely). Quantum computing is believed NOT to collapse PH: Aaronson and Arkhipov (2011) showed that if quantum computers can be efficiently classically simulated, PH collapses to the third level.
 
-| Class | Informal Description | Relation to BQP |
+| **Class** | **Informal Description** | **Relation to BQP** |
 |---|---|---|
 | P | Efficiently decidable | P ⊆ BQP (proven) |
 | NP | Efficiently verifiable (classical) | NP ⊆ BQP? Unknown — major open problem |
@@ -214,11 +214,10 @@ The polynomial hierarchy PH = ∪\_k Σ\_k^P generalises P and NP. PH is believe
 Quantum circuit complexity is the study of the minimum number of gates required to prepare a given quantum state or implement a given unitary transformation. It connects to quantum chaos, cryptography, and — surprisingly — black hole physics.
 
 - polyQC (polynomial quantum circuit class): Unitaries implementable by poly-size quantum circuits — the 'efficient' set.
-
 - Most quantum states are computationally complex: only 2^poly(n) poly-size circuits exist, but 2^(2^n) quantum states.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Complexity Theory and Black Holes — Susskind &amp; Preskill (2014)</strong></p>
+<p class="box-title"><strong>📜 Complexity Theory and Black Holes — Susskind &amp; Preskill (2014)</strong></p>
 <p>In 2014, Leonard Susskind and John Preskill proposed a deep connection between quantum circuit complexity</p>
 <p>and the physics of black holes. Their 'Complexity = Action' and 'Complexity = Volume' conjectures</p>
 <p>relate the quantum computational complexity of the boundary state in AdS/CFT holography to the volume</p>
@@ -244,13 +243,13 @@ In the quantum query model, the algorithm accesses the oracle O\_f via:
 
 A quantum query algorithm alternates k applications of O\_f with fixed unitaries U₀, U₁, ..., U\_k, then measures. The quantum query complexity Q(f) is the minimum k achieving error ≤ 1/3.
 
-<img class="fig-img" src="content/images/image13.png" alt="figure">
+<img class="fig-img" src="content/images/image20.png" alt="figure">
 
 **Figure 2: Quantum Query Algorithm Structure** *— Fixed unitaries U₀,...,U\_k interleaved with k oracle queries O\_f; the minimum k is the quantum query complexity Q(f)*
 
 ### 3.6.2 Key Query Complexity Separations
 
-| Problem | D(f) Classical | Q(f) Quantum | Separation Type |
+| **Problem** | **D(f) Classical** | **Q(f) Quantum** | **Separation Type** |
 |---|---|---|---|
 | Deutsch (1-bit parity) | 2 queries | 1 query | 2× speedup |
 | Deutsch-Jozsa (promise parity) | N deterministic / O(1) randomised | 1 query | Exponential over D; 0 over BPP |
@@ -265,7 +264,7 @@ A quantum query algorithm alternates k applications of O\_f with fixed unitaries
 The polynomial method (Beals et al. 1998) is the main tool for proving quantum query lower bounds. Its key insight: any bounded quantum query algorithm computing f(x) can be modelled as a low-degree multivariate polynomial.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 3.6  The Polynomial Method (Beals-Buhrman-Cleve-Mosca-de Wolf 1998)</strong></p>
+<p class="box-title"><strong>Theorem 3.6 The Polynomial Method (Beals-Buhrman-Cleve-Mosca-de Wolf 1998)</strong></p>
 <p>Let f: {0,1}^N → {0,1}. If a quantum algorithm computes f with error ≤ 1/3 using T queries,</p>
 <p>then there exists a real multivariate polynomial p(x₁,...,x_N) of degree ≤ 2T such that:</p>
 <p>|p(x) − f(x)| ≤ 1/3   for all x ∈ {0,1}^N</p>
@@ -275,16 +274,16 @@ The polynomial method (Beals et al. 1998) is the main tool for proving quantum q
 <p>where deg̃(f) = minimum degree of any (1/3)-approximating polynomial for f.</p>
 </div>
 
-| Function f | Approximate Degree deg̃(f) | Quantum Query Lower Bound |
+| **Function f** | **Approximate Degree deg̃(f)** | **Quantum Query Lower Bound** |
 |---|---|---|
-| OR_N (any bit 1?) | Θ(√N) | Ω(√N) → proves Grover is OPTIMAL! |
-| AND_N (all bits 1?) | Θ(√N) | Ω(√N) |
+| OR\_N (any bit 1?) | Θ(√N) | Ω(√N) → proves Grover is OPTIMAL! |
+| AND\_N (all bits 1?) | Θ(√N) | Ω(√N) |
 | PARITY (XOR of N bits) | N (exact) | Ω(N) — NO quantum speedup possible! |
 | MAJORITY (more 1s than 0s?) | Θ(√N log N) to Θ(N) | Ω(N^(1/2)) |
 | Collision (f injective?) | Θ(N^(2/3)) | Ω(N^(1/3)) |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Why PARITY Has No Quantum Speedup</strong></p>
+<p class="box-title"><strong>⚠ Why PARITY Has No Quantum Speedup</strong></p>
 <p>The PARITY function (XOR of N bits) has approximate degree exactly N — it requires a polynomial</p>
 <p>of degree N to approximate it on {0,1}^N. By the polynomial method: Q(PARITY) = Ω(N).</p>
 <p>Classically, D(PARITY) = N as well. So quantum and classical have the SAME query complexity!</p>
@@ -300,7 +299,7 @@ The polynomial method (Beals et al. 1998) is the main tool for proving quantum q
 The Bennett-Bernstein-Brassard-Vazirani (BBBV) theorem of 1994 was the first rigorous quantum query lower bound, proving that Grover's O(√N) algorithm is OPTIMAL for unstructured search.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 3.7  BBBV Lower Bound (Bennett-Bernstein-Brassard-Vazirani 1994)</strong></p>
+<p class="box-title"><strong>Theorem 3.7 BBBV Lower Bound (Bennett-Bernstein-Brassard-Vazirani 1994)</strong></p>
 <p>Any quantum algorithm solving the unstructured search problem (OR_N) with success probability ≥ 2/3</p>
 <p>must make at least Ω(√N) queries to the oracle.</p>
 <p>Proof sketch (quantum progress argument):</p>
@@ -314,7 +313,7 @@ The Bennett-Bernstein-Brassard-Vazirani (BBBV) theorem of 1994 was the first rig
 ### 3.8.1 The Quantum Adversary Method
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 3.8  Adversary Bound (Ambainis 2002)</strong></p>
+<p class="box-title"><strong>Theorem 3.8 Adversary Bound (Ambainis 2002)</strong></p>
 <p>Let f: {0,1}^N → {0,1}. Choose X ⊆ f⁻¹(0), Y ⊆ f⁻¹(1), and relation R ⊆ X × Y.</p>
 <p>Let mx = |{y : (x,y) ∈ R}|, my = |{x : (x,y) ∈ R}|,</p>
 <p>and m_{x,i} = |{y : (x,y) ∈ R, xᵢ ≠ yᵢ}|.</p>
@@ -325,7 +324,7 @@ The Bennett-Bernstein-Brassard-Vazirani (BBBV) theorem of 1994 was the first rig
 <p>functions with 'intermediate' structure (e.g. element distinctness, triangle finding).</p>
 </div>
 
-<img class="fig-img" src="content/images/image14.png" alt="figure">
+<img class="fig-img" src="content/images/image21.png" alt="figure">
 
 **Figure 3: Quantum Speedup Taxonomy** *— Classification of known quantum speedups from exponential (Shor, Simon) to provably none (PARITY)*
 
@@ -334,7 +333,7 @@ The Bennett-Bernstein-Brassard-Vazirani (BBBV) theorem of 1994 was the first rig
 Simon's problem (1994) was the first problem to demonstrate an exponential quantum speedup — predating Shor's algorithm. It directly inspired Shor: when Shor saw Simon's use of the Hadamard transform to detect hidden periodicity, he realised the same idea could break RSA.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Simon's Problem Statement</strong></p>
+<p class="box-title"><strong>🔑 Simon's Problem Statement</strong></p>
 <p>INPUT: Oracle access to f: {0,1}^n → {0,1}^n</p>
 <p>PROMISE: Either f is one-to-one (injective), OR ∃ secret s ∈ {0,1}^n, s ≠ 0^n,</p>
 <p>such that f(x) = f(y) iff x ⊕ y ∈ {0^n, s}</p>
@@ -347,7 +346,7 @@ Simon's problem (1994) was the first problem to demonstrate an exponential quant
 Simon's algorithm: (1) Prepare |0^n⟩|0^n⟩, apply H^⊗n; (2) Query f; (3) Measure second register → collapse to (|x₀⟩+|x₀⊕s⟩)/√2; (4) Apply H^⊗n → get y with y·s = 0 (mod 2); (5) Repeat O(n) times; (6) Solve linear system by Gaussian elimination to find s.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Simon Inspires Shor — Two Papers That Changed the World</strong></p>
+<p class="box-title"><strong>📜 Simon Inspires Shor — Two Papers That Changed the World</strong></p>
 <p>Peter Shor has publicly stated that Simon's 1994 paper was the direct inspiration for his factoring algorithm.</p>
 <p>When Shor saw Simon's use of the Hadamard transform to detect hidden periodicity in {0,1}^n,</p>
 <p>he realised the same idea could be applied to Z_N to find the order of an element — which is</p>
@@ -359,7 +358,7 @@ Simon's algorithm: (1) Prepare |0^n⟩|0^n⟩, apply H^⊗n; (2) Query f; (3) Me
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 3 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 3 Summary</strong></p>
 <p>P:                Polynomial-time decidable; our formal notion of 'efficient computation'</p>
 <p>NP:               Polynomial-time verifiable; certificate-based; P vs NP is the $1M question</p>
 <p>BPP:              Randomised poly-time; P ⊆ BPP; most experts believe P = BPP</p>
@@ -374,9 +373,59 @@ Simon's algorithm: (1) Prepare |0^n⟩|0^n⟩, apply H^⊗n; (2) Query f; (3) Me
 <p>PARITY:           Q = D = N — no quantum speedup possible (polynomial method proof)</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 3.10 The Complexity Landscape, Simon’s Algorithm, and the Quantum PCP Frontier
 
-Chapter 3: Complexity Classes, Query Complexity & the Polynomial Method
+This chapter has introduced complexity classes one at a time - BQP here, QMA there - and it is easy to lose the forest for the trees. Before closing the chapter, it is worth stepping back and looking at how these classes actually nest inside one another, revisiting the historically pivotal Simon's algorithm that first proved an exponential quantum-classical gap, and previewing one of the field's genuinely open frontiers: the quantum PCP conjecture.
+
+### 3.10.1 The Class Landscape at a Glance
+
+P sits inside BPP (randomness can only help so much), which sits inside BQP (quantum resources can only help further still), which sits inside PP and, ultimately, PSPACE. Each containment is believed, but not proven, to be strict - proving P is properly contained in PSPACE, for instance, would resolve one of the most famous open problems in all of computer science. QMA, the quantum analogue of NP, sits alongside this chain rather than inside it: whether NP itself is contained in BQP - whether quantum computers can efficiently verify what they cannot efficiently solve - remains unknown.
+
+<figure class="book-figure">
+<img src="content/images/image22.png" alt="Figure 3.4: The Quantum Complexity Class Landscape">
+<figcaption>Figure 3.4: The Quantum Complexity Class Landscape</figcaption>
+</figure>
+
+### 3.10.2 Simon’s Algorithm Revisited
+
+Simon's problem (1994) asks: given a function f: {0,1}^n -&gt; {0,1}^n promised to be either one-to-one or exactly two-to-one with a hidden XOR-period s (f(x) = f(y) iff y = x XOR s), find s. Classically this requires Omega(2^(n/2)) queries by a birthday-paradox argument. Simon's quantum algorithm solves it with only O(n) queries - the first EXPONENTIAL separation ever proven between quantum and classical query complexity, and the direct inspiration for Shor's period-finding approach to factoring in Chapter 1.
+
+<figure class="book-figure">
+<img src="content/images/image23.png" alt="Figure 3.6: Simon&#x27;s Algorithm Circuit - Exponential Query Separation">
+<figcaption>Figure 3.6: Simon's Algorithm Circuit - Exponential Query Separation</figcaption>
+</figure>
+
+<div class="box box-math">
+<p class="box-title"><strong>🧮 Worked Comparison: Simon vs Grover vs Shor</strong></p>
+<p>Simon: O(n) quantum queries vs Omega(2^(n/2)) classical - EXPONENTIAL separation (query model). Grover: O(sqrt(N)) quantum queries vs O(N) classical - QUADRATIC separation (query model), and PROVABLY OPTIMAL (Bennett-Bernstein-Brassard-Vazirani 1997). Shor: O((log N)^3) quantum gates vs sub-exponential classical (GNFS) - EXPONENTIAL separation, but in the circuit model, not the query model, since factoring has no natural oracle formulation.</p>
+</div>
+
+### 3.10.3 The Quantum PCP Conjecture and NLTS
+
+The classical PCP theorem is one of the crown jewels of complexity theory: every proof that a solution to an NP problem exists can be rewritten so that a verifier need only read a constant number of randomly chosen bits to be convinced with high confidence. Does an analogous statement hold for QMA - can a quantum witness for a local Hamiltonian's ground-state energy be verified by measuring only a constant number of qubits? This is the quantum PCP conjecture, open since it was first posed in the mid-2000s. A major step toward resolving it came in 2022, when Anshu, Breuckmann and Nirkhe proved the NLTS (No Low-Energy Trivial State) theorem: local Hamiltonians exist whose low-energy states all require entanglement across an unbounded number of qubits, ruling out a whole family of would-be counterexamples to qPCP.
+
+<figure class="book-figure">
+<img src="content/images/image24.png" alt="Figure 3.5: The Quantum PCP Conjecture and NLTS - Why Local Checking Is Hard">
+<figcaption>Figure 3.5: The Quantum PCP Conjecture and NLTS - Why Local Checking Is Hard</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>🧭 Roadmap: Why This Matters for Error Correction</strong></p>
+<p>NLTS Hamiltonians are close cousins of the quantum LDPC codes you will meet in Chapter 5 - both rely on the same insight that carefully designed local constraints can force global entanglement. Keep the NLTS construction in mind when Chapter 5 introduces codes that beat the surface code's overhead.</p>
+</div>
+
+### 3.10.4 Worked Example: The Deutsch-Jozsa Algorithm
+
+Simon's algorithm had a predecessor: Deutsch-Jozsa (1992), which decides in a single query whether a function f: {0,1}^n -&gt; {0,1} is constant or balanced, versus the Omega(2^(n-1)+1) queries a deterministic classical algorithm needs in the worst case. Although the original problem is somewhat artificial, the circuit - Hadamards, an oracle, more Hadamards - is precisely the template that Simon's algorithm, and later Shor's algorithm, generalise into genuinely useful exponential speedups.
+
+<figure class="book-figure">
+<img src="content/images/image25.png" alt="Figure 3.7: Deutsch-Jozsa Circuit - Determining Constant vs Balanced in One Query">
+<figcaption>Figure 3.7: Deutsch-Jozsa Circuit - Determining Constant vs Balanced in One Query</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 3: Complexity Classes, Query Complexity &amp; the Polynomial Method
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -459,7 +508,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 1  Verifying BPP ⊆ BQP</strong></p>
+<p class="box-title"><strong>Solved Example 1 Verifying BPP ⊆ BQP</strong></p>
 <p>Problem: Show that any BPP algorithm can be simulated by a BQP algorithm.</p>
 <p>Proof: A BPP algorithm uses random bits r to compute f(x, r). A quantum algorithm can:</p>
 <p>1. Prepare |0^n⟩ and apply H^⊗n to create uniform superposition over all random strings r:</p>
@@ -472,7 +521,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 2  Polynomial Method: Lower Bound for AND₄</strong></p>
+<p class="box-title"><strong>Solved Example 2 Polynomial Method: Lower Bound for AND₄</strong></p>
 <p>Problem: Use the polynomial method to prove Q(AND₄) = Ω(2).</p>
 <p>AND₄(x₁,x₂,x₃,x₄) = x₁ · x₂ · x₃ · x₄  (1 only if all bits are 1)</p>
 <p>Step 1: Find the minimum degree for the univariate symmetric approximation.</p>
@@ -487,7 +536,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 3  Classifying Integer Factoring into Complexity Classes</strong></p>
+<p class="box-title"><strong>Solved Example 3 Classifying Integer Factoring into Complexity Classes</strong></p>
 <p>Problem: Classify integer factoring into its appropriate complexity classes.</p>
 <p>Factoring Decision Problem: Given N and k, does N have a factor ≤ k?</p>
 <p>(a) Is factoring in NP?</p>
@@ -505,7 +554,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 4  Adversary Bound for PARITY_N</strong></p>
+<p class="box-title"><strong>Solved Example 4 Adversary Bound for PARITY_N</strong></p>
 <p>Problem: Apply the adversary method to verify Q(PARITY_N) = Ω(N).</p>
 <p>Adversary construction:</p>
 <p>• X = all even-weight strings (PARITY = 0), starting with x = 0^N</p>
@@ -520,7 +569,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 5  Simon's Algorithm Step-by-Step (n=2, s=10)</strong></p>
+<p class="box-title"><strong>Solved Example 5 Simon's Algorithm Step-by-Step (n=2, s=10)</strong></p>
 <p>Problem: Trace Simon's algorithm for n=2, secret s=10.</p>
 <p>Oracle: f(00)=f(10)=a,  f(01)=f(11)=b  (for some a≠b)</p>
 <p>Step 1: |00⟩|00⟩  →  H⊗H⊗I⊗I  →  (1/2)(|00⟩+|01⟩+|10⟩+|11⟩)|00⟩</p>
@@ -537,7 +586,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 7  QMA Witness Verification for 2-Local Hamiltonian</strong></p>
+<p class="box-title"><strong>Solved Example 7 QMA Witness Verification for 2-Local Hamiltonian</strong></p>
 <p>Problem: Describe how a quantum verifier checks a QMA witness for the 2-Local Hamiltonian problem.</p>
 <p>H = Σᵢ Hᵢ (each Hᵢ on 2 qubits). Claim: λ₀(H) ≤ a (ground state energy ≤ a).</p>
 <p>The QMA witness is a quantum state |ψ⟩ purporting to be the ground state.</p>
@@ -565,7 +614,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 
 **4.** Prove Deutsch-Jozsa is in BQP but not efficiently separable from BPP. What does this say about BQP vs BPP?  *[Ans: Quantum: 1 query; Classical randomised: O(1) (with high prob.); Deterministic: N queries. Separation is over D, not BPP — no separation over BPP demonstrated]*
 
-**5.** Show Q(OR₂) ≥ √2 ≈ 1.41 by the adversary method, then verify with a direct 1-query impossibility argument.  *[Ans: Adversary: X={00}, Y={01,10}, |R|=2, mx=2, my=1, m\_{x,i}=1; Q≥√2; Direct: 1-query circuit cannot distinguish 3 inputs {00,01,10} with success >2/3 by inner-product argument]*
+**5.** Show Q(OR₂) ≥ √2 ≈ 1.41 by the adversary method, then verify with a direct 1-query impossibility argument.  *[Ans: Adversary: X={00}, Y={01,10}, |R|=2, mx=2, my=1, m\_{x,i}=1; Q≥√2; Direct: 1-query circuit cannot distinguish 3 inputs {00,01,10} with success &gt;2/3 by inner-product argument]*
 
 **6.** Classify each into P, NP, BQP, QMA: (a) primality, (b) graph isomorphism, (c) 3-SAT, (d) factoring, (e) k-LH.  *[Ans: (a) P (AKS); (b) NP∩co-AM, not known complete; (c) NP-complete; (d) NP∩co-NP∩BQP; (e) QMA-complete]*
 
@@ -582,7 +631,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 ## Chapter 3 MCQs
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q1.  The class BQP is known to satisfy which containment?</strong></p>
+<p class="box-title"><strong>Q1. The class BQP is known to satisfy which containment?</strong></p>
 <p>(A)  BPP ⊆ BQP ⊆ PSPACE</p>
 <p>(B)  NP ⊆ BQP ⊆ EXP</p>
 <p>(C)  P = BQP</p>
@@ -590,7 +639,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q2.  Which problem is QMA-complete?</strong></p>
+<p class="box-title"><strong>Q2. Which problem is QMA-complete?</strong></p>
 <p>(A)  3-SAT</p>
 <p>(B)  Graph Colouring</p>
 <p>(C)  k-Local Hamiltonian</p>
@@ -598,7 +647,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q3.  The polynomial method proves Q(OR_N) = Ω(√N) because:</strong></p>
+<p class="box-title"><strong>Q3. The polynomial method proves Q(OR_N) = Ω(√N) because:</strong></p>
 <p>(A)  OR_N is NP-complete</p>
 <p>(B)  Any approximating polynomial for OR_N has degree Ω(√N)</p>
 <p>(C)  OR reduces to factoring</p>
@@ -606,7 +655,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q4.  The BBBV theorem proves that:</strong></p>
+<p class="box-title"><strong>Q4. The BBBV theorem proves that:</strong></p>
 <p>(A)  Grover's algorithm is suboptimal</p>
 <p>(B)  Any quantum search algorithm needs Ω(√N) queries</p>
 <p>(C)  BQP = BPP</p>
@@ -614,7 +663,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q5.  The approximate degree deg̃(PARITY_N) equals:</strong></p>
+<p class="box-title"><strong>Q5. The approximate degree deg̃(PARITY_N) equals:</strong></p>
 <p>(A)  1</p>
 <p>(B)  √N</p>
 <p>(C)  N/2</p>
@@ -622,7 +671,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q6.  Simon's problem demonstrates a quantum speedup over classical of:</strong></p>
+<p class="box-title"><strong>Q6. Simon's problem demonstrates a quantum speedup over classical of:</strong></p>
 <p>(A)  Quadratic</p>
 <p>(B)  Polynomial</p>
 <p>(C)  Exponential</p>
@@ -630,7 +679,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q7.  QMA is to NP as BQP is to:</strong></p>
+<p class="box-title"><strong>Q7. QMA is to NP as BQP is to:</strong></p>
 <p>(A)  P</p>
 <p>(B)  BPP</p>
 <p>(C)  PP</p>
@@ -638,7 +687,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q8.  The adversary bound Q(f) ≥ Adv(f) applied to OR_N gives:</strong></p>
+<p class="box-title"><strong>Q8. The adversary bound Q(f) ≥ Adv(f) applied to OR_N gives:</strong></p>
 <p>(A)  O(1)</p>
 <p>(B)  O(log N)</p>
 <p>(C)  Ω(√N)</p>
@@ -646,7 +695,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q9.  The Deutsch-Jozsa problem gives exponential speedup over which complexity measure?</strong></p>
+<p class="box-title"><strong>Q9. The Deutsch-Jozsa problem gives exponential speedup over which complexity measure?</strong></p>
 <p>(A)  BPP (randomised)</p>
 <p>(B)  BQP itself</p>
 <p>(C)  Deterministic classical D(f)</p>
@@ -654,7 +703,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q10.  Which of these containments remains UNPROVEN?</strong></p>
+<p class="box-title"><strong>Q10. Which of these containments remains UNPROVEN?</strong></p>
 <p>(A)  P ⊆ BPP</p>
 <p>(B)  BPP ⊆ BQP</p>
 <p>(C)  BQP ⊆ PSPACE</p>
@@ -662,7 +711,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q11.  The k-Local Hamiltonian QMA-completeness was proved by:</strong></p>
+<p class="box-title"><strong>Q11. The k-Local Hamiltonian QMA-completeness was proved by:</strong></p>
 <p>(A)  Peter Shor (1994)</p>
 <p>(B)  Alexei Kitaev (1999)</p>
 <p>(C)  Scott Aaronson (2004)</p>
@@ -670,7 +719,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q12.  In the quantum query model, a query algorithm alternates O_f with:</strong></p>
+<p class="box-title"><strong>Q12. In the quantum query model, a query algorithm alternates O_f with:</strong></p>
 <p>(A)  Classical computations</p>
 <p>(B)  Fixed unitary transformations</p>
 <p>(C)  Measurements</p>
@@ -678,7 +727,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q13.  Why can't Grover's algorithm solve NP in polynomial quantum time?</strong></p>
+<p class="box-title"><strong>Q13. Why can't Grover's algorithm solve NP in polynomial quantum time?</strong></p>
 <p>(A)  Grover requires the solution to be marked beforehand</p>
 <p>(B)  Grover's O(√(2^n)) = O(2^(n/2)) is still exponential in n</p>
 <p>(C)  Grover cannot handle Boolean functions</p>
@@ -686,7 +735,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q14.  Bernstein-Vazirani problem achieves exactly:</strong></p>
+<p class="box-title"><strong>Q14. Bernstein-Vazirani problem achieves exactly:</strong></p>
 <p>(A)  Quadratic speedup</p>
 <p>(B)  1 quantum query vs N classical queries (N× speedup)</p>
 <p>(C)  Exponential speedup</p>
@@ -694,7 +743,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q15.  PH collapsing to the third level would be implied by:</strong></p>
+<p class="box-title"><strong>Q15. PH collapsing to the third level would be implied by:</strong></p>
 <p>(A)  Proving P = NP</p>
 <p>(B)  Factoring having a classical poly algorithm</p>
 <p>(C)  An efficient classical simulation of boson sampling</p>
@@ -728,7 +777,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 ## E. Programming / Research Assignments
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 1: Complexity Classification Project</strong></p>
+<p class="box-title"><strong>🌐 Assignment 1: Complexity Classification Project</strong></p>
 <p>For each of the following 10 problems, classify into ALL applicable complexity classes</p>
 <p>(P, NP, co-NP, BPP, BQP, QMA, QCMA, PSPACE, NP-complete, QMA-complete):</p>
 <p>1. Graph isomorphism              2. Primality testing (AKS)</p>
@@ -744,7 +793,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 ## F. Project Suggestions
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 1: Quantum Complexity Class Explorer (Interactive Tool)</strong></p>
+<p class="box-title"><strong>🔑 Project 1: Quantum Complexity Class Explorer (Interactive Tool)</strong></p>
 <p>Build an interactive web tool or Python application that:</p>
 <p>• Visualises the quantum complexity class hierarchy (P, BPP, BQP, NP, QMA, PP, PSPACE)</p>
 <p>• For each class: shows definition, key examples, known containments, open questions</p>
@@ -755,7 +804,7 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 3: The Polynomial Method — Hands-On Investigation</strong></p>
+<p class="box-title"><strong>🔑 Project 3: The Polynomial Method — Hands-On Investigation</strong></p>
 <p>Deep dive into the polynomial method for quantum lower bounds:</p>
 <p>• Implement the polynomial method computationally: for small Boolean functions f on n ≤ 4 bits,</p>
 <p>use scipy.optimize to find the minimum-degree (1/3)-approximating polynomial</p>
@@ -771,18 +820,11 @@ Stephen Cook's 1971 paper 'The Complexity of Theorem Proving Procedures' introdu
 
 ## Chapter 3 References
 
-- Beals, R., Buhrman, H., Cleve, R., Mosca, M. & de Wolf, R. (1998). Quantum lower bounds by polynomials. Proceedings 39th FOCS, pp. 352–361.
-
-- Bennett, C.H., Bernstein, E., Brassard, G. & Vazirani, U. (1997). Strengths and Weaknesses of Quantum Computing. SIAM Journal on Computing, 26(5), 1510–1523.
-
+- Beals, R., Buhrman, H., Cleve, R., Mosca, M. &amp; de Wolf, R. (1998). Quantum lower bounds by polynomials. Proceedings 39th FOCS, pp. 352–361.
+- Bennett, C.H., Bernstein, E., Brassard, G. &amp; Vazirani, U. (1997). Strengths and Weaknesses of Quantum Computing. SIAM Journal on Computing, 26(5), 1510–1523.
 - Ambainis, A. (2002). Quantum lower bounds by quantum arguments. Journal of CSS, 64(4), 750–767.
-
-- Kitaev, A.Yu. (1999). Quantum NP. Talk at AQIP. Formal version: Kitaev, Shen & Vyalyi, Classical and Quantum Computation. AMS, 2002.
-
-- Kempe, J., Kitaev, A. & Regev, O. (2006). The complexity of the Local Hamiltonian Problem. SIAM Journal on Computing, 35(5), 1070–1097.
-
+- Kitaev, A.Yu. (1999). Quantum NP. Talk at AQIP. Formal version: Kitaev, Shen &amp; Vyalyi, Classical and Quantum Computation. AMS, 2002.
+- Kempe, J., Kitaev, A. &amp; Regev, O. (2006). The complexity of the Local Hamiltonian Problem. SIAM Journal on Computing, 35(5), 1070–1097.
 - Simon, D.R. (1997). On the Power of Quantum Computation. SIAM Journal on Computing, 26(5), 1474–1483.
-
 - Watrous, J. (2009). Quantum Computational Complexity. Encyclopedia of Complexity and Systems Science. Springer.
-
 - Aaronson, S. (2013). Quantum Computing since Democritus. Cambridge University Press. Chapters 11–15.

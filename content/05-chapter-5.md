@@ -1,11 +1,11 @@
 # CHAPTER 5
 
-# Quantum Error Correction: Principles, Codes & Stabilisers
+# Quantum Error Correction: Principles, Codes &amp; Stabilisers
 
 *No-Cloning  |  3-Qubit Codes  |  Shor Code  |  Stabiliser Formalism  |  CSS Codes  |  Steane [7,1,3]*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Opening Reflection — John Preskill, Caltech, 1997</strong></p>
+<p class="box-title"><strong>📜 Opening Reflection — John Preskill, Caltech, 1997</strong></p>
 <p>"Error correction is the hidden secret that makes quantum computing possible.</p>
 <p>Without it, every quantum computer is merely an expensive way to produce noise."</p>
 <p>— John Preskill, Caltech, 1997</p>
@@ -16,7 +16,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 5 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 5 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Explain why classical repetition codes fail for quantum information (no-cloning, continuous errors)</p>
 <p>•  Describe the 3-qubit bit-flip code: encoding, syndrome measurement, and correction</p>
@@ -36,7 +36,7 @@ Before diving into how quantum error correction works, it is worth understanding
 ### 5.1.1 Obstacle 1: The No-Cloning Theorem
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 5.1  No-Cloning Theorem (Wootters &amp; Zurek 1982)</strong></p>
+<p class="box-title"><strong>Theorem 5.1 No-Cloning Theorem (Wootters &amp; Zurek 1982)</strong></p>
 <p>There is no quantum operation U that clones an arbitrary unknown quantum state.</p>
 <p>That is, there is no unitary U such that for all |ψ⟩:</p>
 <p>U(|ψ⟩ ⊗ |0⟩)  =  |ψ⟩ ⊗ |ψ⟩</p>
@@ -51,7 +51,7 @@ Before diving into how quantum error correction works, it is worth understanding
 </div>
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  No-Cloning and the Einstein-Podolsky-Rosen Ghost</strong></p>
+<p class="box-title"><strong>📜 No-Cloning and the Einstein-Podolsky-Rosen Ghost</strong></p>
 <p>The no-cloning theorem was independently discovered by Wootters &amp; Zurek and by Dieks in 1982, motivated by a</p>
 <p>proposal from Nick Herbert to use EPR pairs and cloning to send information faster than light. Herbert's paper</p>
 <p>was actually published in Foundations of Physics (1982), and the refereeing process — where physicists tried and</p>
@@ -73,7 +73,7 @@ This looks like we need to correct an uncountable infinity of errors — one for
 In classical error correction, we read the stored bits, check for errors, and rewrite the corrected value. In quantum computing, measuring the state collapses it — we destroy the quantum information we are trying to protect. Any naive attempt to 'check' the state will destroy the superposition.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  The QEC Miracle: Why It Works Anyway</strong></p>
+<p class="box-title"><strong>🔑 The QEC Miracle: Why It Works Anyway</strong></p>
 <p>Despite all three obstacles, quantum error correction is possible. The key insights are:</p>
 <p>1.  SYNDROME MEASUREMENT: We measure WHICH ERROR occurred, not WHAT the logical state is.</p>
 <p>A syndrome tells us 'error on qubit 2' without revealing the encoded information (α, β).</p>
@@ -95,15 +95,15 @@ The logical qubit |ψ\_L⟩ = α|0\_L⟩ + β|1\_L⟩ is encoded into three phys
 
 The encoding circuit uses two CNOT gates: |ψ⟩|00⟩ → CNOT₁₂ → CNOT₁₃ → α|000⟩ + β|111⟩. This is NOT copying — the three-qubit state is an entangled superposition that encodes the amplitude ratio α:β without revealing those amplitudes.
 
-<img class="fig-img" src="content/images/image16.png" alt="figure">
+<img class="fig-img" src="content/images/image33.png" alt="figure">
 
-**Figure 1: 3-Qubit Bit-Flip Code: Encoding, Error & Syndrome Circuit** *— Encoding uses 2 CNOT gates; syndrome uses ancilla measurements to identify the erroneous qubit without disturbing the data*
+**Figure 1: 3-Qubit Bit-Flip Code: Encoding, Error &amp; Syndrome Circuit** *— Encoding uses 2 CNOT gates; syndrome uses ancilla measurements to identify the erroneous qubit without disturbing the data*
 
 ### 5.2.2 Syndrome Measurement and Error Table
 
 The syndrome measurements Z₁Z₂ and Z₂Z₃ identify WHICH qubit was flipped without revealing α or β. The eigenvalue +1 means no error at that location; −1 means an error:
 
-| Error | Post-error State | Syndrome (s₁,s₂) | Correction |
+| **Error** | **Post-error State** | **Syndrome (s₁,s₂)** | **Correction** |
 |---|---|---|---|
 | None | α\|000⟩+β\|111⟩ | (0,0) | I (no action) |
 | X₁ (flip q1) | α\|100⟩+β\|011⟩ | (1,0) | Apply X₁ |
@@ -131,7 +131,7 @@ Shor's code (Peter Shor, 1995) was the first quantum error-correcting code prote
 **|1\_L⟩ = (1/2√2)(|000⟩−|111⟩)(|000⟩−|111⟩)(|000⟩−|111⟩)**
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Shor's 1995 QEC Breakthrough — When Physics Said 'It's Possible'</strong></p>
+<p class="box-title"><strong>📜 Shor's 1995 QEC Breakthrough — When Physics Said 'It's Possible'</strong></p>
 <p>In 1994, Peter Shor published his factoring algorithm — but quantum computers were still theoretical,</p>
 <p>devastatingly sensitive to noise. Many physicists, including Rolf Landauer and Bill Unruh, argued that</p>
 <p>decoherence made quantum computing physically impossible. Landauer famously insisted 'information is physical'</p>
@@ -144,7 +144,7 @@ Shor's code (Peter Shor, 1995) was the first quantum error-correcting code prote
 <p>curiosity into a physically realisable (if challenging) engineering goal.</p>
 </div>
 
-<img class="fig-img" src="content/images/image17.png" alt="figure">
+<img class="fig-img" src="content/images/image34.png" alt="figure">
 
 **Figure 2: Shor 9-Qubit Code: Two-Level Concatenated Structure** *— Inner 3-qubit bit-flip codes protect X errors; outer 3-qubit phase-flip code protects Z errors; together they correct any single-qubit error*
 
@@ -153,7 +153,7 @@ Shor's code (Peter Shor, 1995) was the first quantum error-correcting code prote
 The Knill-Laflamme conditions (1997) provide the precise mathematical criterion for a quantum code to correct a set of errors. They are both necessary and sufficient — the definitive characterisation of quantum correctability.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 5.2  Knill-Laflamme QEC Conditions (1997)</strong></p>
+<p class="box-title"><strong>Theorem 5.2 Knill-Laflamme QEC Conditions (1997)</strong></p>
 <p>A quantum code with codeword subspace C (spanned by |0_L⟩, |1_L⟩) can correct a set of errors</p>
 <p>{E_k} if and only if for all i, j ∈ {0_L, 1_L} and all error pairs (E_k, E_l):</p>
 <p>⟨i_L| E_k† E_l |j_L⟩  =  C_{kl} δ_{ij}</p>
@@ -180,7 +180,7 @@ The n-qubit Pauli group P\_n consists of all n-fold tensor products of Pauli ope
 ### 5.5.2 Stabiliser Groups and Codes
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 5.3  Stabiliser Group and [[n,k,d]] Code</strong></p>
+<p class="box-title"><strong>Definition 5.3 Stabiliser Group and [[n,k,d]] Code</strong></p>
 <p>A stabiliser group S is an Abelian subgroup of P_n that does not contain −I.</p>
 <p>The +1 eigenspace of all elements of S is the stabiliser code subspace:</p>
 <p>C(S) = { |ψ⟩ : g|ψ⟩ = |ψ⟩  for all  g ∈ S }</p>
@@ -202,7 +202,7 @@ In the stabiliser formalism, syndrome measurement is elegant: we measure each st
 
 **syndrome bit sᵢ = 1  iff  {E, gᵢ} = 0   (E anticommutes with generator gᵢ)**
 
-| Code | Parameters [[n,k,d]] | Corrects | Stabilisers | Comment |
+| **Code** | **Parameters [[n,k,d]]** | **Corrects** | **Stabilisers** | **Comment** |
 |---|---|---|---|---|
 | 3-qubit bit-flip | [[3,1,1]] | Detects 1 X-error | Z₁Z₂, Z₂Z₃ | Phase errors not corrected |
 | 3-qubit phase-flip | [[3,1,1]] | Detects 1 Z-error | X₁X₂, X₂X₃ | Bit-flip errors not corrected |
@@ -216,7 +216,7 @@ In the stabiliser formalism, syndrome measurement is elegant: we measure each st
 Calderbank-Shor-Steane (CSS) codes are a particularly important family of stabiliser codes constructed from two classical linear codes. Their structure enables transversal implementation of Clifford gates — a critical feature for fault tolerance.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Construction 5.4  CSS Code Construction</strong></p>
+<p class="box-title"><strong>Construction 5.4 CSS Code Construction</strong></p>
 <p>Let C₁ and C₂ be classical [n, k₁] and [n, k₂] binary linear codes with C₂ ⊆ C₁.</p>
 <p>The CSS code CSS(C₁, C₂) is a quantum [[n, k₁−k₂, d]] code with:</p>
 <p>X-stabilisers: one X^⊗H(C₂) generator for each parity-check row of C₂</p>
@@ -233,7 +233,7 @@ Calderbank-Shor-Steane (CSS) codes are a particularly important family of stabil
 The Steane code uses the classical [7,4,3] Hamming code. Both C₁ and C₂ are taken from the Hamming family with C₂ = C₁⊥. The result is a [[7,1,3]] code — 7 physical qubits, 1 logical qubit, distance 3.
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Steane Code: All 6 Stabiliser Generators</strong></p>
+<p class="box-title"><strong>🔑 Steane Code: All 6 Stabiliser Generators</strong></p>
 <p>X-stabilisers (from Hamming code parity checks):</p>
 <p>g₁ = X₁X₂X₃X₄     g₂ = X₁X₂X₅X₆     g₃ = X₁X₃X₅X₇</p>
 <p>Z-stabilisers (same parity checks applied to Z):</p>
@@ -245,23 +245,23 @@ The Steane code uses the classical [7,4,3] Hamming code. Both C₁ and C₂ are 
 <p>Code distance d = 3  (minimum weight of any logical operator mod stabilisers = 3)</p>
 </div>
 
-<img class="fig-img" src="content/images/image18.png" alt="figure">
+<img class="fig-img" src="content/images/image35.png" alt="figure">
 
-**Figure 3: Steane [[7,1,3]] Code: Parity-Check Matrix & Tanner Graph** *— Left: the H matrix of the [7,4,3] Hamming code used for both X and Z stabilisers. Right: Tanner graph connecting qubit nodes to stabiliser check nodes*
+**Figure 3: Steane [[7,1,3]] Code: Parity-Check Matrix &amp; Tanner Graph** *— Left: the H matrix of the [7,4,3] Hamming code used for both X and Z stabilisers. Right: Tanner graph connecting qubit nodes to stabiliser check nodes*
 
 ### 5.6.2 Transversal Gates on the Steane Code
 
-| Logical Gate | Implementation on Steane Code | Fault-Tolerant? |
+| **Logical Gate** | **Implementation on Steane Code** | **Fault-Tolerant?** |
 |---|---|---|
-| X_L (Pauli X) | X on all 7 physical qubits | YES — transversal |
-| Z_L (Pauli Z) | Z on all 7 physical qubits | YES — transversal |
-| H_L (Hadamard) | H on all 7 physical qubits | YES — transversal |
-| S_L (Phase gate) | S on all 7 physical qubits | YES — transversal |
-| CNOT_L | CNOT between corresponding qubits of two code blocks | YES — transversal |
+| X\_L (Pauli X) | X on all 7 physical qubits | YES — transversal |
+| Z\_L (Pauli Z) | Z on all 7 physical qubits | YES — transversal |
+| H\_L (Hadamard) | H on all 7 physical qubits | YES — transversal |
+| S\_L (Phase gate) | S on all 7 physical qubits | YES — transversal |
+| CNOT\_L | CNOT between corresponding qubits of two code blocks | YES — transversal |
 | T gate (π/8 rotation) | NOT transversal — requires magic state distillation | NOT directly FT |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  The Clifford Group, T Gate, and the Eastin-Knill Theorem</strong></p>
+<p class="box-title"><strong>⚠ The Clifford Group, T Gate, and the Eastin-Knill Theorem</strong></p>
 <p>The Clifford group (generated by H, S, CNOT) maps Pauli operators to Pauli operators under conjugation.</p>
 <p>Stabiliser codes have transversal Clifford gates by design — this is their great advantage.</p>
 <p>Unfortunately, Clifford circuits alone are NOT universal — they can be efficiently simulated classically</p>
@@ -276,7 +276,7 @@ The Steane code uses the classical [7,4,3] Hamming code. Both C₁ and C₂ are 
 The 5-qubit code is the smallest possible quantum code correcting arbitrary single-qubit errors. It is called 'perfect' because it saturates the quantum Hamming bound — there is no smaller code with the same error-correcting power.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 5.5  Quantum Hamming Bound</strong></p>
+<p class="box-title"><strong>Theorem 5.5 Quantum Hamming Bound</strong></p>
 <p>An [[n,k,d]] code with d = 2t+1 (corrects t errors) must satisfy:</p>
 <p>2^(n-k)  ≥  Σ_{j=0}^{t}  C(n,j) × 3^j</p>
 <p>For t=1 (correct 1 error), k=1 (1 logical qubit):</p>
@@ -289,7 +289,7 @@ The 5-qubit code is the smallest possible quantum code correcting arbitrary sing
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 5 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 5 Summary</strong></p>
 <p>No-Cloning Theorem:      Quantum states cannot be copied; classical repetition codes fail</p>
 <p>Continuous errors:       Discretisation miracle: syndrome measurement collapses errors to discrete</p>
 <p>3-qubit bit-flip code:   Syndromes = Z₁Z₂, Z₂Z₃; corrects any single X error; [[3,1,1]]</p>
@@ -304,7 +304,57 @@ The 5-qubit code is the smallest possible quantum code correcting arbitrary sing
 <p>Eastin-Knill theorem:    No stabiliser code has a transversal universal gate set</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 5.7 Foundations Revisited: Knill-Laflamme, Stabilisers, and Quantum LDPC Codes
+
+With several concrete codes now behind us - bit-flip, Shor, Steane, the perfect five-qubit code - it is worth returning to the abstract question that makes all of them work in the first place, and then looking ahead to a family of codes designed to need far fewer physical qubits per logical qubit than anything seen so far in this chapter.
+
+### 5.7.1 The Knill-Laflamme Conditions
+
+A code with codewords {|i&gt;} corrects an error set {E\_a} exactly when &lt;i|E\_a^dagger E\_b|j&gt; = C\_ab \* delta\_ij for every pair of correctable errors and every pair of codewords - that is, the matrix element depends only on which errors occurred, never on which codeword was sent. This single algebraic condition, due to Knill and Laflamme (1997), is both necessary and sufficient: every stabiliser code you have met in this chapter can be shown to satisfy it explicitly, and it is the yardstick against which any newly proposed code must be checked.
+
+<figure class="book-figure">
+<img src="content/images/image36.png" alt="Figure 5.4: The Knill-Laflamme Conditions for Quantum Error Correction">
+<figcaption>Figure 5.4: The Knill-Laflamme Conditions for Quantum Error Correction</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>📘 Definition: Knill-Laflamme Correctability</strong></p>
+<p>A quantum code with projector P onto its codespace corrects an error set {E_a} if and only if P E_a^dagger E_b P = C_ab P for some Hermitian matrix C, for all E_a, E_b in the error set.</p>
+</div>
+
+### 5.7.2 Why the Stabiliser Formalism Works
+
+Every stabiliser code is specified by an abelian subgroup S of the n-qubit Pauli group not containing -I; the codespace is the simultaneous +1 eigenspace of every element of S. A set of n-k independent generators g\_1, ..., g\_(n-k) fully specifies S for an [[n,k]] code. Measuring each generator yields a syndrome bit that reveals which Pauli error occurred - without ever measuring, and therefore without disturbing, the encoded logical information itself. This is the formalism underlying every code discussed in this chapter, including the surface code that Chapter 6 develops in full.
+
+<figure class="book-figure">
+<img src="content/images/image37.png" alt="Figure 5.5: The Pauli Group and Stabiliser Formalism">
+<figcaption>Figure 5.5: The Pauli Group and Stabiliser Formalism</figcaption>
+</figure>
+
+### 5.7.3 Quantum LDPC Codes: Reducing the Overhead
+
+The surface code's chief practical drawback is its overhead: each logical qubit typically needs on the order of a hundred to a thousand physical qubits at useful error rates. Quantum low-density parity-check (qLDPC) codes - such as the bivariate bicycle codes introduced by IBM in 2024 - are designed so that each stabiliser touches only a bounded number of qubits, like a classical LDPC code, while achieving a considerably better asymptotic ratio of physical-to-logical qubits than the surface code. The trade-off is a harder decoding problem and typically non-local qubit connectivity, which is significantly more demanding to engineer in hardware than the surface code's nearest-neighbour grid.
+
+<figure class="book-figure">
+<img src="content/images/image38.png" alt="Figure 5.6: Quantum LDPC Codes Promise Much Lower Qubit Overhead Than Surface Codes at Scale">
+<figcaption>Figure 5.6: Quantum LDPC Codes Promise Much Lower Qubit Overhead Than Surface Codes at Scale</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>🧭 Roadmap: Codes vs Architecture</strong></p>
+<p>Whether qLDPC codes displace the surface code in practice depends less on the code itself than on whether hardware can support the non-local connectivity it needs. Chapter 6 develops the surface code's fault-tolerant architecture in detail - keep the overhead comparison in this section in mind as a benchmark against which any future architecture should be measured.</p>
+</div>
+
+### 5.7.4 Worked Example: Distance Scaling for Small Codes
+
+For a code family with threshold p\_th around 1%, increasing the code distance d from 3 to 7 suppresses the logical error rate by several orders of magnitude once the physical error rate sits comfortably below threshold - but provides almost no benefit, or can even make things worse, if the physical error rate sits above threshold. This single observation is why so much experimental effort goes into pushing physical gate fidelities down before scaling up code distance: distance is only useful once you are on the correct side of the threshold.
+
+<figure class="book-figure">
+<img src="content/images/image39.png" alt="Figure 5.7: Increasing Code Distance Suppresses Logical Errors Below Threshold">
+<figcaption>Figure 5.7: Increasing Code Distance Suppresses Logical Errors Below Threshold</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
 
 Chapter 5: Quantum Error Correction Principles
 
@@ -383,7 +433,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 1  Encoding and Error Detection with the 3-Qubit Bit-Flip Code</strong></p>
+<p class="box-title"><strong>Solved Example 1 Encoding and Error Detection with the 3-Qubit Bit-Flip Code</strong></p>
 <p>Problem: The state |ψ⟩ = (√3/2)|0⟩ + (1/2)|1⟩ is encoded in the 3-qubit bit-flip code.</p>
 <p>A bit-flip error occurs on qubit 2. Find the syndrome and perform the correction.</p>
 <p>Step 1 — Encoding:  |ψ_L⟩ = (√3/2)|000⟩ + (1/2)|111⟩</p>
@@ -399,7 +449,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 2  Verifying the Knill-Laflamme Conditions for the 3-Qubit Code</strong></p>
+<p class="box-title"><strong>Solved Example 2 Verifying the Knill-Laflamme Conditions for the 3-Qubit Code</strong></p>
 <p>Problem: Verify that the 3-qubit bit-flip code satisfies KL conditions for X₁ and X₂ errors.</p>
 <p>Codewords: |0_L⟩ = |000⟩,  |1_L⟩ = |111⟩</p>
 <p>KL condition: ⟨i_L|E_k†E_l|j_L⟩ = C_{kl}δ_{ij}</p>
@@ -412,7 +462,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 3  Stabiliser Group for the 3-Qubit Phase-Flip Code</strong></p>
+<p class="box-title"><strong>Solved Example 3 Stabiliser Group for the 3-Qubit Phase-Flip Code</strong></p>
 <p>Problem: Write the stabiliser group for the 3-qubit phase-flip code.</p>
 <p>Codewords: |0_L⟩ = |+++⟩,  |1_L⟩ = |−−−⟩</p>
 <p>Try g₁ = X₁X₂:</p>
@@ -426,7 +476,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 4  Quantum Hamming Bound: Minimum n for [[n,2,3]] Code</strong></p>
+<p class="box-title"><strong>Solved Example 4 Quantum Hamming Bound: Minimum n for [[n,2,3]] Code</strong></p>
 <p>Problem: Using the quantum Hamming bound, find minimum n to encode k=2 logical qubits</p>
 <p>in a code that corrects t=1 error.</p>
 <p>Quantum Hamming bound: 2^(n−k) ≥ Σ_{j=0}^{t} C(n,j) · 3^j</p>
@@ -439,7 +489,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 5  Steane Code Syndrome Lookup for X Error on Qubit 3</strong></p>
+<p class="box-title"><strong>Solved Example 5 Steane Code Syndrome Lookup for X Error on Qubit 3</strong></p>
 <p>Problem: Use the Steane code parity-check matrix H to find the syndrome for X₃.</p>
 <p>Steane code parity-check matrix H (Hamming [7,4,3]):</p>
 <p>Row 1: [1 1 1 1 0 0 0]  ← positions of first check</p>
@@ -462,7 +512,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 
 **2.** For the Shor 9-qubit code, identify which stabiliser generators detect a Y error on qubit 5.  *[Ans: Y₅=iX₅Z₅; X-part detected by Z-generators of block 2 (g₅=Z₄Z₅Z₆); Z-part detected by X-type outer generator; two syndromes triggered]*
 
-**3.** Verify X₁X₂X₃X₄X₅X₆X₇ is the logical X operator of the Steane code by checking it commutes with all 6 stabilisers.  *[Ans: Commutes with X-stabilisers trivially (X·X=I); commutes with Z-stabilisers by even overlap count (4 in common → commute); weight 7 > max stab weight → not in S]*
+**3.** Verify X₁X₂X₃X₄X₅X₆X₇ is the logical X operator of the Steane code by checking it commutes with all 6 stabilisers.  *[Ans: Commutes with X-stabilisers trivially (X·X=I); commutes with Z-stabilisers by even overlap count (4 in common → commute); weight 7 &gt; max stab weight → not in S]*
 
 **4.** Compute the number of stabiliser generators for a [[15,7,3]] Reed-Muller code. How many logical qubits does it encode?  *[Ans: n−k = 15−7 = 8 generators; encodes k=7 logical qubits]*
 
@@ -483,7 +533,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 ## Chapter 5 MCQs
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q1.  The no-cloning theorem is proved by exploiting which property of quantum mechanics?</strong></p>
+<p class="box-title"><strong>Q1. The no-cloning theorem is proved by exploiting which property of quantum mechanics?</strong></p>
 <p>(A)  Heisenberg uncertainty principle</p>
 <p>(B)  Linearity (unitarity) of quantum operations</p>
 <p>(C)  Pauli exclusion principle</p>
@@ -491,7 +541,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q2.  In the 3-qubit bit-flip code, syndrome (1,1) indicates an error on:</strong></p>
+<p class="box-title"><strong>Q2. In the 3-qubit bit-flip code, syndrome (1,1) indicates an error on:</strong></p>
 <p>(A)  Qubit 1</p>
 <p>(B)  Qubit 2</p>
 <p>(C)  Qubit 3</p>
@@ -499,7 +549,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q3.  The 'discretisation miracle' in QEC refers to:</strong></p>
+<p class="box-title"><strong>Q3. The 'discretisation miracle' in QEC refers to:</strong></p>
 <p>(A)  Digital computers can simulate quantum errors</p>
 <p>(B)  Syndrome measurement collapses continuous errors to a discrete set</p>
 <p>(C)  Quantum errors occur at discrete time intervals</p>
@@ -507,7 +557,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q4.  The Knill-Laflamme condition ⟨i_L|E_k†E_l|j_L⟩ = C_{kl}δ_{ij} requires:</strong></p>
+<p class="box-title"><strong>Q4. The Knill-Laflamme condition ⟨i_L|E_k†E_l|j_L⟩ = C_{kl}δ_{ij} requires:</strong></p>
 <p>(A)  All errors must be unitary</p>
 <p>(B)  Codewords remain orthogonal under all correctable errors</p>
 <p>(C)  Code must use ≥9 physical qubits</p>
@@ -515,7 +565,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q5.  The Shor 9-qubit code has parameters:</strong></p>
+<p class="box-title"><strong>Q5. The Shor 9-qubit code has parameters:</strong></p>
 <p>(A)  [[9,1,1]]</p>
 <p>(B)  [[9,3,3]]</p>
 <p>(C)  [[9,1,3]]</p>
@@ -523,7 +573,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q6.  A stabiliser group S must satisfy which property?</strong></p>
+<p class="box-title"><strong>Q6. A stabiliser group S must satisfy which property?</strong></p>
 <p>(A)  All elements are Hermitian</p>
 <p>(B)  S is Abelian and does not contain −I</p>
 <p>(C)  S acts on at most 3 qubits</p>
@@ -531,7 +581,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q7.  For an [[n,k,d]] stabiliser code, the number of independent generators is:</strong></p>
+<p class="box-title"><strong>Q7. For an [[n,k,d]] stabiliser code, the number of independent generators is:</strong></p>
 <p>(A)  k</p>
 <p>(B)  d</p>
 <p>(C)  n−k</p>
@@ -539,7 +589,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q8.  The Steane [[7,1,3]] code is based on which classical code?</strong></p>
+<p class="box-title"><strong>Q8. The Steane [[7,1,3]] code is based on which classical code?</strong></p>
 <p>(A)  [7,4,3] Hamming code</p>
 <p>(B)  [7,3,4] dual Hamming</p>
 <p>(C)  [6,3,4] Hexacode</p>
@@ -547,7 +597,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q9.  Transversal gates on the Steane code include all EXCEPT:</strong></p>
+<p class="box-title"><strong>Q9. Transversal gates on the Steane code include all EXCEPT:</strong></p>
 <p>(A)  Hadamard (H)</p>
 <p>(B)  Phase gate (S)</p>
 <p>(C)  CNOT</p>
@@ -555,7 +605,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q10.  The quantum Hamming bound gives minimum n for [[n,1,3]] code as:</strong></p>
+<p class="box-title"><strong>Q10. The quantum Hamming bound gives minimum n for [[n,1,3]] code as:</strong></p>
 <p>(A)  n=4</p>
 <p>(B)  n=5</p>
 <p>(C)  n=6</p>
@@ -563,7 +613,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q11.  The Eastin-Knill theorem states that:</strong></p>
+<p class="box-title"><strong>Q11. The Eastin-Knill theorem states that:</strong></p>
 <p>(A)  Gottesman-Knill theorem is wrong</p>
 <p>(B)  No stabiliser code has a transversal universal gate set</p>
 <p>(C)  All Clifford gates are non-transversal</p>
@@ -571,7 +621,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q12.  Syndrome measurement of Z₁Z₂ reveals:</strong></p>
+<p class="box-title"><strong>Q12. Syndrome measurement of Z₁Z₂ reveals:</strong></p>
 <p>(A)  Whether qubit 1 is |0⟩ or |1⟩</p>
 <p>(B)  Whether an X error occurred on qubit 1 or 2 (relative parity)</p>
 <p>(C)  Value of both qubits simultaneously</p>
@@ -579,7 +629,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q13.  The 5-qubit perfect code is 'perfect' because it:</strong></p>
+<p class="box-title"><strong>Q13. The 5-qubit perfect code is 'perfect' because it:</strong></p>
 <p>(A)  Has zero error rate</p>
 <p>(B)  Uses minimum qubits to correct all single-qubit errors (saturates Hamming bound)</p>
 <p>(C)  Has all transversal gates</p>
@@ -587,7 +637,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q14.  In CSS code CSS(C₁,C₂), which condition on the classical codes is required?</strong></p>
+<p class="box-title"><strong>Q14. In CSS code CSS(C₁,C₂), which condition on the classical codes is required?</strong></p>
 <p>(A)  C₁ = C₂</p>
 <p>(B)  C₂ ⊆ C₁</p>
 <p>(C)  C₁ ⊥ C₂</p>
@@ -595,7 +645,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q15.  Peter Shor's quantum error correction paper was published in:</strong></p>
+<p class="box-title"><strong>Q15. Peter Shor's quantum error correction paper was published in:</strong></p>
 <p>(A)  1993</p>
 <p>(B)  1994</p>
 <p>(C)  1995</p>
@@ -629,7 +679,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 ## E. Programming / Research Assignments
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 1: Simulate the 3-Qubit Bit-Flip Code in Qiskit</strong></p>
+<p class="box-title"><strong>🌐 Assignment 1: Simulate the 3-Qubit Bit-Flip Code in Qiskit</strong></p>
 <p>Implement a complete simulation of the 3-qubit bit-flip code in Qiskit:</p>
 <p>(a) Build the encoding circuit for state (α|0⟩+β|1⟩)|00⟩</p>
 <p>(b) Insert X errors on each qubit separately using barrier + gate</p>
@@ -643,7 +693,7 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 </div>
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 2: Steane Code Deep Dive</strong></p>
+<p class="box-title"><strong>🌐 Assignment 2: Steane Code Deep Dive</strong></p>
 <p>Perform a complete analysis of the [[7,1,3]] Steane code:</p>
 <p>(a) Write all 6 stabiliser generators explicitly as tensor products of Pauli operators</p>
 <p>(b) Construct the full syndrome lookup table for all single-qubit X and Z errors (14 cases)</p>
@@ -655,22 +705,40 @@ Prior to Shor's 1995 paper, prominent physicists (including Rolf Landauer and Bi
 <p>Deliverable: Mathematical derivation report (3 pages) + Qiskit implementation.</p>
 </div>
 
+## F. Project Suggestions
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🔑 Project 1: A General-Purpose Stabiliser Code Simulator</strong></p>
+<p>Build a reusable Python/Qiskit package that simulates any CSS stabiliser code from its parity-check matrices:</p>
+<p>• Accept a pair of classical parity-check matrices (H_X, H_Z) satisfying H_X H_Z^T = 0 and generate the corresponding stabiliser generators</p>
+<p>• Automatically construct the syndrome lookup table for all correctable single-qubit error patterns</p>
+<p>• Identify the logical X and Z operators for the encoded qubit(s) and verify they commute with every stabiliser</p>
+<p>• Validate the package against three known codes: the 3-qubit bit-flip code, the Shor 9-qubit code, and the Steane [[7,1,3]] code</p>
+<p>• Simulate encoding, a random single-qubit error, syndrome measurement, and correction end-to-end in Qiskit for each code</p>
+<p>• Report the logical error rate vs physical error rate for each code under a depolarising noise model (p = 0.001 to 0.1)</p>
+<p>Deliverable: Python package (with unit tests against the three known codes) + a 4-page validation report with logical-vs-physical error plots.</p>
+</div>
+
+<div class="box box-key-concept">
+<p class="box-title"><strong>🔑 Project 2: Comparative Study of Quantum Error-Correcting Codes</strong></p>
+<p>Produce a rigorous, data-driven comparison of the codes covered in this chapter:</p>
+<p>• Tabulate code distance d, number of physical qubits n, number of logical qubits k, and correctable error types for the bit-flip, phase-flip, Shor 9-qubit, and Steane [[7,1,3]] codes</p>
+<p>• Simulate all four codes under the same depolarising noise channel and measure logical error rate at matched physical error rates</p>
+<p>• Measure and compare encoding circuit depth and two-qubit gate count for each code</p>
+<p>• Determine, for each code, the noise regime (bit-flip-dominated, phase-flip-dominated, or depolarising) where it is the most resource-efficient choice</p>
+<p>• Produce a one-page decision table: "Given noise type X and qubit budget Y, use code Z"</p>
+<p>Deliverable: Comparison notebook (all four simulations) + a 4-page report with the decision table and supporting plots.</p>
+</div>
+
 ## References and Further Reading — Chapter 5
 
 ## Chapter 5 References
 
 - Shor, P.W. (1995). Scheme for reducing decoherence in quantum computer memory. Physical Review A, 52, R2493.
-
 - Steane, A.M. (1996). Error Correcting Codes in Quantum Theory. Physical Review Letters, 77(5), 793–797.
-
-- Knill, E. & Laflamme, R. (1997). Theory of quantum error-correcting codes. Physical Review A, 55(2), 900–911.
-
+- Knill, E. &amp; Laflamme, R. (1997). Theory of quantum error-correcting codes. Physical Review A, 55(2), 900–911.
 - Gottesman, D. (1997). Stabilizer Codes and Quantum Error Correction. PhD Thesis, Caltech.
-
-- Calderbank, A.R. & Shor, P.W. (1996). Good quantum error-correcting codes exist. Physical Review A, 54(2), 1098–1105.
-
-- Wootters, W.K. & Zurek, W.H. (1982). A single quantum cannot be cloned. Nature, 299, 802–803.
-
-- Eastin, B. & Knill, E. (2009). Restrictions on Transversal Encoded Quantum Gate Sets. Physical Review Letters, 102, 110502.
-
-- Nielsen, M.A. & Chuang, I.L. (2010). Quantum Computation and Quantum Information. Cambridge University Press. Chapter 10.
+- Calderbank, A.R. &amp; Shor, P.W. (1996). Good quantum error-correcting codes exist. Physical Review A, 54(2), 1098–1105.
+- Wootters, W.K. &amp; Zurek, W.H. (1982). A single quantum cannot be cloned. Nature, 299, 802–803.
+- Eastin, B. &amp; Knill, E. (2009). Restrictions on Transversal Encoded Quantum Gate Sets. Physical Review Letters, 102, 110502.
+- Nielsen, M.A. &amp; Chuang, I.L. (2010). Quantum Computation and Quantum Information. Cambridge University Press. Chapter 10.

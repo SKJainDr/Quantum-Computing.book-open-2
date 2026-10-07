@@ -1,11 +1,11 @@
 # CHAPTER 8
 
-# Barren Plateaus, Expressibility & Near-Term Quantum Advantage
+# Barren Plateaus, Expressibility &amp; Near-Term Quantum Advantage
 
 *Gradient Vanishing  |  Noise-Induced BPs  |  Mitigation Strategies  |  Error Mitigation  |  NISQ Advantage*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Chapter Epigraph — Jarrod McClean, Google Quantum AI, 2018</strong></p>
+<p class="box-title"><strong>📜 Chapter Epigraph — Jarrod McClean, Google Quantum AI, 2018</strong></p>
 <p>"Barren plateaus are not just a numerical inconvenience.</p>
 <p>They are a fundamental obstruction — a theorem — that limits trainability of quantum neural networks.</p>
 <p>The more expressive the circuit, the flatter the landscape."</p>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 8 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 8 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Define barren plateaus and state the McClean et al. theorem precisely</p>
 <p>•  Distinguish noise-induced barren plateaus from expressibility-induced ones</p>
@@ -30,7 +30,7 @@ Barren plateaus (BPs) are regions of the variational parameter landscape where t
 ### 8.1.1 The McClean et al. Theorem (2018)
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 8.1  Barren Plateau Theorem (McClean, Boixo, Smelyanskiy, Babbush, Neven — Nature Comms 2018)</strong></p>
+<p class="box-title"><strong>Theorem 8.1 Barren Plateau Theorem (McClean, Boixo, Smelyanskiy, Babbush, Neven — Nature Comms 2018)</strong></p>
 <p>Consider a parametrised quantum circuit U(θ) of depth O(poly(n)) on n qubits,</p>
 <p>where θ is randomly initialised and the circuit forms an approximate unitary 2-design.</p>
 <p>For any global cost function C = Tr(O ρ(θ)) where O acts on all n qubits:</p>
@@ -43,13 +43,13 @@ Barren plateaus (BPs) are regions of the variational parameter landscape where t
 <p>cost function is nearly constant everywhere — no 'uphill' direction can be found.</p>
 </div>
 
-<img class="fig-img" src="content/images/image25.png" alt="figure">
+<img class="fig-img" src="content/images/image54.png" alt="figure">
 
 **Figure 3: Barren Plateau: Cost Landscape for n = 2, 10, 20 Qubits** *— As n increases, the gradient variance shrinks as 1/4^n — the landscape becomes exponentially flat, requiring exponential shots to escape*
 
 ### 8.1.2 When Do Barren Plateaus Occur?
 
-| Cause | Trigger Condition | BP Severity | Mathematical Reason |
+| **Cause** | **Trigger Condition** | **BP Severity** | **Mathematical Reason** |
 |---|---|---|---|
 | Global cost function | Observable O acts on all n qubits | Exponential in n | 2-design + global O → Var ∝ 1/4^n |
 | Deep random circuits | Depth L = O(poly(n)); random gates | Exponential in n | Circuit forms 2-design; Haar measure |
@@ -59,7 +59,7 @@ Barren plateaus (BPs) are regions of the variational parameter landscape where t
 ### 8.1.3 Noise-Induced Barren Plateaus
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 8.2  Noise-Induced Barren Plateaus (Wang et al., Nature Communications 2021)</strong></p>
+<p class="box-title"><strong>Theorem 8.2 Noise-Induced Barren Plateaus (Wang et al., Nature Communications 2021)</strong></p>
 <p>For a variational circuit of depth L with single-qubit depolarising noise ε per gate:</p>
 <p>Var[ ∂C/∂θ_k ] ≤ 2 · (1 − ε)^L · Var[ ∂C/∂θ_k ]_{noiseless}</p>
 <p>The gradient variance decays EXPONENTIALLY with circuit depth L.</p>
@@ -80,9 +80,9 @@ Switching from global to local cost functions is the most impactful mitigation. 
 
 **C\_local = (1/n) Σᵢ Tr(O\_i^(k) ρ)   where each O\_i^(k) acts on qubit i and its k−1 neighbours**
 
-| Cost Function Type | Gradient Variance Scaling | Training Feasibility |
+| **Cost Function Type** | **Gradient Variance Scaling** | **Training Feasibility** |
 |---|---|---|
-| Global (all n qubits) | Var ∝ 1/4^n | Exponentially hard; BP certain for n > 20 |
+| Global (all n qubits) | Var ∝ 1/4^n | Exponentially hard; BP certain for n &gt; 20 |
 | Semi-local (n/2 qubits) | Var ∝ 1/4^(n/2) | Better but still exponential |
 | Local (k = O(1) qubits) | Var ∝ 1/poly(n) | Polynomial cost — BP-free! |
 | Single qubit (k = 1) | Var = Θ(1/n) | Best; only 1/n suppression |
@@ -91,11 +91,9 @@ Switching from global to local cost functions is the most impactful mitigation. 
 
 Layerwise training adds circuit layers one at a time, training each new layer to convergence before adding the next. This keeps the effective circuit depth small during training, avoiding the 2-design regime that causes BPs.
 
-- Train Layer 1 with all other layers fixed → converge to local minimum.
-
-- Fix Layer 1 parameters. Add Layer 2 and train → converge.
-
-- Repeat until all p layers are trained.
+1. Train Layer 1 with all other layers fixed → converge to local minimum.
+2. Fix Layer 1 parameters. Add Layer 2 and train → converge.
+3. Repeat until all p layers are trained.
 
 Identity initialisation (Cerezo et al. 2021): initialise all parameters near zero so U(θ ≈ 0) ≈ I. At the identity, gradients are not exponentially suppressed — the circuit can 'grow' its complexity as needed from a well-conditioned starting point.
 
@@ -104,9 +102,7 @@ Identity initialisation (Cerezo et al. 2021): initialise all parameters near zer
 Ansatze that preserve physical symmetries (particle number, spin, spatial symmetry) naturally avoid BPs because they operate on a restricted subspace of the full Hilbert space — exponentially smaller than the full 2^n-dimensional space.
 
 - Particle-number-preserving ansatze (chemistry): only explore states with fixed electron count, reducing effective dimension from 2^n to C(n,k).
-
 - Equivariant QNNs (EQNNs): networks that commute with a symmetry group; gradients scale polynomially if the symmetry group is sufficiently large.
-
 - UCCSD with chemical pre-selection: only include the most relevant excitations — dramatically reduces parameter count and avoids BP regime.
 
 ## 8.3 Quantum Error Mitigation (QEM)
@@ -115,19 +111,19 @@ Quantum error mitigation is distinct from quantum error correction. While QEC us
 
 ### 8.3.1 Zero-Noise Extrapolation (ZNE)
 
-ZNE (Temme, Bravyi & Gambetta 2017) deliberately amplifies circuit noise by known factors λ, measures C(λ) at each level, then extrapolates back to the zero-noise limit λ → 0:
+ZNE (Temme, Bravyi &amp; Gambetta 2017) deliberately amplifies circuit noise by known factors λ, measures C(λ) at each level, then extrapolates back to the zero-noise limit λ → 0:
 
 **C\_ideal ≈ Extrapolate( {C(λ₁), C(λ₂), ..., C(λ\_m)} )  as  λ → 0**
 
 Noise amplification is achieved by gate folding: replace each gate U with U U† U (tripling the noise contribution of that gate). Richardson extrapolation with m noise levels eliminates the first m−1 leading error terms.
 
-<img class="fig-img" src="content/images/image26.png" alt="figure">
+<img class="fig-img" src="content/images/image55.png" alt="figure">
 
 **Figure 4: Zero-Noise Extrapolation Protocol** *— Left: gate folding at λ=1,2,3,4× noise levels. Right: linear fit + Richardson extrapolation to zero-noise C\_ideal*
 
 ### 8.3.2 Probabilistic Error Cancellation (PEC)
 
-PEC decomposes the ideal quantum channel as a linear combination of noisy, physically implementable channels (quasi-probability decomposition). By sampling from this decomposition with correct signs, one recovers ideal expectation values. The sampling overhead scales as γ^(2L) where γ = Σ\_k |c\_k| > 1:
+PEC decomposes the ideal quantum channel as a linear combination of noisy, physically implementable channels (quasi-probability decomposition). By sampling from this decomposition with correct signs, one recovers ideal expectation values. The sampling overhead scales as γ^(2L) where γ = Σ\_k |c\_k| &gt; 1:
 
 **Total sampling overhead ≈ e^(2Lε)  for L gates each with error rate ε**
 
@@ -135,11 +131,11 @@ For L = 100 gates, ε = 0.1%: overhead ≈ e^0.2 ≈ 1.22 (modest). For L = 1000
 
 ### 8.3.3 Classical Shadows
 
-Classical shadows (Huang, Kueng & Preskill, Nature Physics 2020) is a tomography protocol that estimates many properties of a quantum state simultaneously with far fewer measurements than full state tomography. Using M shadow samples, one estimates any K different k-local observables to precision ε using:
+Classical shadows (Huang, Kueng &amp; Preskill, Nature Physics 2020) is a tomography protocol that estimates many properties of a quantum state simultaneously with far fewer measurements than full state tomography. Using M shadow samples, one estimates any K different k-local observables to precision ε using:
 
 **M = O( 3^k log(K) / ε² )  measurements  —  independent of the total qubit count n !**
 
-| QEM Method | Overhead | Accuracy | Best For |
+| **QEM Method** | **Overhead** | **Accuracy** | **Best For** |
 |---|---|---|---|
 | Zero-Noise Extrapolation (ZNE) | 2–5× shots | Moderate; limited by noise model | Any NISQ circuit; cheap |
 | Probabilistic Error Cancellation (PEC) | e^(2Lε) shots | Exact in principle | Short circuits; well-characterised noise |
@@ -151,7 +147,7 @@ Classical shadows (Huang, Kueng & Preskill, Nature Physics 2020) is a tomography
 
 After studying QAOA, VQE, barren plateaus, and error mitigation, we are in a position to give an honest, evidence-based assessment of when and how near-term quantum advantage from variational algorithms might be achieved.
 
-| Problem Domain | Classical SOTA (2024) | VQA Status | Realistic Advantage? |
+| **Problem Domain** | **Classical SOTA (2024)** | **VQA Status** | **Realistic Advantage?** |
 |---|---|---|---|
 | MaxCut (3-regular) | GW SDP: ≥0.878×OPT; milliseconds | QAOA p=1: 0.69×OPT | NOT demonstrated; GW wins |
 | H₂/LiH/H₂O chemistry | CCSD(T): near-exact | VQE matches for small systems | NOT for these molecules |
@@ -161,7 +157,7 @@ After studying QAOA, VQE, barren plateaus, and error mitigation, we are in a pos
 | Quantum simulation (3D models) | Tensor network: limited | Trotterised VQE: promising | Possible near-term for 3D |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  QAOA: What Is and Is NOT Proven</strong></p>
+<p class="box-title"><strong>⚠ QAOA: What Is and Is NOT Proven</strong></p>
 <p>PROVEN advantages:</p>
 <p>• QAOA p=1 achieves ≥11/16 approximation for MaxCut on 3-regular unweighted graphs (Farhi 2014)</p>
 <p>• QAOA at p → ∞ converges to optimal solution (adiabatic theorem)</p>
@@ -175,7 +171,7 @@ After studying QAOA, VQE, barren plateaus, and error mitigation, we are in a pos
 </div>
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Farhi's Bet and the QAOA Race (2014–2022)</strong></p>
+<p class="box-title"><strong>📜 Farhi's Bet and the QAOA Race (2014–2022)</strong></p>
 <p>When Farhi introduced QAOA in 2014, he made a bold informal bet: that QAOA at constant p would</p>
 <p>eventually beat the Goemans-Williamson SDP for MaxCut. The quantum community got excited.</p>
 <p>By 2019, Hastings (Microsoft Research) published numerical evidence suggesting constant-p QAOA</p>
@@ -189,7 +185,7 @@ After studying QAOA, VQE, barren plateaus, and error mitigation, we are in a pos
 </div>
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Honest Near-Term Quantum Advantage Outlook (2024–2035)</strong></p>
+<p class="box-title"><strong>🌐 Honest Near-Term Quantum Advantage Outlook (2024–2035)</strong></p>
 <p>NISQ era (2024–2030): No demonstrated practical advantage for commercial problems.</p>
 <p>• Quantum chemistry (small molecules): matches CCSD but cannot surpass CCSD(T) on NISQ</p>
 <p>• Optimisation (MaxCut, portfolio): classical solvers consistently outperform QAOA</p>
@@ -214,7 +210,7 @@ QAOA can be understood as a Trotterised adiabatic evolution. The adiabatic algor
 
 A p-layer QAOA circuit approximates this evolution in p discrete steps. As p → ∞, QAOA converges to the adiabatic algorithm and achieves the exact optimal solution.
 
-| QAOA Depth p | MaxCut Approx. Ratio (3-regular) | 2-Qubit Gate Count | Notes |
+| **QAOA Depth p** | **MaxCut Approx. Ratio (3-regular)** | **2-Qubit Gate Count** | **Notes** |
 |---|---|---|---|
 | p = 1 | 11/16 ≈ 0.688 | O(n) | Proven; worse than classical GW |
 | p = 2 | ~0.756 (numerical) | O(2n) | Better; still below GW |
@@ -223,7 +219,7 @@ A p-layer QAOA circuit approximates this evolution in p discrete steps. As p →
 | p → ∞ | = OPT | → ∞ | Exact; requires infinite depth |
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 8 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 8 Summary</strong></p>
 <p>Barren Plateau Theorem:  Var[∂C/∂θ] ≤ poly(n)/4^n for global cost + random deep circuit</p>
 <p>Noise-induced BPs:       Var decays as (1−ε)^L with depth L and gate error ε</p>
 <p>Local cost functions:    Var ∝ 1/poly(n) instead of 1/4^n — essential for scalable training</p>
@@ -236,9 +232,63 @@ A p-layer QAOA circuit approximates this evolution in p discrete steps. As p →
 <p>Near-term VQA advantage: Only quantum chemistry (strongly correlated) with fault-tolerant HW</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 8.6 The Practical Toolkit: Mitigation Strategies, the Road Ahead, and an Honest Scorecard
 
-Chapter 8: Barren Plateaus, Error Mitigation & the Limits of NISQ Advantage
+This chapter has diagnosed why near-term variational algorithms struggle - barren plateaus, limited expressibility, hardware noise. It closes by assembling the practical toolkit used to cope with these problems today, mapping the road from where we are now to fault tolerance, and giving the most honest scorecard this book can offer for near-term quantum advantage.
+
+### 8.6.1 Comparing Barren-Plateau Mitigations
+
+No single fix eliminates barren plateaus, but several strategies slow their onset: restricting the cost function to local observables rather than global ones, training layer-by-layer rather than all parameters at once, and choosing ansatze whose structure preserves some symmetry of the problem rather than an unstructured hardware-efficient template. Each buys a somewhat larger qubit count before gradients vanish, at some cost in generality or implementation complexity.
+
+<figure class="book-figure">
+<img src="content/images/image56.png" alt="Figure 8.3: Barren-Plateau Mitigation Strategies Slow the Exponential Gradient Decay">
+<figcaption>Figure 8.3: Barren-Plateau Mitigation Strategies Slow the Exponential Gradient Decay</figcaption>
+</figure>
+
+### 8.6.2 Error Mitigation Without Error Correction
+
+Full quantum error correction (Chapters 5-6) needs far more physical qubits than any current device provides. In the meantime, error MITIGATION techniques trade extra circuit repetitions for reduced bias, without adding a single physical qubit: zero-noise extrapolation runs the same circuit at deliberately amplified noise levels and extrapolates back to zero; probabilistic error cancellation samples a quasi-probability distribution over inverse noise channels; and classical shadows use randomised measurements to reconstruct many observables from comparatively few shots. These are the techniques actually deployed in commercial cloud quantum computing offerings today.
+
+<figure class="book-figure">
+<img src="content/images/image57.png" alt="Figure 8.4: Three Quantum Error Mitigation Techniques at a Glance">
+<figcaption>Figure 8.4: Three Quantum Error Mitigation Techniques at a Glance</figcaption>
+</figure>
+
+### 8.6.3 The Road from NISQ to Fault Tolerance
+
+It is useful to picture the field's trajectory as a sequence of stages rather than a single leap: today's noisy, mitigation-dependent NISQ devices; early error-correction demonstrations with a handful of logical qubits and break-even results; fault-tolerant modules with hundreds of logical qubits; and, eventually, scaled fault-tolerant machines capable of running Shor's or HHL algorithms at the scale Chapter 1 describes. Each stage builds directly on the physical error rates that Chapter 6's threshold theorem governs.
+
+<figure class="book-figure">
+<img src="content/images/image58.png" alt="Figure 8.5: The Roadmap from NISQ to Fault-Tolerant Quantum Computing">
+<figcaption>Figure 8.5: The Roadmap from NISQ to Fault-Tolerant Quantum Computing</figcaption>
+</figure>
+
+### 8.6.4 An Honest Scorecard
+
+Pulling every application discussed across this book onto one scale: random circuit sampling has the strongest evidence of a genuine (if not yet useful) computational advantage; quantum chemistry via VQE shows promise but remains bottlenecked by circuit depth and noise; quantum optimisation and quantum machine learning have the least rigorous evidence of advantage relative to how much attention they receive. None of this is cause for pessimism - it is simply the evidence as it stands, and distinguishing it clearly is a professional skill this book has tried to model throughout.
+
+<figure class="book-figure">
+<img src="content/images/image59.png" alt="Figure 8.6: Honest Assessment of Near-Term Quantum Advantage by Application (0-10 scale)">
+<figcaption>Figure 8.6: Honest Assessment of Near-Term Quantum Advantage by Application (0-10 scale)</figcaption>
+</figure>
+
+<div class="box box-warning">
+<p class="box-title"><strong>⚠️ Warning: Scorecards Age Quickly</strong></p>
+<p>This assessment reflects the evidence available as this book was written. Quantum computing is a fast-moving field - treat any single scorecard, including this one, as a snapshot to be updated against the latest peer-reviewed results, not a permanent verdict.</p>
+</div>
+
+### 8.6.5 Worked Example: The Expressibility-Trainability Tension
+
+A deeper hardware-efficient circuit becomes more expressible - better able, in principle, to represent a rich family of quantum states - but this same increase in expressibility is what drives it toward Haar-random behaviour, and therefore toward the barren-plateau regime described earlier in this chapter. Choosing a circuit depth is therefore not simply 'more is better'; it is a genuine trade-off that must be tuned against the specific problem size and available coherence budget.
+
+<figure class="book-figure">
+<img src="content/images/image60.png" alt="Figure 8.7: The Expressibility-Trainability Trade-off in Parameterised Circuits">
+<figcaption>Figure 8.7: The Expressibility-Trainability Trade-off in Parameterised Circuits</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 8: Barren Plateaus, Error Mitigation &amp; the Limits of NISQ Advantage
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -321,7 +371,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 4  Barren Plateau: Shot Count Estimate for n=20 Qubits</strong></p>
+<p class="box-title"><strong>Solved Example 4 Barren Plateau: Shot Count Estimate for n=20 Qubits</strong></p>
 <p>Problem: For a random 20-qubit circuit (global cost, 2-design), estimate the number of</p>
 <p>shots to estimate ∂C/∂θ₁ with signal-to-noise ratio of 10.</p>
 <p>Barren plateau theorem: Var[∂C/∂θ] ≤ poly(n)/4^n</p>
@@ -335,7 +385,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 6  Zero-Noise Extrapolation: Richardson Calculation</strong></p>
+<p class="box-title"><strong>Solved Example 6 Zero-Noise Extrapolation: Richardson Calculation</strong></p>
 <p>Problem: A noisy VQE gives: C(1×) = 0.820,  C(2×) = 0.740,  C(3×) = 0.660.</p>
 <p>Use Richardson extrapolation to estimate C_ideal.</p>
 <p>Linear extrapolation (points at λ=1, λ=2):</p>
@@ -351,7 +401,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 8  Classical vs Quantum Optimisation: Break-Even Analysis</strong></p>
+<p class="box-title"><strong>Solved Example 8 Classical vs Quantum Optimisation: Break-Even Analysis</strong></p>
 <p>Problem: Compare QAOA and Goemans-Williamson for MaxCut on a 100-node 3-regular graph.</p>
 <p>Assess whether QAOA can win.</p>
 <p>(a) Classical GW SDP:</p>
@@ -389,14 +439,14 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 
 **18.** Why does QNG converge faster than standard GD? Explain using Fisher information analogy.  *[Ans: GD steps in parameter space ignoring geometry; QNG steps in state-space geometry (F^{-1} preconditioning) → removes redundant directions, more efficient steps toward minimum]*
 
-**19.** QAOA on 50-node 3-regular graph at p=1. Circuit depth? How does it compare to GW runtime?  *[Ans: 75 edges × 2 CNOT + 50 Rx = 200 2Q gates; ~1ms simulator; GW runs in <1ms on laptop — quantum NOT faster]*
+**19.** QAOA on 50-node 3-regular graph at p=1. Circuit depth? How does it compare to GW runtime?  *[Ans: 75 edges × 2 CNOT + 50 Rx = 200 2Q gates; ~1ms simulator; GW runs in &lt;1ms on laptop — quantum NOT faster]*
 
-**20.** Describe an experiment to test whether QAOA p=3 beats GW for MaxCut on 20-node 3-regular graphs.  *[Ans: Run 100+ random instances; compute approx ratio = cut/OPT; QAOA target > 0.878; t-test p<0.01; must show QAOA consistently beats GW]*
+**20.** Describe an experiment to test whether QAOA p=3 beats GW for MaxCut on 20-node 3-regular graphs.  *[Ans: Run 100+ random instances; compute approx ratio = cut/OPT; QAOA target &gt; 0.878; t-test p&lt;0.01; must show QAOA consistently beats GW]*
 
 ## C. Multiple Choice Questions
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q16.  The barren plateau theorem states that for global cost functions and random deep circuits:</strong></p>
+<p class="box-title"><strong>Q16. The barren plateau theorem states that for global cost functions and random deep circuits:</strong></p>
 <p>(A)  Gradients vanish as 1/n</p>
 <p>(B)  Gradients vanish as 1/4^n (exponentially in qubit count)</p>
 <p>(C)  Gradients are always exactly zero</p>
@@ -404,7 +454,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q17.  Noise-induced barren plateaus arise because:</strong></p>
+<p class="box-title"><strong>Q17. Noise-induced barren plateaus arise because:</strong></p>
 <p>(A)  The cost function is globally defined</p>
 <p>(B)  Physical gate errors decohere the state toward the maximally mixed state as circuit depth increases</p>
 <p>(C)  The ansatz is too expressive</p>
@@ -412,7 +462,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q18.  The most effective mitigation for expressibility-induced barren plateaus is:</strong></p>
+<p class="box-title"><strong>Q18. The most effective mitigation for expressibility-induced barren plateaus is:</strong></p>
 <p>(A)  Using more qubits</p>
 <p>(B)  Switching from global to local (k-local) cost functions</p>
 <p>(C)  Increasing the circuit depth</p>
@@ -420,7 +470,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q19.  Layerwise training avoids barren plateaus because:</strong></p>
+<p class="box-title"><strong>Q19. Layerwise training avoids barren plateaus because:</strong></p>
 <p>(A)  It uses gradient-free optimisation only</p>
 <p>(B)  It keeps effective circuit depth small during training, avoiding the 2-design regime</p>
 <p>(C)  It reduces the number of parameters automatically</p>
@@ -428,7 +478,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q20.  Zero-Noise Extrapolation (ZNE) works by:</strong></p>
+<p class="box-title"><strong>Q20. Zero-Noise Extrapolation (ZNE) works by:</strong></p>
 <p>(A)  Running the circuit at lower physical temperature</p>
 <p>(B)  Amplifying circuit noise by known factors and extrapolating back to zero noise</p>
 <p>(C)  Using error-corrected logical qubits</p>
@@ -436,7 +486,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q21.  The sampling overhead of PEC for L noisy gates with individual gate error ε scales as:</strong></p>
+<p class="box-title"><strong>Q21. The sampling overhead of PEC for L noisy gates with individual gate error ε scales as:</strong></p>
 <p>(A)  O(Lε)</p>
 <p>(B)  O(e^(2Lε))</p>
 <p>(C)  O(L/ε²)</p>
@@ -444,7 +494,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q22.  Classical shadows require O(3^k log K / ε²) measurements to estimate:</strong></p>
+<p class="box-title"><strong>Q22. Classical shadows require O(3^k log K / ε²) measurements to estimate:</strong></p>
 <p>(A)  Full state tomography of n qubits</p>
 <p>(B)  K different k-local observables to precision ε, independent of n</p>
 <p>(C)  A single global observable to precision ε</p>
@@ -452,7 +502,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q23.  QAOA at p=1 cannot match the Goemans-Williamson approximation ratio because:</strong></p>
+<p class="box-title"><strong>Q23. QAOA at p=1 cannot match the Goemans-Williamson approximation ratio because:</strong></p>
 <p>(A)  QAOA uses too many qubits</p>
 <p>(B)  p=1 achieves ratio 11/16 ≈ 0.69, less than GW's 0.878</p>
 <p>(C)  QAOA requires fault-tolerant hardware to be competitive</p>
@@ -460,7 +510,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q24.  ADAPT-VQE selects new operators by:</strong></p>
+<p class="box-title"><strong>Q24. ADAPT-VQE selects new operators by:</strong></p>
 <p>(A)  Random selection from the operator pool</p>
 <p>(B)  Greedily selecting the operator with the largest gradient |∂E/∂θ_k| at the current state</p>
 <p>(C)  Selecting all operators simultaneously in one layer</p>
@@ -468,7 +518,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q25.  Warm-start QAOA initialises the quantum state using:</strong></p>
+<p class="box-title"><strong>Q25. Warm-start QAOA initialises the quantum state using:</strong></p>
 <p>(A)  The uniform |+⟩^⊗n superposition</p>
 <p>(B)  A quantum state encoding the classical SDP solution</p>
 <p>(C)  Random initialisation near |0⟩^⊗n</p>
@@ -476,7 +526,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q26.  Measurement Error Mitigation (MEM) corrects for which type of error?</strong></p>
+<p class="box-title"><strong>Q26. Measurement Error Mitigation (MEM) corrects for which type of error?</strong></p>
 <p>(A)  Two-qubit gate errors in the middle of the circuit</p>
 <p>(B)  Decoherence during the computation</p>
 <p>(C)  Readout errors: confusion between |0⟩ and |1⟩ at measurement</p>
@@ -484,7 +534,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q27.  Which application represents the most realistic near-term quantum advantage from VQAs?</strong></p>
+<p class="box-title"><strong>Q27. Which application represents the most realistic near-term quantum advantage from VQAs?</strong></p>
 <p>(A)  MaxCut optimisation for large logistics networks</p>
 <p>(B)  Portfolio optimisation for financial institutions</p>
 <p>(C)  Quantum simulation of strongly correlated molecules (FeMoco, high-Tc SC)</p>
@@ -492,7 +542,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q28.  The Recursive QAOA (RQAOA) improves on standard QAOA by:</strong></p>
+<p class="box-title"><strong>Q28. The Recursive QAOA (RQAOA) improves on standard QAOA by:</strong></p>
 <p>(A)  Using more layers to increase approximation ratio</p>
 <p>(B)  Iteratively eliminating the most correlated variable pairs and reducing problem size</p>
 <p>(C)  Running QAOA classically via tensor network simulation</p>
@@ -500,7 +550,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q29.  For a sinusoidal C(θ) = A + B cos(θ), both the parameter shift result and direct differentiation give:</strong></p>
+<p class="box-title"><strong>Q29. For a sinusoidal C(θ) = A + B cos(θ), both the parameter shift result and direct differentiation give:</strong></p>
 <p>(A)  −B sin(θ) — they agree (parameter shift is exact, not approximate)</p>
 <p>(B)  Different results because shift introduces approximation error</p>
 <p>(C)  B cos(θ + π/2)</p>
@@ -508,7 +558,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q30.  The barren plateau problem is fundamentally caused by which property of random quantum circuits?</strong></p>
+<p class="box-title"><strong>Q30. The barren plateau problem is fundamentally caused by which property of random quantum circuits?</strong></p>
 <p>(A)  They generate maximal entanglement in the output state</p>
 <p>(B)  They form approximate unitary 2-designs, making the cost function nearly constant everywhere</p>
 <p>(C)  They have too many parameters for any classical optimiser to handle</p>
@@ -516,7 +566,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 8 (Q16–Q30)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 8 (Q16–Q30)</strong></p>
 <p>Q16:B   Q17:B   Q18:B   Q19:B   Q20:B   Q21:B   Q22:B   Q23:B   Q24:B   Q25:B</p>
 <p>Q26:C   Q27:C   Q28:B   Q29:A   Q30:B</p>
 </div>
@@ -548,7 +598,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 ## E. Programming / Research Assignments
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 2: VQE with Barren Plateau Analysis</strong></p>
+<p class="box-title"><strong>🌐 Assignment 2: VQE with Barren Plateau Analysis</strong></p>
 <p>Explore barren plateaus in VQE using Qiskit:</p>
 <p>(a) Run VQE for H₂ with UCCSD ansatz; compare COBYLA and ADAM convergence</p>
 <p>(b) Replace UCCSD with a random hardware-efficient SU(2) ansatz (8 layers).</p>
@@ -564,7 +614,7 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 ## F. Project Suggestions
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 3: Barren Plateau Mitigation Toolkit</strong></p>
+<p class="box-title"><strong>🔑 Project 3: Barren Plateau Mitigation Toolkit</strong></p>
 <p>Build a comprehensive toolkit for barren plateau mitigation in VQAs:</p>
 <p>• Implement and compare 4 mitigation strategies on a 10-qubit VQE problem:</p>
 <p>(1) Global vs local cost function</p>
@@ -582,17 +632,10 @@ Rigorous analyses show that as circuit noise or circuit size increases, the numb
 ## Chapter 8 References
 
 - McClean, J.R. et al. (2018). Barren plateaus in quantum neural network training landscapes. Nature Communications, 9, 4812.
-
 - Wang, S. et al. (2021). Noise-induced barren plateaus in variational quantum algorithms. Nature Communications, 12, 6961.
-
 - Cerezo, M. et al. (2021). Cost function dependent barren plateaus in shallow parametrized quantum circuits. Nature Communications, 12, 1791.
-
-- Temme, K., Bravyi, S. & Gambetta, J.M. (2017). Error Mitigation for Short-Depth Quantum Circuits. Physical Review Letters, 119, 180509.
-
-- Huang, H.-Y., Kueng, R. & Preskill, J. (2020). Predicting many properties of a quantum system from very few measurements. Nature Physics, 16, 1050–1057.
-
+- Temme, K., Bravyi, S. &amp; Gambetta, J.M. (2017). Error Mitigation for Short-Depth Quantum Circuits. Physical Review Letters, 119, 180509.
+- Huang, H.-Y., Kueng, R. &amp; Preskill, J. (2020). Predicting many properties of a quantum system from very few measurements. Nature Physics, 16, 1050–1057.
 - Bravyi, S. et al. (2020). Obstacles to Variational Quantum Optimization from Symmetry Protection. PRL, 125, 260505.
-
 - Grimsley, H.R. et al. (2019). An adaptive variational algorithm for exact molecular simulations. Nature Communications, 10, 3007.
-
-- Farhi, E. & Harrow, A.W. (2016). Quantum Supremacy through the QAOA. arXiv:1602.07674.
+- Farhi, E. &amp; Harrow, A.W. (2016). Quantum Supremacy through the QAOA. arXiv:1602.07674.

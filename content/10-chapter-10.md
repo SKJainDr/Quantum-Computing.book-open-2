@@ -1,11 +1,20 @@
 # CHAPTER 10
 
-# Quantum Transfer Learning, Data Encoding Strategies & Dequantisation
+# Quantum Transfer Learning, Data Encoding Strategies &amp; Dequantisation
 
 *Hybrid quantum-classical models, encoding depth analysis, PennyLane-PyTorch integration, and when classical ML matches quantum ML*
 
+<div class="box box-key-concept">
+<p class="box-title"><strong>🎯 Chapter 10 Learning Objectives</strong></p>
+<p>•  Build hybrid quantum-classical models that interleave quantum layers with classical PyTorch layers via PennyLane.</p>
+<p>•  Apply quantum transfer learning to reuse a pre-trained classical feature extractor ahead of a small quantum circuit.</p>
+<p>•  Analyse how encoding depth and data re-uploading affect a quantum model's expressibility and trainability.</p>
+<p>•  Identify when a proposed quantum ML advantage has been dequantised, and reproduce the classical algorithm that matches it.</p>
+<p>•  Reflect on career pathways in quantum computing and the responsibilities of practitioners who communicate results to the public.</p>
+</div>
+
 <div class="box box-anecdote">
-<p class="box-title"><strong>📓  Data Encoding: The Unsung Bottleneck of Quantum Machine Learning</strong></p>
+<p class="box-title"><strong>📓 Data Encoding: The Unsung Bottleneck of Quantum Machine Learning</strong></p>
 <p>Every quantum machine learning algorithm begins with the same fundamental challenge: translating classical data — stored as floating-point numbers in a classical computer — into a quantum state that a quantum processor can act on. This encoding step is deceptively important. The choice of encoding determines what features the quantum model can represent, how many qubits and gates are required, and whether any quantum advantage can survive the overhead of the encoding itself.</p>
 <p>Amplitude encoding packs the most data into the fewest qubits (N data points into log₂N qubits) but requires an exponentially deep state preparation circuit. Angle encoding is shallow but uses one qubit per feature. Basis encoding is trivial for integer data but loses all continuous information. Each strategy creates a fundamentally different relationship between the data dimension and the quantum resource cost.</p>
 <p>Perez-Salinas et al. (2020) showed that a single qubit — with repeated angle re-uploading — can approximate any function to arbitrary precision. This data re-uploading protocol challenges the assumption that more qubits are always needed for more complex models, and opens a path to practical NISQ-era QML even on minimal hardware.</p>
@@ -40,7 +49,7 @@ Amplitude encoding packs a normalised classical vector x ∈ ℝᴺ (with ||x||=
 The critical caveat: preparing an arbitrary amplitude-encoded state requires O(2ⁿ) gates — exponential in the number of qubits, defeating the qubit compression. Approximate methods (quantum RAM, recursive state preparation) can reduce this to O(n²) gates but require ancilla qubits and introduce approximation error. For random vectors, classical precomputation of the state preparation circuit is itself O(2ⁿ).
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Warning: Amplitude Encoding Does Not Automatically Give Quantum Speedup</strong></p>
+<p class="box-title"><strong>⚠ Warning: Amplitude Encoding Does Not Automatically Give Quantum Speedup</strong></p>
 <p>A common misconception: “Amplitude encoding puts 2ⁿ values into n qubits, giving exponential compression.” This is true for storage, but it does not give computational speedup by itself.</p>
 <p>The problem: to extract all 2ⁿ amplitudes, O(2ⁿ) measurement outcomes are needed. This completely erases the qubit advantage.</p>
 <p>The only way amplitude encoding helps is if: (1) the algorithm only needs O(1) properties of the amplitude vector (not all amplitudes), and (2) state preparation is fast (e.g., via QRAM or the data is already in a quantum device). Both conditions must hold simultaneously — which is the core of the HHL and quantum recommendation systems debates.</p>
@@ -85,11 +94,11 @@ Perez-Salinas et al. (2020) introduced data re-uploading, a powerful technique t
 </div>
 
 <figure class="book-figure">
-<img src="content/images/image32.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image68.png" alt="Figure 14: Data Encoding Strategies — Angle, Amplitude, and Basis encoding compared">
+<figcaption>Figure 14: Data Encoding Strategies — Angle, Amplitude, and Basis encoding compared</figcaption>
 </figure>
 
-| Strategy | Qubits needed | Gates (depth) | Feature space | Recommended for |
+| **Strategy** | **Qubits needed** | **Gates (depth)** | **Feature space** | **Recommended for** |
 |---|---|---|---|---|
 | Angle | O(n) = n features | O(n) shallow | n-sphere (product) | NISQ, small n |
 | Amplitude | O(log N) | O(2ⁿ) deep | Full Hilbert ℂ^{2ⁿ} | Large N, fault-tolerant |
@@ -113,8 +122,8 @@ The standard quantum transfer learning architecture has three stages:
 **Stage 3 — Quantum Variational Head:** A parameterised quantum circuit W(θ) on n qubits (typically 2–8) processes the encoded state and outputs an expectation value ⟨Z⟩ (or a vector) for classification. Only W(θ) is trained.
 
 <figure class="book-figure">
-<img src="content/images/image33.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image69.png" alt="Figure 17: Quantum Transfer Learning Architecture — frozen classical backbone + trainable quantum head">
+<figcaption>Figure 17: Quantum Transfer Learning Architecture — frozen classical backbone + trainable quantum head</figcaption>
 </figure>
 
 <div class="box box-generic">
@@ -145,7 +154,7 @@ The quantum head operates in a 2ⁿ-dimensional Hilbert space. For n=4 qubits, t
 Moreover, the parameter-shift rule provides exact gradients even for shallow quantum circuits on noisy hardware, whereas classical networks require careful gradient clipping and normalisation to train. For small-data regimes (few training examples), the heavily parameterised classical head overfits; the quantum head’s implicit regularisation (constrained to the manifold of unitary evolutions) may help.
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Real World: Quantum Transfer Learning Applications</strong></p>
+<p class="box-title"><strong>🌐 Real World: Quantum Transfer Learning Applications</strong></p>
 <p>Medical imaging: Researchers at CERN and collaborating institutions have applied quantum transfer learning to classify high-energy physics events (jets) and to medical image classification (histopathology, retinal scans). Small quantum heads on 4–8 qubits achieve within 1–2% of classical fully-connected heads on balanced binary classification tasks.</p>
 <p>Drug discovery: Molecular property prediction using graph neural network backbones (pre-trained on large molecular databases) + quantum variational heads for specific property prediction tasks. The structured quantum head can exploit molecular symmetries through equivariant encoding.</p>
 <p>Natural language processing: Sentence classification using BERT embeddings + quantum heads has been explored by IBM Research. The approach is limited by the dimensionality reduction step (BERT’s 768-dimensional output must be aggressively reduced before quantum encoding).</p>
@@ -170,7 +179,7 @@ The key insight: quantum state preparation from amplitude encoding gives a quant
 
 ### 10.3.2 Tang’s Classical Algorithms for Quantum ML Tasks
 
-Tang (2019) showed that the quantum recommendation systems algorithm (Kerenidis & Prakash 2017, claiming exponential quantum speedup) can be matched classically using SQ access. The key classical algorithm is Monte Carlo matrix multiplication using importance sampling:
+Tang (2019) showed that the quantum recommendation systems algorithm (Kerenidis &amp; Prakash 2017, claiming exponential quantum speedup) can be matched classically using SQ access. The key classical algorithm is Monte Carlo matrix multiplication using importance sampling:
 
 <div class="box box-generic">
 <p class="box-title"><strong>Classical Dequantisation of Quantum Recommendation Systems</strong></p>
@@ -197,7 +206,7 @@ The same dequantisation approach applies to several other claimed quantum ML spe
 
 The dequantisation results have reshaped the quantum ML landscape. It is now possible to draw a clearer map of where genuine quantum advantages exist, where they are speculative, and where they have been definitively ruled out:
 
-| Algorithm | Claimed quantum advantage | Status (2025) | Condition for advantage |
+| **Algorithm** | **Claimed quantum advantage** | **Status (2025)** | **Condition for advantage** |
 |---|---|---|---|
 | QSVM (hard kernel) | Exp. separation in classification | Proven (Liu et al.) | Kernel must be classically hard |
 | HHL / quantum PCA | Exp. speedup for linear algebra | Dequantised (Tang) | SQ access removes advantage |
@@ -208,8 +217,8 @@ The dequantisation results have reshaped the quantum ML landscape. It is now pos
 | Quantum simulation | Exp. speedup for physics | Not dequantised | Quantum Hamiltonians are quantum |
 
 <figure class="book-figure">
-<img src="content/images/image34.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image70.png" alt="Figure 19: Dequantisation — classical SQ model vs quantum scaling, and quantum advantage map">
+<figcaption>Figure 19: Dequantisation — classical SQ model vs quantum scaling, and quantum advantage map</figcaption>
 </figure>
 
 ## 10.4 PennyLane Integration with PyTorch: Hybrid Quantum-Classical Pipelines
@@ -296,8 +305,8 @@ for epoch in range(50):
 The magic of PennyLane’s PyTorch interface is that loss.backward() automatically computes gradients through the quantum circuit using the parameter-shift rule. Each QNode parameter θ\_k contributes a gradient ∂L/∂θ\_k = (∂L/∂⟨Z⟩) · (∂⟨Z⟩/∂θ\_k). The first factor is computed by standard PyTorch autograd from the classical layers; the second factor is computed by the parameter-shift rule requiring two additional quantum circuit evaluations. For p quantum parameters and batch size B: total circuit evaluations per training step = B × (1 forward + 2p backward) = B(1+2p).
 
 <figure class="book-figure">
-<img src="content/images/image35.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image71.png" alt="Figure 18: PennyLane–PyTorch Hybrid Computation Graph — forward pass and parameter-shift backward pass">
+<figcaption>Figure 18: PennyLane–PyTorch Hybrid Computation Graph — forward pass and parameter-shift backward pass</figcaption>
 </figure>
 
 <div class="box box-generic">
@@ -365,13 +374,46 @@ print(f"Trainable parameters: {trainable_params}")  # ~2096
 ```
 
 <figure class="book-figure">
-<img src="content/images/image36.png" alt="">
-<figcaption></figcaption>
+<img src="content/images/image72.png" alt="Figure 16: QNN Training Dynamics — Loss and Accuracy per Epoch during Hybrid Training">
+<figcaption>Figure 16: QNN Training Dynamics — Loss and Accuracy per Epoch during Hybrid Training</figcaption>
 </figure>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 10.5 Careers, Responsibility, and India’s Quantum Mission
 
-Chapter 10: Data Encoding, Transfer Learning, Dequantisation & PennyLane
+This book closes not with another algorithm but with a question every reader will eventually face: what comes next? Quantum computing is no longer purely an academic curiosity - it is becoming a career, an industry, and in India specifically, a national research priority.
+
+### 10.5.1 A Student’s Roadmap
+
+A typical path runs from foundations (linear algebra, quantum mechanics, classical algorithms and complexity theory - much of it assumed by this book's companion Volume I) through the algorithms and software covered across these ten chapters, into a specialisation - hardware, error correction, quantum machine learning, quantum chemistry, or complexity theory - and finally into contribution, whether in an academic lab, a national mission, or one of the growing number of quantum computing companies and open-source projects such as Qiskit and PennyLane.
+
+<figure class="book-figure">
+<img src="content/images/image73.png" alt="Figure 10.6: Building a Career in Quantum Computing - A Student&#x27;s Roadmap">
+<figcaption>Figure 10.6: Building a Career in Quantum Computing - A Student's Roadmap</figcaption>
+</figure>
+
+### 10.5.2 India’s National Quantum Mission
+
+Approved in 2023 with an eight-year outlay through 2031, India's National Quantum Mission funds hardware testbeds, quantum communication research, quantum algorithms, and quantum materials research across IITs, IISc, and national laboratories, with the explicit goal of building indigenous quantum computers in the 50-1000 physical qubit range within the mission period. For readers of this book, it represents one of the first large, sustained waves of quantum-computing research funding and employment available to India-trained graduates.
+
+<div class="box box-generic">
+<p class="box-title"><strong>💡 Tip: Building a Portfolio, Not Just a Transcript</strong></p>
+<p>Contributing even a small, well-tested pull request to Qiskit, PennyLane, or Cirq - or reproducing a published result and writing up what did and did not match - demonstrates practical competence that a transcript alone cannot. Most quantum computing teams, in India and abroad, weigh a public portfolio of working code very heavily in hiring.</p>
+</div>
+
+This book has repeatedly drawn a line between proven, conditional, and dequantised speedups - between genuine advantage and hype that has outpaced the evidence. That habit of mind is not a footnote to the technical material; it is itself a professional skill, and arguably the most durable thing a reader can carry forward into a quantum computing career, whatever direction it takes.
+
+### 10.5.3 Worked Example: Does More Encoding Depth Always Help?
+
+Data re-uploading - repeating the classical-data-encoding gates at several points through a circuit rather than only at the start - increases a quantum model's effective expressibility without needing any additional qubits, since each re-upload lets the circuit access higher Fourier components of the encoded data. Gains typically saturate after a handful of re-uploading layers, beyond which additional depth mainly adds training difficulty and noise exposure rather than accuracy - a concrete, hands-on illustration of the expressibility-trainability tension explored more generally in Chapter 8.
+
+<figure class="book-figure">
+<img src="content/images/image74.png" alt="Figure 10.7: Data Re-Uploading Increases Model Expressibility Without Extra Qubits">
+<figcaption>Figure 10.7: Data Re-Uploading Increases Model Expressibility Without Extra Qubits</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
+
+Chapter 10: Data Encoding, Transfer Learning, Dequantisation &amp; PennyLane
 
 Instructions: Answer each question in 3–6 lines. Each question carries equal marks.
 
@@ -689,7 +731,7 @@ Presenting dequantisation results alongside quantum ML techniques ensures studen
 
 (b) Binary or integer-valued data such as graph adjacency matrices or molecular fingerprints
 
-(c) High-dimensional data with N > 2ⁿ features
+(c) High-dimensional data with N &gt; 2ⁿ features
 
 (d) Time-series data requiring temporal encoding
 
@@ -821,3 +863,77 @@ Implement a practical Python library for "quantum-inspired" classical ML algorit
 **Project 10.C — Quantum Transfer Learning on Real-World Image Data: Hardware Deployment:**
 
 Implement and deploy a complete quantum transfer learning system for binary image classification on real IBM Quantum hardware. Choose a classification task from one of: (A) Ants vs Bees (the Mari et al. 2020 benchmark, 245 training images), (B) COVID vs Normal chest X-rays (subset of 300 images), or (C) a satellite image dataset of two terrain types (forest vs urban) from the EuroSAT dataset. Pipeline: (a) Classical backbone: ResNet-18 pre-trained on ImageNet, frozen; extract 512-dimensional feature vectors for all images. (b) Classical reducer: trainable linear 512→4. (c) Quantum head: 4-qubit PQC using AngleEmbedding + 3 StronglyEntanglingLayers, implemented in PennyLane + Qiskit backend. Training: (d) Train entirely on PennyLane default.qubit simulator (noiseless) for 50 epochs. (e) Deploy on IBM Quantum hardware (ibm\_brisbane or equivalent): evaluate test set accuracy with 2048 shots per circuit. (f) Apply measurement error mitigation (mthree or Qiskit Runtime M3) and ZNE (Zero Noise Extrapolation) and report accuracy improvements. (g) Compare with: classical ResNet-18 + linear head; classical ResNet-18 + MLP head (same parameter count as quantum); QSVM with 4-qubit ZZFeatureMap. Hardware analysis: (h) Report qubit connectivity, transpiled circuit depth, CNOT count after transpilation, and device calibration data (T1, T2, gate fidelities) at time of experiment. (i) Model the relationship between noise level and accuracy using the depolarising noise model. Write a 20-page report including your experimental design, full results with confidence intervals (from 5 independent hardware runs), noise analysis, and a critical assessment of whether the quantum head provides measurable value beyond a classical head of equivalent size.
+
+## REFERENCES AND FURTHER READING
+
+### Foundational QML Papers
+
+Schuld M. &amp; Killoran N. (2019). Quantum Machine Learning in Feature Hilbert Spaces. PRL 122, 040504. — The landmark paper proving quantum models are kernel methods.
+
+Mitarai K., Negoro M., Kitagawa M., Fujii K. (2018). Quantum Circuit Learning. Physical Review A 98, 032309. — First derivation of the parameter-shift rule.
+
+Schuld M., Bergholm V., Gogolin C., Izaac J., Killoran N. (2019). Evaluating Analytic Gradients on Quantum Hardware. PRA 99, 032331. — Full parameter-shift framework.
+
+Perez-Salinas A., Cervera-Lierta A., Gil-Fuster E., Latorre J.I. (2020). Data Re-uploading for a Universal Quantum Classifier. Quantum 4, 226.
+
+Schuld M., Sweke R., Meyer J.J. (2021). Effect of Data Encoding on the Expressive Power of Variational Quantum-Machine-Learning Models. PRA 103, 032430. — Fourier series representation theorem.
+
+Havlíček V. et al. (2019). Supervised Learning with Quantum-Enhanced Feature Spaces. Nature 567, 209–212. — ZZFeatureMap and QSVM experimental demonstration.
+
+Mari A., Bromley T.R., Izaac J., Schuld M., Killoran N. (2020). Transfer Learning in Hybrid Classical-Quantum Neural Networks. Quantum 4, 340.
+
+Sim S., Johnson P.D., Aspuru-Guzik A. (2019). Expressibility and Entangling Capability of Parameterized Quantum Circuits for Hybrid Quantum-Classical Algorithms. Advanced Quantum Technologies 2, 1900070.
+
+McClean J.R., Boixo S., Smelyanskiy V.N., Babbush R., Neven H. (2018). Barren Plateaus in Quantum Neural Network Training Landscapes. Nature Communications 9, 4812.
+
+### Dequantisation and Classical ML Comparison
+
+Tang E. (2019). A Quantum-Inspired Classical Algorithm for Recommendation Systems. STOC 2019. — The original dequantisation paper.
+
+Tang E. (2021). Quantum Principal Component Analysis Only Achieves an Exponential Speedup Because of Its Superposition of Data Access. Physical Review Letters 127, 060503.
+
+Chia N.H., Li T., Lin H.H., Wang C. (2020). Sampling-Based Sublinear Low-Rank Matrix Arithmetic Framework for Dequantizing Quantum Machine Learning. STOC 2020.
+
+Liu Y., Arunachalam S., Temme K. (2021). A Rigorous and Robust Quantum Speed-Up in Supervised Machine Learning. Nature Physics 17, 1013–1017. — Formal quantum kernel advantage.
+
+Huang H.Y. et al. (2021). Power of Data in Quantum Machine Learning. Nature Communications 12, 2631.
+
+Kerenidis I. &amp; Prakash A. (2017). Quantum Recommendation Systems. ITCS 2017. — The original quantum recommendation algorithm that Tang dequantised.
+
+### PennyLane, PyTorch, and Tools
+
+Bergholm V. et al. (2018). PennyLane: Automatic Differentiation of Hybrid Quantum-Classical Computations. arXiv:1811.04968. — The PennyLane framework paper.
+
+PennyLane Documentation: pennylane.ai/qml. Comprehensive tutorials on QNNs, kernels, transfer learning, and PyTorch integration.
+
+Paszke A. et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. NeurIPS 2019. — PyTorch autograd framework.
+
+Qiskit Machine Learning Documentation: qiskit.org/documentation/machine-learning. QiskitML library with QNN, QSVM, and feature map implementations.
+
+Wierichs D., Izaac J., Wang C., Lin C.Y.Y. (2022). General Parameter-Shift Rules for Quantum Gradients. Quantum 6, 677. — Generalised parameter-shift for arbitrary generators.
+
+### Review Articles and Textbooks
+
+Biamonte J. et al. (2017). Quantum Machine Learning. Nature 549, 195–202. — The first major QML review.
+
+Schuld M. &amp; Petruccione F. (2021). Machine Learning with Quantum Computers. Springer. — The most complete textbook on QML.
+
+Cerezo M. et al. (2021). Variational Quantum Algorithms. Nature Reviews Physics 3, 625–644.
+
+Dunjko V. &amp; Briegel H.J. (2018). Machine Learning &amp; Artificial Intelligence in the Quantum Domain. Reports on Progress in Physics 81, 074001.
+
+Preskill J. (2018). Quantum Computing in the NISQ Era and Beyond. Quantum 2, 79. — Essential context for NISQ-era QML.
+
+### India and NQM Context
+
+Department of Science and Technology (2023). National Quantum Mission: Mission Document. Government of India. — The NQM strategic roadmap including AI/ML + quantum integration.
+
+QpiAI (Bengaluru): Indian quantum computing start-up developing hybrid quantum-classical ML frameworks for industrial optimisation.
+
+IIT Madras Quantum Lab, IIT Bombay Quantum Computing Group, IISc Centre for Quantum Information and Quantum Computing — Leading NQM hub institutions for QML research.
+
+CDAC Pune: Developing indigenous quantum computing software stack with QML modules for national applications.
+
+**— End of Unit V: Quantum Machine Learning Foundations (Chapters 9–10) —**
+
+Dr. S. K. Jain

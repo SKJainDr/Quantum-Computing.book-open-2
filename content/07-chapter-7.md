@@ -1,11 +1,11 @@
 # CHAPTER 7
 
-# QAOA, VQE for Molecular Systems & Optimiser Strategies
+# QAOA, VQE for Molecular Systems &amp; Optimiser Strategies
 
-*Cost & Mixer Hamiltonians  |  MaxCut  |  UCCSD  |  Active Space  |  CCSD(T)  |  COBYLA / SPSA / ADAM*
+*Cost &amp; Mixer Hamiltonians  |  MaxCut  |  UCCSD  |  Active Space  |  CCSD(T)  |  COBYLA / SPSA / ADAM*
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  Opening Reflection — Edward Farhi, MIT, 2014</strong></p>
+<p class="box-title"><strong>📜 Opening Reflection — Edward Farhi, MIT, 2014</strong></p>
 <p>"The variational principle is perhaps the most powerful single idea in physics.</p>
 <p>The best approximate answer is the one that minimises the energy.</p>
 <p>Quantum computers let us explore a vastly richer set of trial states than classical computers ever could."</p>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Chapter 7 Learning Objectives</strong></p>
+<p class="box-title"><strong>🔑 Chapter 7 Learning Objectives</strong></p>
 <p>After studying this chapter, you will be able to:</p>
 <p>•  Formulate the QAOA circuit for general combinatorial optimisation problems</p>
 <p>•  Define cost and mixer Hamiltonians and construct p-layer QAOA circuits</p>
@@ -30,7 +30,7 @@
 We are currently in the Noisy Intermediate-Scale Quantum (NISQ) era — quantum processors with 50–1000 qubits but without full quantum error correction. In this regime, the deep coherent circuits needed for Shor's algorithm are unavailable. Variational Quantum Algorithms (VQAs) are designed specifically for NISQ hardware: they use shallow, parametrised circuits and offload optimisation to a classical co-processor.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  The NISQ Term — John Preskill, 2018</strong></p>
+<p class="box-title"><strong>📜 The NISQ Term — John Preskill, 2018</strong></p>
 <p>The term 'NISQ' (Noisy Intermediate-Scale Quantum) was coined by John Preskill in his landmark 2018 paper 'Quantum</p>
 <p>Computing in the NISQ Era and Beyond'. Rather than waiting decades for fault-tolerant quantum computers, Preskill</p>
 <p>encouraged the community to ask: what useful computations might be achievable on noisy near-term hardware?</p>
@@ -42,21 +42,18 @@ We are currently in the Noisy Intermediate-Scale Quantum (NISQ) era — quantum 
 
 The core idea of a Variational Quantum Algorithm is the hybrid quantum-classical loop shown below. Every VQA — from VQE to QAOA to quantum neural networks — follows this same four-step structure:
 
-- A parametrised quantum circuit (the ansatz) prepares a trial state |ψ(θ)⟩.
+1. A parametrised quantum circuit (the ansatz) prepares a trial state |ψ(θ)⟩.
+2. The quantum processor measures the cost function: C(θ) = ⟨ψ(θ)|H|ψ(θ)⟩.
+3. A classical optimiser updates the parameters θ to minimise (or maximise) C(θ).
+4. Repeat until convergence. Output the optimal parameters θ\* and the solution.
 
-- The quantum processor measures the cost function: C(θ) = ⟨ψ(θ)|H|ψ(θ)⟩.
-
-- A classical optimiser updates the parameters θ to minimise (or maximise) C(θ).
-
-- Repeat until convergence. Output the optimal parameters θ\* and the solution.
-
-<img class="fig-img" src="content/images/image23.png" alt="figure">
+<img class="fig-img" src="content/images/image47.png" alt="figure">
 
 **Figure 1: VQA Hybrid Classical-Quantum Loop** *— The quantum processor evaluates cost values; the classical optimiser drives parameter updates toward the minimum*
 
 ## 7.2 The Quantum Approximate Optimisation Algorithm (QAOA)
 
-QAOA (Farhi, Goldstone & Gutmann, 2014) is a variational algorithm specifically designed for combinatorial optimisation problems. It is inspired by adiabatic quantum computing: a system slowly evolved from an easy initial state to the ground state of a hard problem Hamiltonian. QAOA truncates this adiabatic path into p discrete layers.
+QAOA (Farhi, Goldstone &amp; Gutmann, 2014) is a variational algorithm specifically designed for combinatorial optimisation problems. It is inspired by adiabatic quantum computing: a system slowly evolved from an easy initial state to the ground state of a hard problem Hamiltonian. QAOA truncates this adiabatic path into p discrete layers.
 
 ### 7.2.1 General QAOA Framework
 
@@ -67,7 +64,7 @@ Given a combinatorial optimisation problem with n binary variables, we encode it
 where |+⟩^⊗n = H^⊗n|0^n⟩ is the uniform superposition (ground state of the standard mixer H\_B = Σⱼ Xⱼ), and (γ,β) = (γ₁,...,γ\_p, β₁,...,β\_p) are the 2p variational parameters.
 
 <div class="box box-generic">
-<p class="box-title"><strong>Definition 7.1  QAOA Circuit Structure</strong></p>
+<p class="box-title"><strong>Definition 7.1 QAOA Circuit Structure</strong></p>
 <p>Parameters:  p layers,  angles (γ₁,...,γ_p) for phase separation,  (β₁,...,β_p) for mixing</p>
 <p>Initialisation:  |ψ₀⟩ = H^⊗n |0^n⟩  =  (1/√2^n) Σ_z |z⟩   (uniform superposition)</p>
 <p>Phase separation layer k:   U_C(γ_k) = e^(−iγ_k H_C)  —  applies cost as a quantum phase</p>
@@ -82,12 +79,12 @@ where |+⟩^⊗n = H^⊗n|0^n⟩ is the uniform superposition (ground state of t
 
 For MaxCut on a graph G = (V,E), the cost Hamiltonian is H\_C = Σ\_{(i,j)∈E} w\_{ij}(I − Z\_i Z\_j)/2. Each ZZ interaction is implemented as a CNOT–Rz(2γ)–CNOT sequence, and the mixer e^(−iβ Xⱼ) = Rx(2β) is a simple single-qubit rotation. The full circuit for the 3-node triangle K₃ at p = 1 is shown below:
 
-<img class="fig-img" src="content/images/image24.png" alt="figure">
+<img class="fig-img" src="content/images/image48.png" alt="figure">
 
 **Figure 2: QAOA p=1 Circuit for MaxCut on K₃ (Triangle Graph)** *— Hadamard initialisation, ZZ phase separation on each of 3 edges, X-rotation mixing per vertex; 6 CNOT gates total*
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  QAOA at p=1 vs Classical Goemans-Williamson</strong></p>
+<p class="box-title"><strong>⚠ QAOA at p=1 vs Classical Goemans-Williamson</strong></p>
 <p>QAOA at p = 1 achieves an approximation ratio of 11/16 ≈ 0.6875 for MaxCut on 3-regular unweighted graphs.</p>
 <p>This is a PROVEN result (Farhi, Goldstone &amp; Gutmann 2014).</p>
 <p>However, the classical Goemans-Williamson SDP algorithm achieves ≥ 0.8786 × OPT — significantly better.</p>
@@ -114,18 +111,18 @@ Portfolio optimisation maps directly to QUBO (Quadratic Unconstrained Binary Opt
 
 The TSP requires n² binary variables (x\_{i,p} = 1 if city i is visited at position p), encoded as: H\_TSP = A·(constraint violations) + B·(total distance). For n = 10 cities this needs 100 qubits — at the edge of current NISQ hardware.
 
-| Problem | Qubits | Best Classical | QAOA p=1 Status |
+| **Problem** | **Qubits** | **Best Classical** | **QAOA p=1 Status** |
 |---|---|---|---|
 | MaxCut (n vertices) | n | GW SDP: ≥ 0.878×OPT | 11/16 ≈ 0.69×OPT (proven) |
 | Portfolio (n assets) | n | Exact via Gurobi MILP | NISQ feasible n≤50; no proven speedup |
 | TSP (n cities) | n² | Christofides: 1.5×OPT | n≤10 feasible; quality poor |
 | Max-k-SAT (n vars) | n | Best SDP-based classical | Natural formulation; no proven advantage |
 
-## 7.4 VQE for Molecular Systems: UCCSD, Active Space & Convergence
+## 7.4 VQE for Molecular Systems: UCCSD, Active Space &amp; Convergence
 
 The Variational Quantum Eigensolver (VQE) targets the electronic structure problem — finding the lowest-energy configuration of electrons in a molecule. This is classically intractable for large systems (FCI scales exponentially) but VQE can, in principle, solve it using a quantum processor.
 
-| Molecule | Electrons | STO-3G Orbitals | FCI Determinants | Classical FCI? |
+| **Molecule** | **Electrons** | **STO-3G Orbitals** | **FCI Determinants** | **Classical FCI?** |
 |---|---|---|---|---|
 | H₂ | 2 | 4 | 6 | Trivial |
 | LiH | 4 | 12 | ~225 | Easy |
@@ -138,7 +135,7 @@ The Variational Quantum Eigensolver (VQE) targets the electronic structure probl
 For large molecules, the full orbital space cannot fit on a quantum computer. The Complete Active Space (CAS) approximation selects a chemically relevant subset: m electrons in n orbitals. Core orbitals (always occupied) and high-energy virtual orbitals are frozen, dramatically reducing qubit count.
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Why Active Space Selection Is the Key Design Decision in VQE</strong></p>
+<p class="box-title"><strong>🌐 Why Active Space Selection Is the Key Design Decision in VQE</strong></p>
 <p>The active space CAS(m,n) requires 2n qubits (Jordan-Wigner mapping, factor 2 for spin).</p>
 <p>For FeMoco (the nitrogen-fixation enzyme active site): CAS(54,54) → 108 qubits.</p>
 <p>Rules of thumb for active space selection:</p>
@@ -159,7 +156,7 @@ The Unitary Coupled Cluster Singles and Doubles (UCCSD) ansatz is the gold stand
 where T̂₁ = Σ\_{ia} θ\_i^a a†\_a a\_i (single excitations from occupied orbital i to virtual a) and T̂₂ = Σ\_{ijab} θ\_{ij}^{ab} a†\_a a†\_b a\_j a\_i (double excitations). The Jordan-Wigner mapping converts these fermionic operators to qubit Pauli strings.
 
 <div class="box box-anecdote">
-<p class="box-title"><strong>📜  The Birth of VQE — A Photonic Chip and the First Molecule</strong></p>
+<p class="box-title"><strong>📜 The Birth of VQE — A Photonic Chip and the First Molecule</strong></p>
 <p>VQE was invented by Alberto Peruzzo, a photonics experimentalist in Jeremy O'Brien's group at Bristol,</p>
 <p>collaborating with Alán Aspuru-Guzik's theoretical chemistry group at Harvard.</p>
 <p>Their 2014 Nature Communications paper demonstrated VQE on a 2-qubit photonic chip for the helium</p>
@@ -174,7 +171,7 @@ where T̂₁ = Σ\_{ia} θ\_i^a a†\_a a\_i (single excitations from occupied o
 
 ### 7.4.3 Classical Benchmarks: CCSD(T)
 
-| Method | Scaling | Accuracy | Applicability |
+| **Method** | **Scaling** | **Accuracy** | **Applicability** |
 |---|---|---|---|
 | Hartree-Fock (HF) | O(N³–N⁴) | Poor for correlated systems | Initial guess; reference state |
 | MP2 | O(N⁵) | Good for weakly correlated | Small-medium molecules |
@@ -190,7 +187,7 @@ The choice of classical optimiser is critical for VQA performance. The optimiser
 ### 7.5.1 The Parameter Shift Rule: Exact Quantum Gradients
 
 <div class="box box-generic">
-<p class="box-title"><strong>Theorem 7.2  Parameter Shift Rule (Mitarai et al. 2018; Schuld et al. 2019)</strong></p>
+<p class="box-title"><strong>Theorem 7.2 Parameter Shift Rule (Mitarai et al. 2018; Schuld et al. 2019)</strong></p>
 <p>For a parametrised gate U(θ_k) = e^(−iθ_k G/2) where G has eigenvalues ±1</p>
 <p>(satisfied by all Pauli rotation gates Rx, Ry, Rz), the exact gradient is:</p>
 <p>∂C/∂θ_k  =  [ C(θ_k + π/2) − C(θ_k − π/2) ] / 2</p>
@@ -204,24 +201,24 @@ The choice of classical optimiser is critical for VQA performance. The optimiser
 
 ### 7.5.2 Gradient-Free Optimisers
 
-| Optimiser | Type | Key Idea | Best Use Case |
+| **Optimiser** | **Type** | **Key Idea** | **Best Use Case** |
 |---|---|---|---|
 | COBYLA | Gradient-free, trust-region | Linear approx. in trust region | Small params; robust to noise |
-| Nelder-Mead | Simplex | Evolves n+1-point simplex | Very few parameters (<20) |
+| Nelder-Mead | Simplex | Evolves n+1-point simplex | Very few parameters (&lt;20) |
 | SPSA | Stochastic approx. | 2 evaluations → full gradient estimate | NISQ hardware; noise-tolerant |
 | Bayesian Opt. | Surrogate model (GPR) | Acquisition function guides search | Data-efficient; global |
 
 ### 7.5.3 Gradient-Based Optimisers
 
-| Optimiser | Type | Update Rule | Use Case |
+| **Optimiser** | **Type** | **Update Rule** | **Use Case** |
 |---|---|---|---|
 | Gradient Descent | 1st order | θ ← θ − η∇C(θ) | Simplest; often too slow |
-| ADAM | Adaptive moments | θ ← θ − η m̂_t / (√v̂_t + ε) | Best general-purpose; momentum + adaptive lr |
+| ADAM | Adaptive moments | θ ← θ − η m̂\_t / (√v̂\_t + ε) | Best general-purpose; momentum + adaptive lr |
 | SPSA | Stochastic approx. | Simultaneous perturbation; 2 evals | Best on noisy hardware; O(1) per step |
 | QNG (Quantum Natural Grad.) | 2nd order geometry | θ ← θ − ηF⁻¹∇C; F = Fubini-Study metric | Faster convergence; F computation costly |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Practical Optimiser Recommendations for NISQ VQE</strong></p>
+<p class="box-title"><strong>⚠ Practical Optimiser Recommendations for NISQ VQE</strong></p>
 <p>• &lt;50 parameters:  COBYLA — robust, few shots per evaluation, no gradient needed</p>
 <p>• 50–500 parameters:  SPSA — only 2 evaluations per step regardless of parameter count</p>
 <p>• &gt;500 parameters:  ADAM with parameter shift rule — adaptive learning rate</p>
@@ -234,7 +231,7 @@ The choice of classical optimiser is critical for VQA performance. The optimiser
 
 The UCCSD ansatz generates circuits of depth O(N⁴) — too deep for NISQ hardware on large systems. Hardware-efficient ansatze use shallower circuits with gates native to the quantum processor, sacrificing chemical motivation for circuit depth reduction.
 
-| Ansatz | CNOT Count | Parameters | Expressibility | Best For |
+| **Ansatz** | **CNOT Count** | **Parameters** | **Expressibility** | **Best For** |
 |---|---|---|---|---|
 | UCCSD | O(N⁴) | O(N²) | Chemically motivated | Small molecules; chemical accuracy |
 | SU(2) hardware-efficient | O(L·N) | O(L·N) | Universal for large L | NISQ; hardware-native |
@@ -242,7 +239,7 @@ The UCCSD ansatz generates circuits of depth O(N⁴) — too deep for NISQ hardw
 | k-UpCCGSD | O(kN²) | O(kN²) | Approximates UCCSD | Medium molecules |
 
 <div class="box box-warning">
-<p class="box-title"><strong>⚠  Expressibility Does NOT Equal Accuracy</strong></p>
+<p class="box-title"><strong>⚠ Expressibility Does NOT Equal Accuracy</strong></p>
 <p>A highly expressible ansatz (one that can represent any quantum state) is NOT necessarily better</p>
 <p>for VQE than a chemically motivated but less general ansatz like UCCSD.</p>
 <p>Reason 1: High expressibility correlates with BARREN PLATEAUS (Chapter 8 explains this in detail).</p>
@@ -254,7 +251,7 @@ The UCCSD ansatz generates circuits of depth O(N⁴) — too deep for NISQ hardw
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>📋  Chapter 7 Summary</strong></p>
+<p class="box-title"><strong>📋 Chapter 7 Summary</strong></p>
 <p>VQA paradigm:          Hybrid loop — quantum circuit evaluates cost; classical optimiser updates θ</p>
 <p>QAOA circuit:          p layers of U_C(γ) U_B(β); 2p parameters; H_C cost + H_B mixer</p>
 <p>QAOA for MaxCut:       p=1 achieves 11/16 × OPT for 3-regular graphs; GW wins at 0.878</p>
@@ -267,7 +264,66 @@ The UCCSD ansatz generates circuits of depth O(N⁴) — too deep for NISQ hardw
 <p>Hardware-efficient:    Shallow circuits; expressible but may suffer barren plateaus (Ch.8)</p>
 </div>
 
-## RECAP — SHORT ANSWER QUESTIONS & MODEL ANSWERS
+## 7.7 Beyond a Single Problem: Applications, Gradients, Ansatze, and Quantum Annealing
+
+QAOA and VQE are often taught through a single worked example - MaxCut, or a single small molecule - which can leave the impression that the techniques are narrow. This closing section widens the lens: a map of where the same recipe applies, the gradient rule that makes training possible, a resource comparison between ansatz families, and a look at the adiabatic-annealing cousin of QAOA that motivated it in the first place.
+
+### 7.7.1 Where the Same Recipe Applies
+
+The QAOA recipe - encode candidate solutions as bitstrings, build a cost Hamiltonian whose ground state is the optimum, alternate cost and mixer unitaries for p layers, optimise classically - transfers directly to portfolio optimisation (selecting assets under a risk budget) and to routing problems such as the travelling salesman problem, wherever the objective can be written as a sum of low-weight Pauli terms.
+
+<figure class="book-figure">
+<img src="content/images/image49.png" alt="Figure 7.3: QAOA Application Mapping - From Problem to Cost Hamiltonian">
+<figcaption>Figure 7.3: QAOA Application Mapping - From Problem to Cost Hamiltonian</figcaption>
+</figure>
+
+### 7.7.2 The Parameter-Shift Rule
+
+Gate-based variational circuits admit an exact gradient formula whenever a parameter enters through a gate of the form e^{-i\*theta\*P/2} for a Pauli P: the derivative equals half the difference between the circuit evaluated at theta+pi/2 and at theta-pi/2. Unlike finite-difference approximations, this parameter-shift rule gives the exact analytic gradient using only two additional circuit evaluations, with no truncation error - a fact used implicitly throughout every VQE and QAOA training loop in this book.
+
+<figure class="book-figure">
+<img src="content/images/image50.png" alt="Figure 7.4: The Parameter-Shift Rule Gives the Exact Gradient from Two Circuit Evaluations">
+<figcaption>Figure 7.4: The Parameter-Shift Rule Gives the Exact Gradient from Two Circuit Evaluations</figcaption>
+</figure>
+
+<div class="box box-math">
+<p class="box-title"><strong>🧮 Worked Formula: The Parameter-Shift Rule</strong></p>
+<p>d/d(theta) &lt;psi(theta)|H|psi(theta)&gt; = (1/2) [ f(theta + pi/2) - f(theta - pi/2) ], where f(theta) is the measured expectation value of H at parameter theta. Valid whenever the parameter enters via a single Pauli-rotation gate - the overwhelming majority of gates used in practical variational circuits.</p>
+</div>
+
+### 7.7.3 Ansatz Choice: Chemical Motivation vs Circuit Depth
+
+UCCSD (Chapter 2) is chemically motivated but grows rapidly with molecule size; a hardware-efficient ansatz sacrifices that physical motivation for a much shallower, more NISQ-friendly circuit, at some risk of the barren-plateau and expressibility problems explored fully in Chapter 8. Neither choice dominates the other universally - the right ansatz depends on the specific hardware's coherence time and the problem's tolerance for an approximate answer.
+
+<figure class="book-figure">
+<img src="content/images/image51.png" alt="Figure 7.5: Hardware-Efficient Ansatze Trade Chemical Motivation for Shallower Circuits">
+<figcaption>Figure 7.5: Hardware-Efficient Ansatze Trade Chemical Motivation for Shallower Circuits</figcaption>
+</figure>
+
+### 7.7.4 Quantum Annealing: The Adiabatic Cousin of QAOA
+
+QAOA is, in fact, a discretised, gate-model approximation to continuous adiabatic quantum annealing, in which a Hamiltonian H(s) = (1-s)\*H\_0 + s\*H\_problem is swept slowly from an easy-to-prepare ground state toward the problem Hamiltonian's ground state. The adiabatic theorem guarantees success provided the sweep is slow compared to the inverse of the minimum energy gap encountered along the way - commercial annealers such as D-Wave's implement this directly in specialised superconducting hardware, trading gate-model universality for many more physical qubits.
+
+<figure class="book-figure">
+<img src="content/images/image52.png" alt="Figure 7.6: Adiabatic Quantum Annealing - Staying in the Ground State Across the Anneal">
+<figcaption>Figure 7.6: Adiabatic Quantum Annealing - Staying in the Ground State Across the Anneal</figcaption>
+</figure>
+
+<div class="box box-generic">
+<p class="box-title"><strong>🧭 Roadmap: Annealing vs Gate-Model Optimisation</strong></p>
+<p>Chapter 8 returns to the practical question of which near-term optimisation approach - QAOA on gate-model hardware, or annealing on purpose-built hardware - is likely to reach useful advantage first, and why the honest answer, as of this writing, is 'neither, yet'.</p>
+</div>
+
+### 7.7.5 Worked Example: How Much Does Depth Actually Buy You?
+
+For MaxCut on random 3-regular graphs, empirical studies show QAOA's approximation ratio improving steadily with p but with diminishing returns - each additional layer buys a smaller improvement while adding a full layer's worth of two-qubit gates and classical parameters to optimise. In practice, most NISQ-era demonstrations use p between 1 and 5, trading provable optimality for a circuit shallow enough to survive current coherence times.
+
+<figure class="book-figure">
+<img src="content/images/image53.png" alt="Figure 7.7: QAOA&#x27;s Approximation Ratio Improves With Circuit Depth, at Rising Cost">
+<figcaption>Figure 7.7: QAOA's Approximation Ratio Improves With Circuit Depth, at Rising Cost</figcaption>
+</figure>
+
+## RECAP — SHORT ANSWER QUESTIONS &amp; MODEL ANSWERS
 
 Chapter 7: Advanced Variational and Hybrid Algorithms
 
@@ -352,7 +408,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 ## A. Solved Problems
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 1  QAOA Circuit for MaxCut on K₃ at p=1</strong></p>
+<p class="box-title"><strong>Solved Example 1 QAOA Circuit for MaxCut on K₃ at p=1</strong></p>
 <p>Problem: Write the explicit QAOA circuit for MaxCut on K₃ (3-node triangle, unit weights)</p>
 <p>at p=1. Identify cost and mixer Hamiltonians and the gate sequence.</p>
 <p>Cost Hamiltonian:  H_C = (I−Z₀Z₁)/2 + (I−Z₁Z₂)/2 + (I−Z₀Z₂)/2  =  (3/2)I − (Z₀Z₁+Z₁Z₂+Z₀Z₂)/2</p>
@@ -368,7 +424,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 2  QAOA Cost Evaluation at Specific Parameters</strong></p>
+<p class="box-title"><strong>Solved Example 2 QAOA Cost Evaluation at Specific Parameters</strong></p>
 <p>Problem: For K₃ MaxCut with γ = π/4, β = π/8 at p=1, calculate ⟨C⟩.</p>
 <p>Using the analytic result for K₃ MaxCut at p=1 (Farhi et al. 2014):</p>
 <p>⟨C(γ,β)⟩ = 3/2 − (3/2) × (1/2) sin(4γ) sin(2β) cos(4γ)</p>
@@ -381,7 +437,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 3  Parameter Shift Rule: Exact Gradient Calculation</strong></p>
+<p class="box-title"><strong>Solved Example 3 Parameter Shift Rule: Exact Gradient Calculation</strong></p>
 <p>Problem: For ansatz U(θ) = Rx(θ), compute ∂C/∂θ at θ = π/3 where C(θ) = ⟨Z⟩.</p>
 <p>State: Rx(θ)|0⟩ = cos(θ/2)|0⟩ − i sin(θ/2)|1⟩</p>
 <p>Cost: C(θ) = ⟨Z⟩ = cos²(θ/2) − sin²(θ/2) = cos(θ)</p>
@@ -395,7 +451,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 5  Active Space Selection for Water (H₂O)</strong></p>
+<p class="box-title"><strong>Solved Example 5 Active Space Selection for Water (H₂O)</strong></p>
 <p>Problem: H₂O has 10 electrons and 7 spatial orbitals (STO-3G basis).</p>
 <p>Design a VQE-friendly active space targeting O-H bond dissociation.</p>
 <p>Full orbital space: CAS(10,14 spin-orbitals) → 14 qubits → feasible but large</p>
@@ -412,7 +468,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Solved Example 7  SPSA Optimiser: One Update Step</strong></p>
+<p class="box-title"><strong>Solved Example 7 SPSA Optimiser: One Update Step</strong></p>
 <p>Problem: Apply one SPSA step to VQE with θ = (0.5, 0.3), η = 0.1, δ = 0.05.</p>
 <p>Random perturbation Δ = (+1, −1). Cost: C(θ) = (θ₁−0.8)² + (θ₂+0.5)².</p>
 <p>θ+ = θ + δΔ = (0.5+0.05, 0.3−0.05) = (0.55, 0.25)</p>
@@ -453,7 +509,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 ## C. Multiple Choice Questions
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q1.  QAOA stands for:</strong></p>
+<p class="box-title"><strong>Q1. QAOA stands for:</strong></p>
 <p>(A)  Quantum Algorithm for Optimisation and Approximation</p>
 <p>(B)  Quantum Approximate Optimisation Algorithm</p>
 <p>(C)  Quantum Adiabatic Optimal Algorithm</p>
@@ -461,7 +517,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q2.  In QAOA with p layers, the total number of variational parameters is:</strong></p>
+<p class="box-title"><strong>Q2. In QAOA with p layers, the total number of variational parameters is:</strong></p>
 <p>(A)  p</p>
 <p>(B)  2p</p>
 <p>(C)  p²</p>
@@ -469,7 +525,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q3.  The standard QAOA mixer Hamiltonian H_B is:</strong></p>
+<p class="box-title"><strong>Q3. The standard QAOA mixer Hamiltonian H_B is:</strong></p>
 <p>(A)  Z₁+Z₂+...+Z_n</p>
 <p>(B)  X₁+X₂+...+X_n</p>
 <p>(C)  Z₁Z₂+Z₂Z₃+...</p>
@@ -477,7 +533,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q4.  QAOA at p=1 achieves what approximation ratio for MaxCut on 3-regular graphs?</strong></p>
+<p class="box-title"><strong>Q4. QAOA at p=1 achieves what approximation ratio for MaxCut on 3-regular graphs?</strong></p>
 <p>(A)  1/2 = 0.500</p>
 <p>(B)  2/3 = 0.667</p>
 <p>(C)  11/16 = 0.688</p>
@@ -485,7 +541,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q5.  The Goemans-Williamson SDP for MaxCut achieves approximation ratio:</strong></p>
+<p class="box-title"><strong>Q5. The Goemans-Williamson SDP for MaxCut achieves approximation ratio:</strong></p>
 <p>(A)  3/4 = 0.75</p>
 <p>(B)  11/16 = 0.688</p>
 <p>(C)  0.8786</p>
@@ -493,7 +549,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q6.  The parameter shift rule computes exact gradients using how many circuit evaluations per parameter?</strong></p>
+<p class="box-title"><strong>Q6. The parameter shift rule computes exact gradients using how many circuit evaluations per parameter?</strong></p>
 <p>(A)  1</p>
 <p>(B)  2</p>
 <p>(C)  3</p>
@@ -501,7 +557,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q7.  The UCCSD ansatz T̂₁ operator generates which type of quantum state transitions?</strong></p>
+<p class="box-title"><strong>Q7. The UCCSD ansatz T̂₁ operator generates which type of quantum state transitions?</strong></p>
 <p>(A)  Spin-flip transitions only</p>
 <p>(B)  Single electron excitations from occupied to virtual orbitals</p>
 <p>(C)  Double excitations only</p>
@@ -509,7 +565,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q8.  The 'gold standard' of classical quantum chemistry is:</strong></p>
+<p class="box-title"><strong>Q8. The 'gold standard' of classical quantum chemistry is:</strong></p>
 <p>(A)  Hartree-Fock</p>
 <p>(B)  MP2</p>
 <p>(C)  CCSD(T)</p>
@@ -517,7 +573,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q9.  SPSA requires how many circuit evaluations per gradient step, regardless of parameter count?</strong></p>
+<p class="box-title"><strong>Q9. SPSA requires how many circuit evaluations per gradient step, regardless of parameter count?</strong></p>
 <p>(A)  1</p>
 <p>(B)  2</p>
 <p>(C)  n</p>
@@ -525,7 +581,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q10.  The NISQ era was formally named by:</strong></p>
+<p class="box-title"><strong>Q10. The NISQ era was formally named by:</strong></p>
 <p>(A)  Peter Shor in 1994</p>
 <p>(B)  Edward Farhi in 2014</p>
 <p>(C)  John Preskill in 2018</p>
@@ -533,7 +589,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q11.  VQE was first demonstrated experimentally on which molecule?</strong></p>
+<p class="box-title"><strong>Q11. VQE was first demonstrated experimentally on which molecule?</strong></p>
 <p>(A)  H₂ on a superconducting chip</p>
 <p>(B)  HeH⁺ on a photonic chip (Peruzzo 2014)</p>
 <p>(C)  LiH on a trapped-ion chip</p>
@@ -541,7 +597,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q12.  In the QUBO formulation of TSP with n cities, how many binary variables are required?</strong></p>
+<p class="box-title"><strong>Q12. In the QUBO formulation of TSP with n cities, how many binary variables are required?</strong></p>
 <p>(A)  n</p>
 <p>(B)  n²</p>
 <p>(C)  n log n</p>
@@ -549,7 +605,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q13.  The hardware-efficient SU(2) ansatz is preferred over UCCSD when:</strong></p>
+<p class="box-title"><strong>Q13. The hardware-efficient SU(2) ansatz is preferred over UCCSD when:</strong></p>
 <p>(A)  Chemical accuracy is required</p>
 <p>(B)  Circuit depth is the bottleneck on NISQ hardware</p>
 <p>(C)  Many molecular orbitals must be included</p>
@@ -557,7 +613,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q14.  Quantum Natural Gradient (QNG) uses the Fubini-Study metric tensor F. The update rule is:</strong></p>
+<p class="box-title"><strong>Q14. Quantum Natural Gradient (QNG) uses the Fubini-Study metric tensor F. The update rule is:</strong></p>
 <p>(A)  θ ← θ − ηF·∇C</p>
 <p>(B)  θ ← θ − ηF⁻¹·∇C</p>
 <p>(C)  θ ← θ − η∇C/‖∇C‖</p>
@@ -565,7 +621,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-generic">
-<p class="box-title"><strong>Q15.  The active space CAS(4,6) requires how many qubits with Jordan-Wigner mapping?</strong></p>
+<p class="box-title"><strong>Q15. The active space CAS(4,6) requires how many qubits with Jordan-Wigner mapping?</strong></p>
 <p>(A)  4</p>
 <p>(B)  6</p>
 <p>(C)  12</p>
@@ -573,7 +629,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  MCQ Answer Key — Chapter 7 (Q1–Q15)</strong></p>
+<p class="box-title"><strong>🔑 MCQ Answer Key — Chapter 7 (Q1–Q15)</strong></p>
 <p>Q1:B   Q2:B   Q3:B   Q4:C   Q5:C   Q6:B   Q7:B   Q8:C   Q9:B   Q10:C</p>
 <p>Q11:B   Q12:B   Q13:B   Q14:B   Q15:C</p>
 </div>
@@ -588,7 +644,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 
 **Q3.** Prove (or derive) the QAOA cost function for MaxCut on a single edge (i,j) at p=1. Show the maximum over (γ,β) gives cut value 1/2 + 1/(2√2) for an unweighted edge.
 
-**Q4.** How is the TSP mapped to a QUBO Hamiltonian? What are the constraint terms and why must the penalty A >> B? Estimate the qubit count for a 10-city TSP.
+**Q4.** How is the TSP mapped to a QUBO Hamiltonian? What are the constraint terms and why must the penalty A &gt;&gt; B? Estimate the qubit count for a 10-city TSP.
 
 **Q5.** Describe the UCCSD ansatz for quantum chemistry. What is the physical motivation for the unitary variant, and how does it improve on classical (non-unitary) coupled cluster?
 
@@ -605,7 +661,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 ## E. Programming / Research Assignments
 
 <div class="box box-real-world">
-<p class="box-title"><strong>🌐  Assignment 1: QAOA for MaxCut on a Random Graph</strong></p>
+<p class="box-title"><strong>🌐 Assignment 1: QAOA for MaxCut on a Random Graph</strong></p>
 <p>Implement and analyse QAOA for MaxCut using Qiskit:</p>
 <p>(a) Generate a random 10-node 3-regular graph using NetworkX</p>
 <p>(b) Build QAOA circuits for p = 1, 2, 3 in Qiskit; optimise angles with COBYLA</p>
@@ -621,7 +677,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 ## F. Project Suggestions
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 1: Comprehensive QAOA Benchmark vs Classical Algorithms</strong></p>
+<p class="box-title"><strong>🔑 Project 1: Comprehensive QAOA Benchmark vs Classical Algorithms</strong></p>
 <p>Perform a systematic benchmarking study of QAOA vs classical MaxCut algorithms:</p>
 <p>• Generate 100 random 3-regular graph instances for n = 10, 20, 30 nodes</p>
 <p>• Implement QAOA at p = 1, 2, 3; optimise with COBYLA</p>
@@ -634,7 +690,7 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 </div>
 
 <div class="box box-key-concept">
-<p class="box-title"><strong>🔑  Project 2: VQE for Drug Discovery — Penicillin Thiazolidine Ring</strong></p>
+<p class="box-title"><strong>🔑 Project 2: VQE for Drug Discovery — Penicillin Thiazolidine Ring</strong></p>
 <p>Investigate the quantum chemistry of the thiazolidine ring, central to penicillin's antibiotic mechanism:</p>
 <p>• Use Qiskit Nature + PySCF to set up the Hamiltonian (STO-3G basis, ~20 orbitals)</p>
 <p>• Design active space CAS(m,n) targeting the S-C bond: CAS(4,4) or CAS(6,6)</p>
@@ -650,20 +706,12 @@ UCCSD is physically motivated, respects known symmetries (e.g. particle number),
 
 ## Chapter 7 References
 
-- Farhi, E., Goldstone, J. & Gutmann, S. (2014). A Quantum Approximate Optimization Algorithm. arXiv:1411.4028.
-
+- Farhi, E., Goldstone, J. &amp; Gutmann, S. (2014). A Quantum Approximate Optimization Algorithm. arXiv:1411.4028.
 - Peruzzo, A. et al. (2014). A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5, 4213.
-
-- Goemans, M.X. & Williamson, D.P. (1995). Improved approximation algorithms for maximum cut using semidefinite programming. JACM, 42(6), 1115–1145.
-
+- Goemans, M.X. &amp; Williamson, D.P. (1995). Improved approximation algorithms for maximum cut using semidefinite programming. JACM, 42(6), 1115–1145.
 - Mitarai, K. et al. (2018). Quantum circuit learning (parameter shift rule). Physical Review A, 98, 032309.
-
 - Schuld, M. et al. (2019). Evaluating analytic gradients on quantum hardware. Physical Review A, 99, 032331.
-
 - Kandala, A. et al. (2017). Hardware-efficient variational quantum eigensolver. Nature, 549, 242–246.
-
 - Aspuru-Guzik, A. et al. (2005). Simulated Quantum Computation of Molecular Energies. Science, 309, 1704–1707.
-
 - Cao, Y. et al. (2019). Quantum Chemistry in the Age of Quantum Computing. Chemical Reviews, 119, 10856–10915.
-
 - Preskill, J. (2018). Quantum Computing in the NISQ Era and Beyond. Quantum, 2, 79.
